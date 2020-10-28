@@ -1,0 +1,394 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "padding": 0,
+  "config": {
+    "view": {"strokeOpacity": 0}
+  },
+
+  "data": {
+    "url": "assets/generated/visualization2/data.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "PERIOD": "date"
+      }
+    }
+  },
+
+  "vconcat": [
+    {
+      "width": 800,
+      "height": 600,
+      "transform": [
+        {"filter": { "selection": "period" }},
+        {
+          "calculate": "if(datum['Touchpoint A'] == 1 || datum['Touchpoint A'] == 2, 'OD = Overdose', 0)",
+          "as": "OD"
+        },
+        {
+          "calculate": "if(datum['Touchpoint A'] == 3 || datum['Touchpoint A'] == 2, 'Rx = Opioid Prescription', 0)",
+          "as": "Rx"
+        },
+        {
+          "calculate": "if(datum['Touchpoint B'] == 3 || datum['Touchpoint B'] == 2, 'Health = Health Data', 0)",
+          "as": "Health"
+        },
+        {
+          "calculate": "if(datum['Touchpoint B'] == 1 || datum['Touchpoint B'] == 2, 'Jail = Incarceration', 0)",
+          "as": "Jail"
+        },
+        {
+          "calculate": "if(datum['Touchpoint A'] == 0 && datum['Touchpoint B'] == 0, '∅ = No Touchpoints', 0)",
+          "as": "∅"
+        },
+            {
+              "filter": { "selection": "Rx" }
+            },
+            {
+              "filter": { "selection": "OD" }
+            },
+            {
+              "filter": { "selection": "Jail" }
+            },
+            {
+              "filter": { "selection": "Health" }
+            },
+            {
+              "filter": { "selection": "Empty" }
+            }
+      ],
+      "encoding": {
+        "y": {
+          "field": "Touchpoint A", 
+          "type": "quantitative",
+          "title": null, 
+          "scale": {
+            "domain": [-0.5,3.5]
+          },
+          "axis": {
+            "grid": false,
+            "domain": false,
+            "labels": false,
+            "ticks": false
+          }
+        },
+        "x": {
+          "field": "Touchpoint B",
+          "type": "quantitative",
+          "title": null,
+          "scale": {
+            "domain": [-0.5,3.5]
+          },
+          "axis": {
+            "grid": false,
+            "domain": false,
+            "labels": false,
+            "ticks": false
+          }
+        }
+      },
+      "layer": [
+        {
+          "transform": [
+            {
+              "aggregate": [{"op": "sum", "field": "True", "as": "sum"}], "groupby": ["Touchpoint A", "Touchpoint B"]
+            }
+          ],
+          "mark": {"type": "circle", "yOffset": 10},
+          "encoding": {
+            "tooltip": [
+              {
+                "field": "label",
+                "title": "Set",
+                "type": "ordinal"
+              },
+              {
+                "field": "sum",
+                "title": "Deaths",
+                "type": "quantitative"
+              }
+            ],
+            "size": {
+              "field": "sum",
+              "type": "quantitative",
+              "scale": {"range": [0, 6000]},
+              "legend": null
+            },
+            "color": {
+              "field": "sum",
+              "type": "quantitative",
+              "scale": {
+                "type": "sqrt", 
+                "scheme": "blues"
+              }
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "aggregate": [{
+              "op": "max",
+              "field": "Set",
+              "as": "label"
+              }],
+              "groupby": ["Touchpoint A", "Touchpoint B"]
+            }
+          ],
+          "mark": {"type": "text", "dy": -65, "fontSize": 16},
+          "encoding": {
+            "text": {"field": "label", "type": "nominal"}
+          }
+        },
+
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 0
+          },
+          "selection": {
+            "OD": {"type": "multi", "bind": "legend", "fields": ["OD"]}
+          },
+
+          "encoding": {
+            "fill": {
+              "field": "OD",
+              "title": "Legend",
+              "type": "ordinal",
+              "legend": {
+                "symbolOffset": -15,
+                "offset": 105,
+                "symbolSize": 0,
+                "orient": "left",
+                "values": ["OD = Overdose"],
+                "titlePadding": 10,
+                "titleColor": "#9e9e9e"
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 0
+          },
+          "selection": {
+            "Rx": {"type": "multi", "bind": "legend", "fields": ["Rx"]}
+          },
+
+          "encoding": {
+            "fill": {
+              "field": "Rx",
+              "title": "",
+              "type": "ordinal",
+              "legend": {
+                "symbolOffset": -15,
+                "symbolSize": 0,
+                "orient": "left",
+                "values": ["Rx = Opioid Prescription"],
+                "titlePadding": 10,
+                "titleColor": "#9e9e9e"
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 0
+          },
+          "selection": {
+            "Jail": {"type": "multi", "bind": "legend", "fields": ["Jail"]}
+          },
+
+          "encoding": {
+            "fill": {
+              "field": "Jail",
+              "title": "",
+              "type": "ordinal",
+              "legend": {
+                "symbolOffset": -15,
+                "symbolSize": 0,
+                "orient": "left",
+                "values": ["Jail = Incarceration"],
+                "titlePadding": 10,
+                "titleColor": "#9e9e9e"
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 0
+          },
+          "selection": {
+            "Empty": {"type": "multi", "bind": "legend", "fields": ["∅"]}
+          },
+
+          "encoding": {
+            "fill": {
+              "field": "∅",
+              "title": "",
+              "type": "ordinal",
+              "legend": {
+                "symbolOffset": -15,
+                "symbolSize": 0,
+                "orient": "none",
+                "legendX": -213,
+                "legendY": 93,
+                "values": ["∅ = No Touchpoints"],
+                "titlePadding": 10,
+                "titleColor": "#9e9e9e"
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "fontSize": 0
+          },
+          "selection": {
+            "Health": {"type": "multi", "bind": "legend", "fields": ["Health"]}
+          },
+
+          "encoding": {
+            "fill": {
+              "field": "Health",
+              "title": "",
+              "type": "ordinal",
+              "legend": {
+                "symbolOffset": -15,
+                "symbolSize": 0,
+                "orient": "left",
+                "values": ["Health = Health Data"],
+                "titlePadding": 10,
+                "titleColor": "#9e9e9e"
+              }
+            }
+          }
+        },
+
+        {
+          "mark": {"type": "text", "fontSize": 0},
+          "encoding": {
+            "color": {
+              "title": "# Deaths",
+              "aggregate": "sum",
+              "field": "True",
+              "type": "quantitative",
+              "legend": {
+                "orient": "none",
+                "legendX": -215,
+                "legendY": 130,
+                "titleAlign": "center",
+                "titlePadding": 10,
+                "gradientLength": 150,
+                "labelFontSize": 8,
+                "labelOffset": 8
+              }
+            }
+          }
+        },
+
+        {
+          "transform": [
+            {
+              "aggregate": [{
+              "op": "sum",
+              "field": "True",
+              "as": "sum"
+              }],
+              "groupby": ["Touchpoint A", "Touchpoint B"]
+            }
+          ],
+          "mark": {"type": "text", "dy": -45, "fontStyle": "bold", "fontSize": 16},
+          "encoding": {
+            "text": {"field": "sum", "type": "quantitative"}
+          }
+        }
+      ]
+    },
+
+    {
+      "title": {
+        "text": "Select Date Range to Update Datasets",
+        "align": "right",
+        "dx": -160,
+        "dy": -20,
+        "fontSize": 16
+      },
+      "width": 800,
+      "height": 150,
+      "view": {
+        "strokeOpacity": 0
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "line"
+          },
+          "selection": {
+            "period": {
+              "type": "interval", 
+              "encodings": ["x"],
+              "on": "[mousedown, window:mouseup] > window:mousemove{150, 300}",
+              "mark": {"fill": "#6ea7ef", "fillOpacity": 0.15}
+            }
+          },
+          "encoding": {
+            "x": {
+              "field": "PERIOD",
+              "type": "temporal",
+              "title": "Year",
+              "axis": {
+                "minExtent": 30,
+                "titleFontSize": 14,
+                "tickColor": "#757575",
+                "domainColor": "#757575",
+                "labelFlush": false,
+                "labelExpr": "[timeFormat(datum.value, '%m') == '01' ? timeFormat(datum.value, '%Y') : '']",
+                "gridDash": {
+                  "condition": {"test": {"field": "value", "timeUnit": "month", "equal": 7}, "value": [2,2]},
+                  "value": []
+                },
+                "gridColor": {
+                  "condition": {"test": {"field": "value", "timeUnit": "month", "equal": 1}, "value": "#BDBDBD"},
+                  "value": "#e0e0e0"
+                }
+              }
+            },
+            "y": {
+              "aggregate": "sum",
+              "field": "True",
+              "type": "quantitative",
+              "title": "# Deaths",
+              "axis": {
+                "titleFontSize": 14,
+                "gridColor": "#e0e0e0",
+                "tickColor": "#757575",
+                "domainColor": "#757575",
+                "gridOpacity": {
+                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "value": 1
+                },
+                "tickOpacity": {
+                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "value": 1
+                },
+                "labelFontSize": {
+                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "value": 10
+                }
+              }
+            },
+            "color": {
+              "value": "#6ea7ef"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
