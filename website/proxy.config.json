@@ -1,10 +1,10 @@
 {
   "/assets/generated": {
-    "target": "http://localhost:41121",
+    "target": "http://localhost:6127",
     "secure": false
   },
   "/assets/schema": {
-    "target": "http://localhost:41121",
+    "target": "http://localhost:6127",
     "secure": false
   }
 }
