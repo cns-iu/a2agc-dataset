@@ -3,14 +3,35 @@
   overflow: hidden;
 }
 
+::ng-deep .mat-expansion-panel-header {
+  background-color: #FAFAFA;
+}
+
 .agc-about.wrapper {
   .container {
     .content {
-      padding: 1rem;
+      padding: 2rem;
+      min-height: 43rem;
 
       .mat-dialog-content {
         padding-top: 1rem;
         padding-bottom: 1rem;
+
+        .help-title {
+          font-weight: bold;
+          font-size: 0.875rem;
+          line-height: 1.5rem;
+        }
+
+        .help-text {
+          font-size: 1rem;
+        }
+
+        .gif-container {
+          display: flex;
+          justify-content: space-around;
+          padding: 2rem;
+        }
       }
     }
 
@@ -24,15 +45,10 @@
     }
 
     .title {
-      font-size: 1.5rem;
-      margin-bottom: 0rem;
+      font-size: 2.25rem;
+      margin-bottom: .5rem;
       text-align: left;
-    }
-
-    .subtitle {
-      font-size: 1rem;
-      margin-top: 0;
-      margin-bottom: 0.5rem;
+      font-weight: lighter;
     }
   }
 }
