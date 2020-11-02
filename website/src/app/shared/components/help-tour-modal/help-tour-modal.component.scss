@@ -1,0 +1,81 @@
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+::ng-deep .mat-expansion-panel-header {
+  background-color: #FAFAFA;
+}
+
+.agc-tour.wrapper {
+  .container {
+    .content {
+      padding: 2rem;
+
+      .mat-dialog-content {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+    }
+
+    .close {
+      .close-icon {
+        float: right;
+        margin-top: 1rem;
+        margin-right: 1rem;
+        cursor: pointer;
+      }
+    }
+
+    .title {
+      font-size: 2.25rem;
+      margin-bottom: .5rem;
+      text-align: left;
+      font-weight: lighter;
+    }
+  }
+
+  .carousel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    .help-text {
+      font-size: 1rem;
+    }
+
+    .gif-container {
+      display: flex;
+      justify-content: space-around;
+      padding: 2rem;
+    }
+
+    .chevron-icon {
+      font-size: 4rem;
+      cursor: pointer;
+
+      &.disabled {
+        color: lightgray;
+      }
+    }
+  }
+
+  .slide-dots {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .slide-dot {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      border: 1px solid black;
+      background-color: white;
+
+      &.active {
+        background-color: blue;
+      }
+    }
+  }
+}

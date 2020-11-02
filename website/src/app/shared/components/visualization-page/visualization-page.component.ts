@@ -1,10 +1,10 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Options, Spec } from 'ngx-vega';
-import { map } from 'rxjs/operators';
 import { PageState } from 'src/app/core/state/page/page.state';
 
 import { HelpModalComponent } from '../help-modal/help-modal.component';
+import { HelpTourModalComponent } from '../help-tour-modal/help-tour-modal.component';
 
 
 @Component({
@@ -25,7 +25,10 @@ export class VisualizationPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.page.snapshot.hasShownHelpModal) {
-      this.launchHelpDialog();
+      this.dialog.open(HelpTourModalComponent, {
+        width: '45rem',
+        data: {}
+      });
       this.page.setHasShownHelpModal(true);
     }
   }
