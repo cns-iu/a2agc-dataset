@@ -59,4 +59,12 @@ export class HelpTourModalComponent {
 
     this.currentSlide = this.currentSlide - 1;
   }
+
+  setSlide(index: number): void {
+    if (index < 0 || index >= this.slides.length) {
+      return;
+    }
+
+    this.currentSlide = index;
+  }
 }

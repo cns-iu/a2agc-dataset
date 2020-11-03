@@ -4,7 +4,7 @@
 }
 
 ::ng-deep .mat-expansion-panel-header {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 .agc-tour.wrapper {
@@ -15,6 +15,7 @@
       .mat-dialog-content {
         padding-top: 1rem;
         padding-bottom: 1rem;
+        overflow: hidden;
       }
     }
 
@@ -29,7 +30,7 @@
 
     .title {
       font-size: 2.25rem;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
       text-align: left;
       font-weight: lighter;
     }
@@ -53,6 +54,8 @@
 
     .chevron-icon {
       font-size: 4rem;
+      height: 4rem;
+      width: 4rem;
       cursor: pointer;
 
       &.disabled {
@@ -61,20 +64,48 @@
     }
   }
 
-  .slide-dots {
-    display: flex;
+  .slide-row {
     justify-content: space-around;
-    align-items: center;
+    display: flex;
 
-    .slide-dot {
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      border: 1px solid black;
+    .slide-dots {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 9rem;
+
+      .slide {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        border: 3px solid darkgray;
+        background-color: white;
+        cursor: pointer;
+
+        &.active {
+          background-color: #2a4d87;
+        }
+      }
+    }
+  }
+
+  .button-row {
+    justify-content: flex-end;
+    display: flex;
+
+    .btn-outline {
+      border-radius: 5px;
+      border: 1px solid #6880aa;
+      color:  #6880aa;
       background-color: white;
+      width: 9rem;
+      height: 2.5rem;
+      font-size: 1rem;
+      cursor: pointer;
 
-      &.active {
-        background-color: blue;
+      &:hover {
+        background-color: #6880aa;
+        color: white;
       }
     }
   }

@@ -26,7 +26,7 @@ export class VisualizationPageComponent implements OnInit {
   ngOnInit(): void {
     if (!this.page.snapshot.hasShownHelpModal) {
       this.dialog.open(HelpTourModalComponent, {
-        width: '45rem',
+        width: '50rem',
         data: {}
       });
       this.page.setHasShownHelpModal(true);

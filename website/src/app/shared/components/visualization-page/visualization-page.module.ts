@@ -7,6 +7,7 @@ import { NgxVegaModule } from 'ngx-vega';
 
 import { VisualizationPageComponent } from './visualization-page.component';
 import { HelpModalModule } from '../help-modal/help-modal.module';
+import { HelpTourModalModule } from '../help-tour-modal/help-tour-modal.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { HelpModalModule } from '../help-modal/help-modal.module';
     MatExpansionModule,
     MatIconModule,
     NgxVegaModule,
-    HelpModalModule
+    HelpModalModule,
+    HelpTourModalModule
   ]
 })
 export class VisualizationPageModule { }
