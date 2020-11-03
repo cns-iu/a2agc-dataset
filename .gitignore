@@ -2,4 +2,4 @@
 /.vscode
 /raw-data
 container.sif
-debug.log
+website/debug.log
