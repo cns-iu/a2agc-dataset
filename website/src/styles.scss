@@ -43,6 +43,11 @@ ngx-vega .resize-sensor {
   display: none;
 }
 
+ngx-vega .chart-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 // Markdown table styling
 markdown table {
   margin-bottom: 0.75rem;

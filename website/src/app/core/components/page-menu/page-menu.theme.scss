@@ -33,6 +33,10 @@
 
         &:hover {
           color: mat-color($primary);
+
+          & > div {
+            background-color: mat-color($accent, 300);
+          }
         }
       }
     }

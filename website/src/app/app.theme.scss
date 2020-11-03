@@ -14,6 +14,10 @@
       border-bottom: 1px solid mat-color($accent, 300);
     }
 
+    mat-sidenav-content {
+      background-color: mat-color($accent, A100);
+    }
+
     // Markdown table styling
     markdown table {
       tbody tr:nth-child(odd) {

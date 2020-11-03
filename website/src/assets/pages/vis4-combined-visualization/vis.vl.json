@@ -8,7 +8,7 @@
       		"stroke": "transparent"
     	}
 	},
-	"background": "#fafafa",
+	"background": "#ffffff",
 
 	"data": {
 		"url": "assets/generated/visualization4/data.csv"
@@ -68,7 +68,7 @@
 						"fontSize": 14
 					},
 					"width": 470,
-					"height": 175,				
+					"height": 175,
 					"mark": "rect",
 					"encoding": {
 						"color": {
@@ -102,7 +102,7 @@
 							"field": "YEAR",
 							"title": "Year",
 							"type": "ordinal",
-							"axis": { 
+							"axis": {
 								"labelAngle": 0
 							},
 							"scale": {
@@ -126,7 +126,7 @@
 							"field": "group",
 							"title": "Age Group",
 							"type": "ordinal",
-							"scale": { 
+							"scale": {
 								"reverse": true,
 								"domain": [
 									"0-9",
@@ -137,7 +137,7 @@
 									"50-59",
 									"60-69",
 									"70>"
-								] 
+								]
 							}
 						}
 					}
@@ -233,7 +233,7 @@
 									"field": "group",
 									"title": "Age Group",
 									"type": "ordinal",
-									"scale": { 
+									"scale": {
 										"reverse": true,
 										"domain": [
 											"0-9",
@@ -244,7 +244,7 @@
 											"50-59",
 											"60-69",
 											"70>"
-										] 
+										]
 									}
 								},
 								"stroke": {
@@ -336,20 +336,20 @@
 							"scale": {"nice": false, "domain": [2010, 2018.75]},
 							"axis": {
 								"tickColor": "#757575",
-								"domainColor": "#757575", 
+								"domainColor": "#757575",
 								"labelFlush": false,
 								"labelAngle": 0,
 								"labelExpr": "[datum.value%1 == 0 ? datum.value : '']",
 								"gridDash": {
                   					"condition": {
-										"test": "(datum.value+.5)%1 == 0", 
+										"test": "(datum.value+.5)%1 == 0",
 										"value": [2,2]
 									},
 				  					"value": []
                 				},
 								"gridColor": {
 									"condition": {
-										"test": "datum.value%1 == 0", 
+										"test": "datum.value%1 == 0",
 										"value": "#BDBDBD"
 									},
 									"value": "#e0e0e0"
@@ -420,7 +420,7 @@
 							],
 							"mark": "rect",
 							"width": 50,
-							
+
 							"selection": {
 								"deaths_binned": {
 									"type": "single",

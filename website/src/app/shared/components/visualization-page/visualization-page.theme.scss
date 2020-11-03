@@ -11,6 +11,18 @@
       background-color: mat-color($primary, 600);
       color: mat-color($primary, '600-contrast');
     }
+
+    .visualization {
+      // Colors selected to match vega-embed action button
+      .help {
+        background-color: #fff;
+        border-color: #aaa;
+
+        .qmark {
+          color:#1b1e23;
+        }
+      }
+    }
   }
 }
 
@@ -20,6 +32,15 @@
   .agc-visualization-page {
     .header {
       @include mat-typography-level-to-styles($config, title);
+    }
+
+    .title {
+      @include mat-typography-level-to-styles($config, title);
+    }
+
+    .description {
+      @include mat-typography-level-to-styles($config, title);
+      font-size: initial;
     }
   }
 }

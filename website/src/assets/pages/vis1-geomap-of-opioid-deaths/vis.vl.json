@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
   "name": "Accidental drug overdose deaths in Marion County by place of injury 2010-2018",
-  "background": "#fafafa",
+  "background": "#ffffff",
   "config": {
     "view": {"stroke": "transparent"},
     "legend": {
@@ -9,8 +9,7 @@
       "labelFont": "Lato", "labelFontSize": 14, "labelFontWeight": "normal", "labelColor": "black"
     }
   },
-  "padding": {"left": 10, "right": 10, "bottom": 10, "top": 10},
-  "autosize": {"type": "pad", "contains": "padding", "resize": false},
+  "autosize": {"type": "pad", "contains": "padding", "resize": true},
   "data": {
     "url": "assets/generated/vis-geomap-opioid-deaths.csv",
     "format": {
