@@ -32,5 +32,9 @@ export class PageMenuModule {
       'menu', 'data-storage',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/data-storage.svg')
     );
+    registry.addSvgIconInNamespace(
+      'menu', 'data-distributions',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/data-distributions.svg')
+    );
   }
 }
