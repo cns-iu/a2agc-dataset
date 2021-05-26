@@ -490,6 +490,7 @@
 						{
 							"layer": [
 								{
+									"height": 175,
 									"data": {
 										"sequence": {
 											"start": 0,
