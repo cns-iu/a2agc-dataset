@@ -1,11 +1,10 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "padding": 0,
   "config": {
     "view": {"strokeOpacity": 0}
   },
   "autosize": {
-    "type": "fit-x",
     "contains": "padding"
   },
 
@@ -36,22 +35,28 @@
           "mark": {
             "type": "text"
           },
-          "selection": {
-            "label": {
-              "type": "single",
-              "fields": [
-                "x"
-              ]
+          "params": [
+            {
+              "name": "label",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "x"
+                ]
+              }
             },
-            "Rx": {
-              "type": "single",
-              "fields": [
-                "Rx"
-              ]
+            {
+              "name": "Rx",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "Rx"
+                ]
+              }
             }
-          },
+          ],
           "encoding": {
-            "opacity": {"condition": {"selection": "label", "value": 1}, "value": 1},
+            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
             "text": {
               "type": "nominal",
               "field": "x"
@@ -73,22 +78,28 @@
             "type": "text",
             "xOffset": -22
           },
-          "selection": {
-            "label": {
-              "type": "multi",
-              "fields": [
-                "x"
-              ]
+          "params": [
+            {
+              "name": "label",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "x"
+                ]
+              }
             },
-            "OD": {
-              "type": "single",
-              "fields": [
-                "OD"
-              ]
+            {
+              "name": "OD",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "OD"
+                ]
+              }
             }
-          },
+          ],
           "encoding": {
-            "opacity": {"condition": {"selection": "label", "value": 1}, "value": 1},
+            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
             "text": {
               "type": "nominal",
               "field": "x"
@@ -110,22 +121,28 @@
             "type": "text",
             "xOffset": -13
           },
-          "selection": {
-            "label": {
-              "type": "multi",
-              "fields": [
-                "x"
-              ]
+          "params": [
+            {
+              "name": "label",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "x"
+                ]
+              }
             },
-            "Jail": {
-              "type": "single",
-              "fields": [
-                "Jail"
-              ]
+            {
+              "name": "Jail",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "Jail"
+                ]
+              }
             }
-          },
+          ],
           "encoding": {
-            "opacity": {"condition": {"selection": "label", "value": 1}, "value": 1},
+            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
             "text": {
               "type": "nominal",
               "field": "x"
@@ -147,22 +164,28 @@
             "type": "text",
             "xOffset": -8
           },
-          "selection": {
-            "label": {
-              "type": "multi",
-              "fields": [
-                "x"
-              ]
+          "params": [
+            {
+              "name": "label",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "x"
+                ]
+              }
             },
-            "Health": {
-              "type": "single",
-              "fields": [
-                "Health"
-              ]
+            {
+              "name": "Health",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "Health"
+                ]
+              }
             }
-          },
+          ],
           "encoding": {
-            "opacity": {"condition": {"selection": "label", "value": 1}, "value": 1},
+            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
             "text": {
               "type": "nominal",
               "field": "x"
@@ -184,22 +207,28 @@
             "type": "text",
             "xOffset": -12
           },
-          "selection": {
-            "label": {
-              "type": "multi",
-              "fields": [
-                "x"
-              ]
+					"params": [
+            {
+              "name": "label",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "x"
+                ]
+              }
             },
-            "∅": {
-              "type": "single",
-              "fields": [
-                "∅"
-              ]
+            {
+              "name": "∅",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "∅"
+                ]
+              }
             }
-          },
+          ],
           "encoding": {
-            "opacity": {"condition": {"selection": "label", "value": 1}, "value": 1},
+            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
             "text": {
               "type": "nominal",
               "field": "x"
@@ -219,7 +248,7 @@
 
           "height": 600,
           "transform": [
-            {"filter": { "selection": "period" }},
+            {"filter": { "param": "period" }},
             {
               "calculate": "if(datum['Touchpoint A'] == 1 || datum['Touchpoint A'] == 2, 1, 0)",
               "as": "OD"
@@ -384,13 +413,16 @@
               "mark": {
                 "type": "line"
               },
-              "selection": {
-                "period": {
-                  "type": "interval",
-                  "encodings": ["x"],
-                  "mark": {"fill": "#6ea7ef", "fillOpacity": 0.15}
+              "params": [
+                {
+                  "name": "period",
+                  "select": {
+                    "type": "interval",
+                    "encodings": ["x"],
+                    "mark": {"fill": "#6ea7ef", "fillOpacity": 0.15}
+                  }
                 }
-              },
+              ],
               "encoding": {
                 "x": {
                   "field": "PERIOD",

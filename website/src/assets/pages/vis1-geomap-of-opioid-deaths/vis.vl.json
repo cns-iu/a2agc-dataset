@@ -1,5 +1,5 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "padding": {"top": 50},
   "name": "Accidental drug overdose deaths in Marion County by place of injury 2010-2018",
   "background": "#ffffff",
@@ -20,7 +20,6 @@
     }
   },
   "autosize": {
-    "type": "fit-x",
     "contains": "padding"
   },
   "data": {
@@ -157,21 +156,21 @@
           "data": {
             "values": []
           },
-          "selection": {
-            "data_variable_selection": {
-              "type": "single",
-              "fields": [
-                "LABEL"
-              ],
-              "bind": {
-                "legend": "click"
+          "params": [
+            {
+              "name": "data_variable_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "LABEL"
+                ]
               },
-              "init": {
-                "LABEL": "Age"
-              },
-              "empty": "none"
+              "bind": "legend",
+              "value": [
+                {"LABEL": "Age"}
+              ]
             }
-          },
+          ],
           "encoding": {
             "opacity": {
               "field": "LABEL",
@@ -222,17 +221,18 @@
           "data": {
             "values": []
           },
-          "selection": {
-            "sex_selection": {
-              "type": "single",
-              "fields": [
-                "SEX_LABEL"
-              ],
-              "bind": {
-                "legend": "click"
-              }
+          "params": [
+            {
+              "name": "sex_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "SEX_LABEL"
+                ]
+              },
+              "bind": "legend"
             }
-          },
+          ],
           "encoding": {
             "opacity": {
               "field": "SEX_LABEL",
@@ -258,17 +258,18 @@
           "data": {
             "values": []
           },
-          "selection": {
-            "drug_type_seleciton": {
-              "type": "single",
-              "fields": [
-                "ILLICIT_V_PRESCRIPTION"
-              ],
-              "bind": {
-                "legend": "click"
-              }
+          "params": [
+            {
+              "name": "drug_type_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "ILLICIT_V_PRESCRIPTION"
+                ]
+              },
+              "bind": "legend"
             }
-          },
+          ],
           "encoding": {
             "opacity": {
               "field": "ILLICIT_V_PRESCRIPTION",
@@ -295,17 +296,18 @@
           "data": {
             "values": []
           },
-          "selection": {
-            "1_year_selection": {
-              "type": "single",
-              "fields": [
-                "OPIOID_PRESCRIPTIONS_1YEAR"
-              ],
-              "bind": {
-                "legend": "click"
-              }
+          "params": [
+            {
+              "name": "1_year_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "OPIOID_PRESCRIPTIONS_1YEAR"
+                ]
+              },
+              "bind": "legend"
             }
-          },
+          ],
           "encoding": {
             "opacity": {
               "field": "OPIOID_PRESCRIPTIONS_1YEAR",
@@ -331,17 +333,18 @@
           "data": {
             "values": []
           },
-          "selection": {
-            "opioid_rx_selection": {
-              "type": "single",
-              "fields": [
-                "ANY_PRESCRIPTIONS_LABEL"
-              ],
-              "bind": {
-                "legend": "click"
-              }
+          "params": [
+            {
+              "name": "opioid_rx_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "ANY_PRESCRIPTIONS_LABEL"
+                ]
+              },
+              "bind": "legend"
             }
-          },
+          ],
           "encoding": {
             "opacity": {
               "field": "ANY_PRESCRIPTIONS_LABEL",
@@ -391,28 +394,28 @@
               "transform": [
                 {
                   "filter": {
-                    "selection": "period"
+                    "param": "period"
                   }
                 },
                 {
                   "filter": {
-                    "selection": "data_variable_selection"
+                    "param": "data_variable_selection"
                   }
                 },
                 {
                   "filter": {
                     "and": [
                       {
-                        "selection": "sex_selection"
+                        "param": "sex_selection"
                       },
                       {
-                        "selection": "drug_type_seleciton"
+                        "param": "drug_type_selection"
                       },
                       {
-                        "selection": "1_year_selection"
+                        "param": "1_year_selection"
                       },
                       {
-                        "selection": "opioid_rx_selection"
+                        "param": "opioid_rx_selection"
                       }
                     ]
                   }
@@ -426,26 +429,28 @@
                 "cursor": "pointer",
                 "clip": true
               },
-              "selection": {
-                "data_variable_subselection": {
-                  "type": "multi",
-                  "fields": [
-                    "VALUE"
-                  ],
-                  "bind": {
-                    "legend": "click"
-                  }
+              "params": [
+                {
+                  "name": "data_variable_subselection",
+                  "select": {
+                    "type": "point",
+                    "fields": [
+                      "VALUE"
+                    ]
+                  },
+                  "bind": "legend"
                 },
-                "home_state_selection": {
-                  "type": "multi",
-                  "fields": [
-                    "HOME_STATE_LABEL"
-                  ],
-                  "bind": {
-                    "legend": "click"
-                  }
+                {
+                  "name": "home_state_selection",
+                  "select": {
+                    "type": "point",
+                    "fields": [
+                      "HOME_STATE_LABEL"
+                    ]
+                  },
+                  "bind": "legend"
                 }
-              },
+              ],
               "encoding": {
                 "longitude": {
                   "type": "quantitative",
@@ -471,14 +476,14 @@
                 },
                 "opacity": {
                   "condition": {
-                    "selection": "home_state_selection",
+                    "param": "home_state_selection",
                     "value": 1
                   },
                   "value": 0
                 },
                 "size": {
                   "condition": {
-                    "selection": "data_variable_subselection",
+                    "param": "data_variable_subselection",
                     "value": 100
                   },
                   "value": 0
@@ -523,26 +528,26 @@
                 },
                 {
                   "filter": {
-                    "selection": "data_variable_subselection"
+                    "param": "data_variable_subselection"
                   }
                 },
                 {
                   "filter": {
                     "and": [
                       {
-                        "selection": "sex_selection"
+                        "param": "sex_selection"
                       },
                       {
-                        "selection": "drug_type_seleciton"
+                        "param": "drug_type_selection"
                       },
                       {
-                        "selection": "home_state_selection"
+                        "param": "home_state_selection"
                       },
                       {
-                        "selection": "1_year_selection"
+                        "param": "1_year_selection"
                       },
                       {
-                        "selection": "opioid_rx_selection"
+                        "param": "opioid_rx_selection"
                       }
                     ]
                   }
@@ -551,18 +556,21 @@
               "mark": {
                 "type": "line"
               },
-              "selection": {
-                "period": {
-                  "type": "interval",
-                  "mark": {
-                    "fill": "#6ea7ef",
-                    "fillOpacity": 0.15
-                  },
-                  "encodings": [
-                    "x"
-                  ]
+              "params": [
+                {
+                  "name": "period",
+                  "select": {
+                    "type": "interval",
+                    "mark": {
+                      "fill": "#6ea7ef",
+                      "fillOpacity": 0.15
+                    },
+                    "encodings": [
+                      "x"
+                    ]
+                  }
                 }
-              },
+              ],
               "encoding": {
                 "x": {
                   "type": "temporal",

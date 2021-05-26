@@ -1,11 +1,10 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "padding": {"top": 50},
   "data": {
     "url": "assets/generated/visualization4/data.csv"
   },
   "autosize": {
-    "type": "fit-x",
     "contains": "padding"
   },
   "config": {
@@ -25,7 +24,7 @@
   "transform": [
     {
       "filter": {
-        "selection": "substance_selection"
+        "param": "substance_selection"
       }
     },
     {
@@ -74,13 +73,16 @@
             "align": "left",
             "type": "text"
           },
-          "selection": {
-            "substance_selection": {
-              "type": "multi",
-              "fields": [
-                "SUBSTANCE_NAME"
-              ],
-              "init": [
+					"params": [
+            {
+              "name": "substance_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "SUBSTANCE_NAME"
+                ]
+              },
+              "value": [
                 {
                   "SUBSTANCE_NAME": "All Substances"
                 },
@@ -92,7 +94,7 @@
                 }
               ]
             }
-          },
+          ],
           "encoding": {
             "tooltip": {
               "value": "Shift-Click to add more than one item"
@@ -107,7 +109,7 @@
             },
             "opacity": {
               "condition": {
-                "selection": "substance_selection",
+                "param": "substance_selection",
                 "value": 1
               },
               "value": 0.3
@@ -126,14 +128,17 @@
             "align": "left",
             "type": "text"
           },
-          "selection": {
-            "filter_selection": {
-              "type": "multi",
-              "fields": [
-                "HAD_PREVIOUS_OVERDOSE"
-              ]
+          "params": [
+            {
+              "name": "filter_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "HAD_PREVIOUS_OVERDOSE"
+                ]
+              }
             }
-          },
+          ],
           "encoding": {
             "tooltip": {
               "value": "Shift-Click to add more than one item"
@@ -148,7 +153,7 @@
             },
             "opacity": {
               "condition": {
-                "selection": "filter_selection",
+                "param": "filter_selection",
                 "value": 1
               },
               "value": 0.3
@@ -183,21 +188,26 @@
                   ],
                   "mark": "rect",
                   "width": 50,
-                  "selection": {
-                    "deaths_binned": {
-                      "type": "multi",
-                      "fields": [
-                        "deaths_binned"
-                      ]
+                  "params": [
+                    {
+                      "name": "deaths_binned",
+                      "select": {
+                        "type": "point",
+                        "fields": [
+                          "deaths_binned"
+                        ]
+                      }
                     },
-                    "label": {
-                      "type": "multi",
-                      "empty": "none",
-                      "fields": [
-                        "label"
-                      ]
+                    {
+                      "name": "label",
+                      "select": {
+                        "type": "point",
+                        "fields": [
+                          "label"
+                        ]
+                      }
                     }
-                  },
+                  ],
                   "encoding": {
                     "tooltip": {
                       "value": "Shift-Click to add more than one item"
@@ -269,7 +279,7 @@
                         "color": {
                           "value": "white",
                           "condition": {
-                            "selection": "label",
+                            "param": "label",
                             "value": "black"
                           }
                         },
