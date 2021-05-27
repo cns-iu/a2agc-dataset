@@ -21,7 +21,7 @@ export class PageState extends NgxsImmutableDataRepository<PageStateModel> {
   readonly hasShownHelpModal$ = this.state$.pipe(pluck('hasShownHelpModal'));
 
   ngxsOnInit(): void {
-    super.ngxsOnInit(); // Dont forget this!
+    super.ngxsOnInit();
     this.patchState({
       hasShownHelpModal: localStorage.getItem(this.LOCAL_STORAGE_MODAL_KEY)?.toLowerCase() === 'true' ? true : false
     });
