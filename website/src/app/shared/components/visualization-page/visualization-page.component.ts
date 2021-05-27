@@ -32,12 +32,13 @@ export class VisualizationPageComponent implements OnInit {
   loadingVegaVisualization = true;
 
   ngOnInit(): void {
-    if (!this.page.snapshot.hasShownHelpModal) {
+    const HELP_POPUP_SHOWN: boolean = localStorage.getItem('HELP_POPUP_SHOWN') === 'TRUE' ? true : false;
+    if (!HELP_POPUP_SHOWN) {
+      localStorage.setItem('HELP_POPUP_SHOWN', 'TRUE');
       this.dialog.open(HelpTourModalComponent, {
         width: '50rem',
         data: {}
       });
-      this.page.setHasShownHelpModal(true);
     }
   }
 
