@@ -16,7 +16,7 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "eslint:recomended",
+        "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
@@ -68,7 +68,6 @@
 
         // Eslint ECMAScript 6 rules
         "arrow-body-style": "error",
-        "no-useless-constructor": "error",
         "no-var": "error",
         "prefer-const": "error",
         "prefer-rest-params": "error",
