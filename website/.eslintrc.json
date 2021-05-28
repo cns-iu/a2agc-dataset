@@ -16,10 +16,86 @@
         "createDefaultProgram": true
       },
       "extends": [
+        "eslint:recomended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        // Eslint rules
+        "no-console": "warn",
+        "no-promise-executor-return": "error",
+        "no-template-curly-in-string": "warn",
+        "require-atomic-updates": "error",
+
+        // Eslint best practices
+        "curly": [
+          "error",
+          "all"
+        ],
+        "default-case-last": "error",
+        "no-alert": "error",
+        "no-extend-native": "error",
+        "no-multi-spaces": "warn",
+        "no-multi-str": "error",
+        "no-new-wrappers": "error",
+        "no-return-assign": "error",
+        "no-return-await": "error",
+        "no-sequences": "error",
+
+        // Eslint stylistic rules
+        "camelcase": "error",
+        "brace-style": "off",
+        "eol-last": [
+          "error",
+          "always"
+        ],
+        "indent": [
+          "error",
+          2
+        ],
+        "no-bitwise": "error",
+        "no-trailing-spaces": "error",
+        "no-underscore-dangle": [
+          "error",
+          {
+            "allow": ["_unused", "_ignore"],
+            "enforceInMethodNames": true
+          }
+        ],
+        "no-whitespace-before-property": "error",
+        "quotes": "off",
+
+        // Eslint ECMAScript 6 rules
+        "arrow-body-style": "error",
+        "no-useless-constructor": "error",
+        "no-var": "error",
+        "prefer-const": "error",
+        "prefer-rest-params": "error",
+
+        // Typescript rules
+        "@typescript-eslint/array-type": "error",
+        "@typescript-eslint/ban-tslint-comment": "warn",
+        "@typescript-eslint/brace-style": [
+          "error",
+          "1tbs"
+        ],
+        "@typescript-eslint/consistent-type-assertions": [
+          "error",
+          {
+            "assertionStyle": "as",
+            "objectLiteralTypeAssertions": "allow-as-parameter"
+          }
+        ],
+        "@typescript-eslint/member-delimiter-style": "error",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/prefer-function-type": "error",
+        "@typescript-eslint/quotes": [
+          "error",
+          "single"
+        ],
+
+        // Angular rules
         "@angular-eslint/component-selector": [
           "error",
           {
@@ -35,7 +111,13 @@
             "style": "camelCase",
             "type": "attribute"
           }
-        ]
+        ],
+        "@angular-eslint/no-queries-metadata-property": "error",
+        "@angular-eslint/prefer-on-push-component-change-detection": "warn",
+        "@angular-eslint/prefer-output-readonly": "warn",
+        "@angular-eslint/relative-url-prefix": "error",
+        "@angular-eslint/use-component-selector": "error",
+        "@angular-eslint/use-component-view-encapsulation": "error"
       }
     },
     {
