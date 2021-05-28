@@ -13,7 +13,7 @@ import { filter, map, takeUntil } from 'rxjs/operators';
   name: 'routerFacade'
 })
 @Injectable()
-export class RouterState extends NgxsImmutableDataRepository<{}> implements OnDestroy {
+export class RouterState extends NgxsImmutableDataRepository<never> implements OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   readonly navigationStart$ = this.router.events.pipe(

@@ -1,15 +1,17 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Options, Spec } from 'ngx-vega';
-import { PageState } from 'src/app/core/state/page/page.state';
 
+import { PageState } from '../../../core/state/page/page.state';
 import { HelpModalComponent } from '../help-modal/help-modal.component';
 import { HelpTourModalComponent } from '../help-tour-modal/help-tour-modal.component';
+
 
 @Component({
   selector: 'agc-visualization-page',
   templateUrl: './visualization-page.component.html',
-  styleUrls: ['./visualization-page.component.scss']
+  styleUrls: ['./visualization-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VisualizationPageComponent implements OnInit {
   @HostBinding('class') readonly clsName = 'agc-visualization-page';
@@ -30,6 +32,15 @@ export class VisualizationPageComponent implements OnInit {
     spec: true
   };
   loadingVegaVisualization = true;
+
+  get specString(): string | undefined {
+    return this.spec as string;
+  }
+
+  constructor(
+    private readonly dialog: MatDialog,
+    readonly page: PageState
+  ) { }
 
   ngOnInit(): void {
     if (!this.page.snapshot.hasShownHelpModal) {
@@ -54,15 +65,6 @@ export class VisualizationPageComponent implements OnInit {
       [key]: true
     };
   }
-
-  get specString(): string | undefined {
-    return this.spec as string;
-  }
-
-  constructor(
-    private readonly dialog: MatDialog,
-    readonly page: PageState
-  ) { }
 
   launchHelpDialog(): void {
     this.dialog.open(HelpModalComponent, {

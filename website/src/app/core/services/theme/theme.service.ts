@@ -16,7 +16,9 @@ export const THEME_OPTIONS = new InjectionToken<ThemeOptions>('Theme options');
 export class ThemeService implements OnDestroy {
   readonly defaultTheme: string;
 
-  get theme(): string { return this.currentTheme; }
+  get theme(): string {
+    return this.currentTheme;
+  }
   set theme(theme: string) {
     const newTheme = theme || this.defaultTheme;
     const oldTheme = this.currentTheme;
@@ -35,13 +37,17 @@ export class ThemeService implements OnDestroy {
     this.currentTheme = options.theme ?? this.defaultTheme;
 
     const overlayEl = overlay?.getContainerElement();
-    if (overlayEl) { this.addElement(overlayEl); }
+    if (overlayEl) {
+      this.addElement(overlayEl);
+    }
   }
 
   ngOnDestroy(): void {
     // Make a copy of the array since it is modified during the loop
     const elements = [...this.elements];
-    for (const el of elements) { this.removeElement(el); }
+    for (const el of elements) {
+      this.removeElement(el);
+    }
   }
 
   addBootstrapComponent(ref: ComponentRef<unknown>): void {

@@ -1,5 +1,7 @@
 import { Options } from 'ngx-vega';
-import { createGeoZoomPatch } from 'src/app/shared/components/visualization-page/shared/geomap-zoom-patch';
+import { Spec } from 'vega';
+
+import { createGeoZoomPatch } from '../../../shared/components/visualization-page/shared/geomap-zoom-patch';
 
 
 export interface Visualization {
@@ -21,7 +23,7 @@ export const visualizations: Visualization[] = [
     spec: 'assets/pages/vis1-geomap-of-opioid-deaths/vis.vl.json',
     options: {
       renderer: 'svg', actions: true,
-      patch: (spec) => {
+      patch: (spec: Spec): Spec => {
         spec = createGeoZoomPatch({
           center: [87.44305475, 38.76622477],
           zoomLevels: [3200, 250000],

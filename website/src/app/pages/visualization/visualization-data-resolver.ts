@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { pluck, take } from 'rxjs/operators';
 import { Visualization } from 'src/app/core/state/visualizations/visualizations';
@@ -9,12 +9,9 @@ import { VisualizationsState } from '../../core/state/visualizations/visualizati
 
 @Injectable({ providedIn: 'root' })
 export class VisualizationDataResolver implements Resolve<Visualization> {
-  constructor(private readonly service: VisualizationsState) {}
+  constructor(private readonly service: VisualizationsState) { }
 
-  resolve(
-    route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
-  ): Observable<Visualization> {
+  resolve(route: ActivatedRouteSnapshot): Observable<Visualization> {
     const id = route.paramMap.get('id');
     if (id === null) {
       return EMPTY;

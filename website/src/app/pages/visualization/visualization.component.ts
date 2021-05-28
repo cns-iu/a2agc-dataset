@@ -1,26 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Visualization } from 'src/app/core/state/visualizations/visualizations';
 
+
+// eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
   selector: 'agc-visualization',
   templateUrl: './visualization.component.html',
   styleUrls: ['./visualization.component.scss']
 })
-export class VisualizationComponent {
+export class VisualizationComponent implements OnDestroy {
   visualization?: Visualization;
 
   private readonly subscriptions = new Subscription();
 
-  constructor(private route: ActivatedRoute) {
+  constructor(route: ActivatedRoute) {
     const sub = route.data.subscribe(data => {
       this.visualization = data.visualization;
     });
     this.subscriptions.add(sub);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 }

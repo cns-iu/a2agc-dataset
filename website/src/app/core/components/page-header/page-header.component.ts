@@ -12,7 +12,7 @@ export class PageHeaderComponent {
   @HostBinding('class.mat-elevation-z3') readonly elevation = true;
 
   @Input() menuOpen = false;
-  @Output() menuOpenChange = new EventEmitter<boolean>();
+  @Output() readonly menuOpenChange = new EventEmitter<boolean>();
 
   toggleMenuOpen(): void {
     this.menuOpen = !this.menuOpen;

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+
 
 interface TourSlide {
   title: string;
@@ -10,7 +11,8 @@ interface TourSlide {
 @Component({
   selector: 'agc-help-tour-modal',
   templateUrl: './help-tour-modal.component.html',
-  styleUrls: ['./help-tour-modal.component.scss']
+  styleUrls: ['./help-tour-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HelpTourModalComponent {
   slides: TourSlide[] = [

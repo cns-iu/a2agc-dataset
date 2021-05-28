@@ -1,16 +1,12 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+
 
 @Component({
   selector: 'agc-change-log',
   templateUrl: './change-log.component.html',
-  styleUrls: ['./change-log.component.scss']
+  styleUrls: ['./change-log.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChangeLogComponent implements OnInit {
+export class ChangeLogComponent {
   @HostBinding('class') readonly clsName = 'change-log';
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

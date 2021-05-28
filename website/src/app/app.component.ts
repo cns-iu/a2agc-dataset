@@ -8,6 +8,7 @@ import { RouterState } from './core/state/router/router.state';
 import { MarkdownModalComponent, MarkdownModalData } from './shared/components/markdown-modal/markdown-modal.component';
 
 
+// eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
   selector: 'agc-root',
   templateUrl: './app.component.html',
