@@ -1,5 +1,5 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "padding": {"top": 50},
   "config": {
     "view": {"stroke": "transparent"},
@@ -16,7 +16,6 @@
   },
   "center": true,
   "autosize": {
-    "type": "fit-x",
     "contains": "padding"
   },
   "background": "#ffffff",
@@ -117,19 +116,33 @@
           "transform": [{"filter": {"field": "gender", "equal": "Male"}}],
           "layer": [
             {
-              "selection": {
-                "year": {
-                  "type": "multi",
-                  "fields": ["year"],
+              "params": [
+                {
+                  "name": "year",
+                  "select": {
+                    "type": "point",
+                    "fields": [
+                      "year"
+                    ]
+                  },
                   "bind": "legend",
-                  "init": [{"year": 2018}, {"year": 2017}, {"year": 2016}]
+                  "value": [
+                    {"year": 2018}, 
+                    {"year": 2017}, 
+                    {"year": 2016}
+                  ]
                 },
-                "gender": {
-                  "type": "multi",
-                  "fields": ["gender"],
+                {
+                  "name": "gender",
+                  "select": {
+                    "type": "point",
+                    "fields": [
+                      "gender"
+                    ]
+                  },
                   "bind": "legend"
                 }
-              },
+              ],
               "mark": "bar",
               "encoding": {
                 "x": {
@@ -171,7 +184,7 @@
                   "scale": {"range": ["#DA5E8C", "#586CBB"]}
                 },
                 "opacity": {
-                  "condition": {"selection": "gender", "value": 1},
+                  "condition": {"param": "gender", "value": 1},
                   "value": 0
                 },
                 "strokeWidth": {
@@ -253,7 +266,7 @@
                 },
                 "color": {"field": "gender"},
                 "opacity": {
-                  "condition": {"selection": "gender", "value": 1},
+                  "condition": {"param": "gender", "value": 1},
                   "value": 0
                 }
               }
@@ -267,7 +280,6 @@
                   "field": "census_percentage",
                   "sort": "ascending",
                   "axis": {
-                    "type": "quantitative",
                     "format": "1%",
                     "grid": true,
                     "labelFlush": false,
@@ -355,7 +367,7 @@
       "spec": {
         "bounds": "flush",
         "spacing": 0,
-        "transform": [{"filter": {"selection": "year"}}],
+        "transform": [{"filter": {"param": "year"}}],
         "hconcat": [
           {
             "height": 150,
