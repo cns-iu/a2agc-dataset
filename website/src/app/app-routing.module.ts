@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'data-er-diagram', loadChildren: () => DataErDiagramModule },
   { path: 'data-schema-browser', loadChildren: () => DataSchemaBrowserModule },
   { path: 'visualization/:id', loadChildren: () => VisualizationModule },
-  { path: 'data-distributions', loadChildren: () =>  DataDistributionsModule }
+  { path: 'data-distributions', loadChildren: () => DataDistributionsModule }
 ];
 
 @NgModule({
