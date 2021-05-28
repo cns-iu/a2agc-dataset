@@ -23,9 +23,8 @@ export class PageState extends NgxsImmutableDataRepository<PageStateModel> {
 
   ngxsOnInit(): void {
     super.ngxsOnInit();
-    this.patchState({
-      hasShownHelpModal: localStorage.getItem(LOCAL_STORAGE_HELP_MODAL_KEY)?.toLowerCase() === 'true' ? true : false
-    });
+    const hasShownHelpModal = localStorage.getItem(LOCAL_STORAGE_HELP_MODAL_KEY)?.toLowerCase() === 'true';
+    this.patchState({ hasShownHelpModal });
   }
 
   @DataAction()
