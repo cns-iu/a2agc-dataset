@@ -153,22 +153,13 @@
           "mark": {
             "type": "text"
           },
-          "data": {
-            "values": []
-          },
           "params": [
             {
               "name": "data_variable_selection",
               "select": {
-                "type": "point",
-                "fields": [
-                  "LABEL"
-                ]
+                "type": "point"
               },
-              "bind": "legend",
-              "value": [
-                {"LABEL": "Age"}
-              ]
+              "bind": "legend"
             }
           ],
           "encoding": {
@@ -368,10 +359,10 @@
     {
       "vconcat": [
         {
+          "width": 700,
+          "height": 640,
           "layer": [
             {
-              "width": 700,
-              "height": 640,
               "data": {
                 "name": "counties",
                 "url": "assets/pages/vis1-geomap-of-opioid-deaths/indiana.topojson",
@@ -394,11 +385,6 @@
               "transform": [
                 {
                   "filter": {
-                    "param": "period"
-                  }
-                },
-                {
-                  "filter": {
                     "param": "data_variable_selection"
                   }
                 },
@@ -418,6 +404,11 @@
                         "param": "opioid_rx_selection"
                       }
                     ]
+                  }
+                },
+                {
+                  "filter": {
+                    "param": "period"
                   }
                 }
               ],
@@ -522,12 +513,6 @@
               "transform": [
                 {
                   "filter": {
-                    "field": "DATA_VARIABLE",
-                    "equal": "AGE"
-                  }
-                },
-                {
-                  "filter": {
                     "param": "data_variable_subselection"
                   }
                 },
@@ -551,6 +536,16 @@
                       }
                     ]
                   }
+                },
+                {
+                  "aggregate": [
+                    {
+                      "op": "distinct",
+                      "field": "CASE_NUMBER",
+                      "as": "num_deaths"
+                    }
+                  ],
+                  "groupby": ["PERIOD"]
                 }
               ],
               "mark": {
@@ -602,9 +597,8 @@
                   }
                 },
                 "y": {
-                  "aggregate": "count",
                   "type": "quantitative",
-                  "field": "N_OPIOID_PRESCRIPTIONS",
+                  "field": "num_deaths",
                   "title": "# Deaths by Quarter",
                   "axis": {
                     "gridColor": "#e0e0e0",
