@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DataDistributionsRoutingModule } from './data-distributions-routing.module';
 import { DataDistributionsComponent } from './data-distributions.component';
+import { TableDataSelectorModule} from '../../shared/components/table-data-selector/table-data-selector.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { DataDistributionsComponent } from './data-distributions.component';
   ],
   imports: [
     CommonModule,
-    DataDistributionsRoutingModule
+    DataDistributionsRoutingModule,
+    TableDataSelectorModule
   ]
 })
 export class DataDistributionsModule { }
