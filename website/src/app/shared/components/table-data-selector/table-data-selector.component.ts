@@ -1,53 +1,33 @@
 import { Component, HostBinding, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
-
-interface DataVariables {
-  [key:string]: string[]
-}
+import { Dataset } from 'src/app/core/models/dataset.model';
 
 @Component({
   selector: 'agc-table-data-selector',
   templateUrl: './table-data-selector.component.html',
   styleUrls: ['./table-data-selector.component.scss']
 })
-export class TableDataSelectorComponent implements OnInit {
+export class TableDataSelectorComponent {
   @HostBinding('class') readonly clsName = 'agc-visualization-page';
 
-  @Input() datasets: string[] = ['Fruit', 'Cars', 'Computers'];
-  @Input() dataVariables: DataVariables = {
-    'Fruit': [
-      'Apple',
-      'Banana',
-      'Strawberry'
-    ],
-    'Cars': [
-      'Corvette',
-      'Mustang',
-      'Tesla'
-    ],
-    'Computers': [
-      'GPU',
-      'CPU',
-      'PSU'
-    ]
-  };
-  @Input() selectedDataset = '';
-  @Input() selectedDataVariable = '';
+  @Input() datasets!: Dataset[];
+  @Input() selectedDatasetIndex: number | undefined;
+  @Input() selectedDataVariable: string | undefined;
 
-  @Output() datasetChange = new EventEmitter<string>();
+  @Output() datasetChange = new EventEmitter<Dataset>();
   @Output() dataVariableChange = new EventEmitter<string>();
 
-  ngOnInit(): void {
-    this.selectedDataset = this.datasets[0];
-    this.selectedDataVariable = this.dataVariables[this.selectedDataset][0];
-  }
-
   getCurrentDataVariables(): string[] {
-    return this.dataVariables[this.selectedDataset];
+    if (this.selectedDatasetIndex === undefined || this.selectedDatasetIndex < 0) {
+      return [];
+    }
+
+    return this.datasets[this.selectedDatasetIndex]?.dataVariables;
   }
 
   handleDatasetChange(event: MatSelectChange): void {
-    this.datasetChange.emit(event.value);
+    const selectedDatasetIndex = this.datasets[event.value];
+    this.datasetChange.emit(selectedDatasetIndex);
   }
 
   handleDataVariableChange(event: MatSelectChange): void {

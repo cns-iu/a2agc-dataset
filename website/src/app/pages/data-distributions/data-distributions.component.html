@@ -1,2 +1,6 @@
 <p>data-distributions works!</p>
-<agc-table-data-selector></agc-table-data-selector>
+<agc-table-data-selector
+  [datasets]="dataset"
+  (datasetChange)="handleDatasetChange($event)"
+  (dataVariableChange)="handleDataVariableChange($event)"
+></agc-table-data-selector>

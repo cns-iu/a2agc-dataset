@@ -1,7 +1,7 @@
 <mat-form-field>
   <mat-label id="datasetLabel">Dataset</mat-label>
-  <mat-select [(value)]="selectedDataset" (selectionChange)="handleDatasetChange($event)" aria-label="datasetLabel">
-    <mat-option *ngFor="let dataset of datasets" [value]="dataset">{{dataset}}</mat-option>
+  <mat-select [(value)]="selectedDatasetIndex" (selectionChange)="handleDatasetChange($event)" aria-label="datasetLabel">
+    <mat-option *ngFor="let dataset of datasets; let i = index" [value]="i">{{dataset.dataset}}</mat-option>
   </mat-select>
 </mat-form-field>
 
