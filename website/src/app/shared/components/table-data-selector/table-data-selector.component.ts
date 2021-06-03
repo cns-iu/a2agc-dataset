@@ -11,26 +11,84 @@ export class TableDataSelectorComponent {
   @HostBinding('class') readonly clsName = 'agc-table-data-selector';
 
   @Input() datasets!: Dataset[];
-  @Input() selectedDatasetIndex: number | undefined;
   @Input() selectedDataVariable: string | undefined;
 
   @Output() datasetChange = new EventEmitter<Dataset>();
   @Output() dataVariableChange = new EventEmitter<string>();
 
-  getCurrentDataVariables(): string[] {
-    if (this.selectedDatasetIndex === undefined || this.selectedDatasetIndex < 0) {
+  private currentDataset: Dataset | undefined;
+
+  get selectedDataset(): Dataset {
+    if (!this.currentDataset) {
+      return {} as Dataset;
+    }
+
+    return this.currentDataset;
+  }
+
+  get subLabel(): string {
+    if (!this.selectedDataset.subLabel){
+      return '';
+    }
+
+    return this.selectedDataset.subLabel;
+  }
+
+  get subDataVariables(): string[] {
+    if (!this.selectedDataset.subDataVariables) {
       return [];
     }
 
-    return this.datasets[this.selectedDatasetIndex]?.dataVariables;
+    return this.selectedDataset.subDataVariables;
   }
 
   handleDatasetChange(event: MatSelectChange): void {
-    const selectedDatasetIndex = this.datasets[event.value];
-    this.datasetChange.emit(selectedDatasetIndex);
+    const newIndex = event.value;
+    this.setCurrentDatasetIndex(newIndex);
   }
 
-  handleDataVariableChange(event: MatSelectChange): void {
-    this.dataVariableChange.emit(event.value);
+  handleDataVariableChange(dataVariable: string): void {
+    if (!this.selectedDataset) {
+      return;
+    }
+
+    if (!this.dataVariableIsValid(this.selectedDataset, dataVariable)) {
+      return;
+    }
+
+    this.selectedDataVariable = dataVariable;
+    this.dataVariableChange.emit(dataVariable);
+  }
+
+  dataVariableIsValid(dataset: Dataset, dataVariable: string): boolean {
+    if (dataset.dataVariables.indexOf(dataVariable) >= 0) {
+      return true;
+    }
+
+    if (dataset.subDataVariables) {
+      if (dataset.subDataVariables.indexOf(dataVariable) >= 0) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  setCurrentDatasetIndex(index: number): void {
+    if (!this.datasets[index]) {
+      return;
+    }
+
+    this.currentDataset = this.datasets[index];
+    this.datasetChange.emit(this.currentDataset);
+  }
+
+  setCurrentDataset(dataset: Dataset): void {
+    if (this.datasets.indexOf(dataset) < 0) {
+      return;
+    }
+
+    const newIndex = this.datasets.indexOf(dataset);
+    this.setCurrentDatasetIndex(newIndex);
   }
 }

@@ -1,6 +1,7 @@
 export interface Dataset {
   dataset: string;
   dataVariables: string[];
-  sublabel?: string;
+  description?: string;
+  subLabel?: string;
   subDataVariables?: string[];
 };

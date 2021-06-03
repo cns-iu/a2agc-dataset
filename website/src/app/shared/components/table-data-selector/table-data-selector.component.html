@@ -1,15 +1,16 @@
 <mat-form-field>
   <mat-label id="datasetLabel">Dataset</mat-label>
-  <mat-select [(value)]="selectedDatasetIndex" (selectionChange)="handleDatasetChange($event)" aria-label="datasetLabel">
+  <mat-select (selectionChange)="handleDatasetChange($event)" aria-label="datasetLabel">
     <mat-option *ngFor="let dataset of datasets; let i = index" [value]="i">{{dataset.dataset}}</mat-option>
   </mat-select>
 </mat-form-field>
 
-<mat-form-field>
-  <mat-label id="dataVariableLabel">Data Variable</mat-label>
-  <mat-select [(value)]="selectedDataVariable" (selectionChange)="handleDataVariableChange($event)" aria-label="dataVariableLabel">
-    <mat-option *ngFor="let dataVariable of getCurrentDataVariables()" [value]="dataVariable">{{ dataVariable }}</mat-option>
-  </mat-select>
-</mat-form-field>
+<agc-sub-selector
+  label="Data Variable"
+  [options]="selectedDataset.dataVariables"
+  [subLabel]="subLabel"
+  [subOptions]="subDataVariables"
+  (selectionChange)="handleDataVariableChange($event)"
+></agc-sub-selector>
 
-<agc-sub-selector></agc-sub-selector>
+<div class="description" *ngIf="selectedDataset.description">?{{ selectedDataset.description }}</div>
