@@ -11,12 +11,11 @@ export class TableDataSelectorComponent {
   @HostBinding('class') readonly clsName = 'agc-table-data-selector';
 
   @Input() datasets!: Dataset[];
-  @Input() selectedDataVariable: string | undefined;
-
   @Output() datasetChange = new EventEmitter<Dataset>();
   @Output() dataVariableChange = new EventEmitter<string>();
 
-  private currentDataset: Dataset | undefined;
+  selectedDataVariable: string | undefined;
+  currentDataset: Dataset | undefined;
 
   get selectedDataset(): Dataset {
     if (!this.currentDataset) {
@@ -47,7 +46,7 @@ export class TableDataSelectorComponent {
     this.setCurrentDatasetIndex(newIndex);
   }
 
-  handleDataVariableChange(dataVariable: string): void {
+  setDataVariable(dataVariable: string): void {
     if (!this.selectedDataset) {
       return;
     }

@@ -10,7 +10,7 @@
   [options]="selectedDataset.dataVariables"
   [subLabel]="subLabel"
   [subOptions]="subDataVariables"
-  (selectionChange)="handleDataVariableChange($event)"
+  (selectionChange)="setDataVariable($event)"
 ></agc-sub-selector>
 
 <div class="description" *ngIf="selectedDataset.description">?{{ selectedDataset.description }}</div>
