@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableDataSelectorComponent } from './table-data-selector.component';
 import { MatSelectModule } from '@angular/material/select';
-
+import { SubSelectorModule } from './../sub-selector/sub-selector.module';
 
 
 @NgModule({
@@ -11,7 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   imports: [
     CommonModule,
-    MatSelectModule
+    MatSelectModule,
+    SubSelectorModule
   ],
   exports: [ TableDataSelectorComponent ]
 })

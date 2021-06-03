@@ -8,7 +8,7 @@ import { Dataset } from 'src/app/core/models/dataset.model';
   styleUrls: ['./table-data-selector.component.scss']
 })
 export class TableDataSelectorComponent {
-  @HostBinding('class') readonly clsName = 'agc-visualization-page';
+  @HostBinding('class') readonly clsName = 'agc-table-data-selector';
 
   @Input() datasets!: Dataset[];
   @Input() selectedDatasetIndex: number | undefined;
