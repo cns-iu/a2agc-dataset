@@ -1,0 +1,47 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "A simple pie chart with labels.",
+  "data": {
+    "url": "assets/generated/Marion_OD_Dataset-6_20_2019.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.COCAINE === '1' ? 'True' : 'False'",
+      "as": "category"
+    },
+    {
+      "aggregate": [{
+        "op": "count",
+        "field": "COCAINE",
+        "as": "total"
+      }],
+      "groupby": ["category"]
+    },
+    {
+      "calculate": "format(datum.total*100/2332, ',.2f') + '%'",
+      "as": "percent"
+    }
+  ],
+  "encoding": {
+    "theta": {"field": "total", "type": "quantitative", "stack": true},
+    "color": {"field": "category", "type": "nominal"}
+  },
+  "layer": [
+    {
+      "mark": {"type": "arc", "outerRadius": 80}
+    }, 
+    {
+      "mark": {"type": "text", "radius": 120},
+      "encoding": {
+        "text": {"field": "total", "type": "quantitative"}
+      }
+    },
+    {
+      "mark": {"type": "text", "radius": 100},
+      "encoding": {
+        "text": {"field": "percent", "type": "nominal"}
+      }
+    }
+  ],
+  "view": {"stroke": null}
+}

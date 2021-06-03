@@ -1,5 +1,6 @@
 import { Options } from 'ngx-vega';
 import { Spec } from 'vega';
+import { parse } from 'papaparse';
 
 import { createGeoZoomPatch } from '../../../shared/components/visualization-page/shared/geomap-zoom-patch';
 
@@ -10,9 +11,14 @@ export interface Visualization {
   spec: string;
   options: Options;
   content: string;
+  viewLoadedCallback?: (view: any) => void;
   sql: string;
   csv: string;
   id: string;
+}
+
+export function filterData(data: any, filter: {}) {
+
 }
 
 export const visualizations: Visualization[] = [
@@ -38,7 +44,22 @@ export const visualizations: Visualization[] = [
     },
     content: 'assets/pages/vis1-geomap-of-opioid-deaths/README.md',
     sql: 'assets/pages/vis1-geomap-of-opioid-deaths/data.sql',
-    csv: 'assets/generated/vis-geomap-opioid-deaths.csv'
+    csv: 'assets/generated/vis-geomap-opioid-deaths.csv',
+    viewLoadedCallback: (view) => {
+      const data = fetch('assets/generated/vis-geomap-opioid-deaths.csv');
+      const filter = {
+        dv: 'Age', 
+        sex: ['Male'], 
+        drugType: ['Illicit'], 
+        opioidRx1Yr: ['True'], 
+        opioidRx: ['True'], 
+        homeState: ['Indiana']
+      };
+
+      view.addSignalListener('data_variable_selection', () => {
+        view.setState('data', filterData(data, filter))
+      })
+    }
   },
   {
     id: 'vis2-age-and-gender',
