@@ -1,6 +1,10 @@
 :host {
-  mat-form-field:first-of-type {
-    margin-right: 2rem;
+  .selections-container {
+    display: flex;
+
+    mat-form-field:first-of-type {
+      margin-right: 2rem;
+    }
   }
 
   .description {

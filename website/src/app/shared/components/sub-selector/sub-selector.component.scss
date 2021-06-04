@@ -1,0 +1,101 @@
+:host {
+  .select-container {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+
+    mat-form-field {
+      z-index: 1;
+    }
+
+    .select-cover {
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      position: absolute;
+      left: 0;
+      top: 0;
+      cursor: pointer;
+
+      &.inactive {
+        cursor: disabled !important;
+      }
+    }
+
+    .select-menu {
+      width: 45rem;
+      min-height: 5rem;
+      position: absolute;
+      left: 0;
+      display: block;
+      margin-top: -1rem;
+      background-color: white;
+      padding: .5rem;
+
+      &.hidden {
+        display: none;
+      }
+
+      .sub-options-container {
+        width: 100%;
+
+        .sub-options-header {
+          width: 100%;
+          display: flex;
+          padding: .5rem;
+
+          .sub-options-filters {
+            width: 100%;
+            display: flex;
+            padding: .75rem 0rem;
+            cursor: pointer;
+
+            .letter-filter {
+              padding: .25rem;
+              color: lightgray;
+
+              &.selected {
+                background-color: #fafafa;
+                font-weight: bold;
+                color: black;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .options {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: 24%;
+
+    .option {
+      &:hover {
+        background-color: #fafafa;
+        cursor: pointer;
+      }
+    }
+
+    .empty-message {
+      width: 100%;
+      text-align: center;
+      font-style: italic;
+      padding-bottom: 1rem;
+    }
+  }
+
+  .option {
+    width: 11rem;
+    min-width: 11rem;
+    padding: 1rem 0rem;
+    text-align: center;
+
+    &.selected {
+      background-color: #fafafa;
+    }
+  }
+}

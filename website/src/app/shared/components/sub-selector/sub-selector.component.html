@@ -1,6 +1,44 @@
-<mat-form-field>
-  <mat-label id="selection">{{ label }}</mat-label>
-  <mat-select [(value)]="selection" (selectionChange)="handleSelectionChange($event)" aria-label="selection">
-    <mat-option *ngFor="let option of options" [value]="option">{{ option }}</mat-option>
-  </mat-select>
-</mat-form-field>
+<div class="select-container">
+  <mat-form-field>
+    <mat-label id="selection">{{ label }}</mat-label>
+    <mat-select [(value)]="selection" aria-label="selection">
+      <mat-option *ngFor="let option of allOptions" [value]="option">{{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="select-cover" (click)="toggleMenu()"></div>
+  <div class="select-menu mat-elevation-z3" *ngIf="showMenu">
+    <div class="options">
+      <div
+        *ngFor="let option of options"
+        class="option"
+        [class.selected]="option === selection"
+        (click)="changeSelection(option)"
+      >{{ option }}</div>
+    </div>
+
+    <div class="sub-options-container" *ngIf="subOptions.length > 0">
+      <div class="sub-options-header">
+        <div class="option">{{ subLabel }}:</div>
+        <div class="sub-options-filters">
+          <div
+            class="letter-filter"
+            [class.selected]="subOptionFilter === letter"
+            *ngFor="let letter of LETTERS"
+            (click)="subOptionFilter = letter"
+          >{{ letter }}</div>
+        </div>
+      </div>
+
+      <div class="options">
+        <div
+          *ngFor="let subOption of getFilteredSubOptions()"
+          class="option"
+          [class.selected]="subOption === selection"
+          (click)="changeSelection(subOption)"
+        >{{ subOption }}</div>
+        <div *ngIf="getFilteredSubOptions().length < 1" class="empty-message">No options match the selected filter.</div>
+      </div>
+    </div>
+  </div>
+</div>
