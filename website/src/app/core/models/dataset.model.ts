@@ -4,4 +4,4 @@ export interface Dataset {
   description?: string;
   subLabel?: string;
   subDataVariables?: string[];
-};
+}

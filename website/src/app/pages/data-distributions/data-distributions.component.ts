@@ -57,10 +57,8 @@ export class DataDistributionsComponent {
   ]
 
   handleDatasetChange(dataset: Dataset): void {
-    console.log('dataset change: ', dataset);
   }
 
   handleDataVariableChange(variable: string): void {
-    console.log('variable change: ', variable);
   }
 }

@@ -13,7 +13,7 @@ export class SubSelectorComponent implements OnInit {
   @Input() options: string[] = [];
   @Input() subLabel = '';
   @Input() subOptions: string[] = [];
-  @Output() selectionChange = new EventEmitter<string>();
+  @Output() readonly selectionChange = new EventEmitter<string>();
 
   showMenu = false;
   subOptionFilter = 'A';
@@ -38,7 +38,9 @@ export class SubSelectorComponent implements OnInit {
   }
 
   toggleMenu(): void {
-    if (this.options.length <= 0) {
+    if (!this.options) {
+      this.showMenu = false;
+    } else if (this.options.length <= 0) {
       this.showMenu = false;
     } else {
       this.showMenu = !this.showMenu;
@@ -60,8 +62,6 @@ export class SubSelectorComponent implements OnInit {
       return this.subOptions;
     }
 
-    return this.subOptions.filter(option => {
-      return option.charAt(0).toLowerCase() === this.subOptionFilter.toLowerCase();
-    });
+    return this.subOptions.filter(option => option.charAt(0).toLowerCase() === this.subOptionFilter.toLowerCase());
   }
 }
