@@ -1,46 +1,147 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "A simple pie chart with labels.",
-  "data": {
-    "url": "assets/generated/Marion_OD_Dataset-6_20_2019.csv"
-  },
-  "transform": [
+
+  "vconcat": [
     {
-      "calculate": "datum.COCAINE === '1' ? 'True' : 'False'",
-      "as": "category"
-    },
-    {
-      "aggregate": [{
-        "op": "count",
-        "field": "COCAINE",
-        "as": "total"
-      }],
-      "groupby": ["category"]
-    },
-    {
-      "calculate": "format(datum.total*100/2332, ',.2f') + '%'",
-      "as": "percent"
-    }
-  ],
-  "encoding": {
-    "theta": {"field": "total", "type": "quantitative", "stack": true},
-    "color": {"field": "category", "type": "nominal"}
-  },
-  "layer": [
-    {
-      "mark": {"type": "arc", "outerRadius": 80}
-    }, 
-    {
-      "mark": {"type": "text", "radius": 120},
+      "data": {
+        "url": "assets/generated/Marion_OD_Dataset-6_20_2019.csv"
+      },
+      "transform": [
+        {"filter": { "param": "period" }},
+        {
+          "lookup": "CASE_NUMBER",
+          "from": {
+            "key": "CASE_NUMBER",
+            "fields": [
+              "PERIOD"
+            ],
+            "data": {
+              "url": "assets/generated/visualization5/data.csv"
+            }
+          }
+        },
+        {
+          "calculate": "datum.COCAINE === '1' ? 'True' : 'False'",
+          "as": "category"
+        },
+        {
+          "aggregate": [{
+            "op": "count",
+            "field": "COCAINE",
+            "as": "total"
+          }],
+          "groupby": ["category"]
+        },
+        {
+          "calculate": "format(datum.total*100/2332, ',.2f') + '%'",
+          "as": "percent"
+        }
+      ],
       "encoding": {
-        "text": {"field": "total", "type": "quantitative"}
-      }
+        "theta": {"field": "total", "type": "quantitative", "stack": true},
+        "color": {"field": "category", "type": "nominal"}
+      },
+      "layer": [
+        {
+          "mark": {"type": "arc", "outerRadius": 80}
+        }, 
+        {
+          "mark": {"type": "text", "radius": 120},
+          "encoding": {
+            "text": {"field": "total", "type": "quantitative"}
+          }
+        },
+        {
+          "mark": {"type": "text", "radius": 100},
+          "encoding": {
+            "text": {"field": "percent", "type": "nominal"}
+          }
+        }
+      ]
     },
     {
-      "mark": {"type": "text", "radius": 100},
-      "encoding": {
-        "text": {"field": "percent", "type": "nominal"}
-      }
+      "title": {
+        "text": "Select Date Range to Update Datasets",
+        "align": "right",
+        "dx": -160,
+        "dy": -20,
+        "fontSize": 16
+      },
+      "width": 800,
+      "height": 150,
+      "view": {
+        "strokeOpacity": 0
+      },
+      "layer": [
+        {
+          "data": {
+            "url": "assets/generated/visualization5/data.csv"
+          },
+          "mark": {
+            "type": "line"
+          },
+          "params": [
+            {
+              "name": "period",
+              "select": {
+                "type": "interval",
+                "encodings": ["x"],
+                "mark": {"fill": "#6ea7ef", "fillOpacity": 0.15}
+              }
+            }
+          ],
+          "encoding": {
+            "x": {
+              "field": "PERIOD",
+              "type": "temporal",
+              "title": "Year",
+              "axis": {
+                "minExtent": 30,
+                "titleFontSize": 14,
+                "tickColor": "#757575",
+                "domainColor": "#757575",
+                "labelFlush": false,
+                "labelExpr": "[timeFormat(datum.value, '%m') == '01' ? timeFormat(datum.value, '%Y') : '']",
+                "gridDash": {
+                  "condition": {"test": {"field": "value", "timeUnit": "month", "equal": 7}, "value": [2,2]},
+                  "value": []
+                },
+                "gridColor": {
+                  "condition": {"test": {"field": "value", "timeUnit": "month", "equal": 1}, "value": "#BDBDBD"},
+                  "value": "#e0e0e0"
+                }
+              }
+            },
+            "y": {
+              "aggregate": "sum",
+              "field": "True",
+              "type": "quantitative",
+              "title": "# Deaths",
+              "axis": {
+                "titleFontSize": 14,
+                "gridColor": "#e0e0e0",
+                "tickColor": "#757575",
+                "domainColor": "#757575",
+                "gridOpacity": {
+                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "value": 1
+                },
+                "tickOpacity": {
+                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "value": 1
+                },
+                "labelFontSize": {
+                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "value": 10
+                }
+              }
+            },
+            "color": {
+              "value": "#6ea7ef"
+            }
+          }
+        }
+      ]
     }
   ],
   "view": {"stroke": null}
