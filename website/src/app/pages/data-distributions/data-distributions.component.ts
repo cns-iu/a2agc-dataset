@@ -4,6 +4,9 @@ import { VisualizationSpec } from 'vega-embed';
 import { createPieSpec, VariableData } from './data-distributions.vega';
 
 
+/**
+ * Component
+ */
 @Component({
   selector: 'agc-data-distributions',
   templateUrl: './data-distributions.component.html',
@@ -11,10 +14,19 @@ import { createPieSpec, VariableData } from './data-distributions.vega';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataDistributionsComponent {
+  /**
+   * HTML class name
+   */
   @HostBinding('class') readonly clsName = 'data-schema-browser';
 
+  /**
+   * Vega-lite spec to be displayed
+   */
   readonly spec: VisualizationSpec;
 
+  /**
+   * Metadata for the selected variable
+   */
   @Input() variable: VariableData = {
     dataset: 'Deaths',
     name: 'Cocaine',
@@ -24,15 +36,29 @@ export class DataDistributionsComponent {
     missingValues: 0.0
   };
 
-  constructor() { 
+  /**
+   * Creates a pie or bar visualization based on variable type
+   */
+  constructor() {
     this.spec = this.variable.type === 'Boolean' ? this.createPieSpec(this.variable) : this.createBarSpec(this.variable);
-    console.log(this.spec)
   }
 
+  /**
+   * Creates pie graph visualization
+   *
+   * @param variable data for selected variable
+   * @returns visualization
+   */
   createPieSpec(variable: VariableData): VisualizationSpec {
     return createPieSpec(variable);
   }
 
+  /**
+   * Creates bar graph visualization
+   *
+   * @param variable data for selected variable
+   * @returns visualization
+   */
   createBarSpec(variable: VariableData): VisualizationSpec {
     return createPieSpec(variable); //replace with createBarSpec
   }

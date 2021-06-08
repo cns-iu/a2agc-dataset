@@ -59,7 +59,7 @@ export function createPieSpec(variable: VariableData): VisualizationSpec {
         ],
         encoding: {
           color: {
-            field: 'category', 
+            field: 'category',
             type: 'nominal',
             scale: {range: ['#77ACF0', '#2a4d87']},
             legend: {
@@ -83,19 +83,19 @@ export function createPieSpec(variable: VariableData): VisualizationSpec {
             mark: {type: 'arc', outerRadius: 100, strokeWidth: 2, stroke: 'white'},
             encoding: {
               theta: {
-                field: 'total', 
-                type: 'quantitative', 
+                field: 'total',
+                type: 'quantitative',
                 stack: true
               }
-            } 
-          }, 
+            }
+          },
           {
             mark: {type: 'text', radius: 140, fill: 'black'},
             encoding: {
               text: {field: 'total2', type: 'nominal'},
               theta: {
-                field: 'total', 
-                type: 'quantitative', 
+                field: 'total',
+                type: 'quantitative',
                 stack: true
               }
             }
@@ -105,8 +105,8 @@ export function createPieSpec(variable: VariableData): VisualizationSpec {
             encoding: {
               text: {field: 'percent', type: 'nominal'},
               theta: {
-                field: 'total', 
-                type: 'quantitative', 
+                field: 'total',
+                type: 'quantitative',
                 stack: true
               }
             }
