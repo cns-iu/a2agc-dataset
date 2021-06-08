@@ -1,23 +1,15 @@
 import { VisualizationSpec } from 'vega-embed';
 
-
-export interface SpecOptions {
-  nodes: Record<string, unknown>[];
-  edges: Record<string, unknown>[];
-  source?: Record<string, unknown>[];
-  destination?: string;
+export interface VariableData {
+  dataset: string;
+  name: string;
+  variableName: string;
+  type: string;
+  description: string;
+  missingValues: number;
 }
 
-export function createSpec(options: SpecOptions): VisualizationSpec {
-  // Clone values as vega modifies them
-  const nodes = options.nodes.map(node => ({ ...node }));
-  const edges = options.edges.map(edge => ({ ...edge }));
-  const destination = options.destination;
-  let source: Record<string, unknown>[] | undefined;
-  if (options.source && destination) {
-    source = options.source.filter(item => item.dest_name === destination).map(item => ({ ...item }));
-  }
-
+export function createPieSpec(variable: VariableData): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     vconcat: [
@@ -45,13 +37,13 @@ export function createSpec(options: SpecOptions): VisualizationSpec {
             }
           },
           {
-            calculate: 'datum.COCAINE === "1"' ? 'True' : 'False',
+            calculate: `datum.${variable.variableName} === "1" ? "True" : "False"`,
             as: 'category'
           },
           {
             aggregate: [{
               op: 'count',
-              field: 'COCAINE',
+              field: `${variable.variableName}`,
               as: 'total'
             }],
             groupby: ['category']
@@ -84,7 +76,7 @@ export function createSpec(options: SpecOptions): VisualizationSpec {
         layer: [
           {
             title: {
-              text: 'Deaths by Cocaine',
+              text: `${variable.dataset} by ${variable.name}`,
               dx: -280,
               dy: 50
             },
@@ -121,7 +113,11 @@ export function createSpec(options: SpecOptions): VisualizationSpec {
           },
           {
             data: {
-              url: 'assets/pages/data-distributions/pie/data-distributions-variables.csv'
+              values: [
+                {y: 1.7, LABEL: 'Type'},
+                {y: 1.6, LABEL: 'Description'},
+                {y: 1.5, LABEL: 'Missing values'}
+              ]
             },
             mark: {
               type: 'text',
@@ -147,28 +143,32 @@ export function createSpec(options: SpecOptions): VisualizationSpec {
           },
           {
             data: {
-              url: 'assets/pages/data-distributions/pie/data-distributions-variables.csv'
+              values: [
+                {y: 1.7, VALUE: `${variable.type}`},
+                {y: 1.6, VALUE: `${variable.description}`},
+                {y: 1.5, VALUE: `${variable.missingValues.toFixed(1)}%`}
+              ]
             },
-                mark: {
-                  type: 'text',
-                  align: 'left',
-                  yOffset: 100,
-                  xOffset: -230
-                },
-                encoding: {
-                  text: {
-                    type: 'nominal',
-                    field: 'VALUE'
-                  },
-                  y: {
-                    type: 'quantitative',
-                    field: 'y',
-                    axis: null
-                  },
-                  color: {
-                    value: 'black'
-                  }
-                }
+            mark: {
+              type: 'text',
+              align: 'left',
+              yOffset: 100,
+              xOffset: -230
+            },
+            encoding: {
+              text: {
+                type: 'nominal',
+                field: 'VALUE'
+              },
+              y: {
+                type: 'quantitative',
+                field: 'y',
+                axis: null
+              },
+              color: {
+                value: 'black'
+              }
+            }
           }
         ]
       },
