@@ -1,11 +1,12 @@
-import { Component, HostBinding, Input, Output, EventEmitter } from '@angular/core';
+import { Component, HostBinding, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Dataset } from 'src/app/core/models/dataset.model';
 
 @Component({
   selector: 'agc-table-data-selector',
   templateUrl: './table-data-selector.component.html',
-  styleUrls: ['./table-data-selector.component.scss']
+  styleUrls: ['./table-data-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableDataSelectorComponent {
   @HostBinding('class') readonly clsName = 'agc-table-data-selector';
@@ -19,7 +20,7 @@ export class TableDataSelectorComponent {
 
   get selectedDataset(): Dataset {
     if (!this.currentDataset) {
-      const emptyDataset: Dataset = {} as Dataset;
+      const emptyDataset: Dataset = {dataset: '', dataVariables: []};
       return emptyDataset;
     }
 

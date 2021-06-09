@@ -1,9 +1,10 @@
-import { Component, HostBinding, Input, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'agc-sub-selector',
   templateUrl: './sub-selector.component.html',
-  styleUrls: ['./sub-selector.component.scss']
+  styleUrls: ['./sub-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SubSelectorComponent implements OnInit {
   @HostBinding('class') readonly clsName = 'agc-sub-selector';
@@ -67,7 +68,6 @@ export class SubSelectorComponent implements OnInit {
   }
 
   validSubOption(subOption: string): boolean {
-    console.log('running.');
     if (!this.subOptions) {
       return false;
     }
