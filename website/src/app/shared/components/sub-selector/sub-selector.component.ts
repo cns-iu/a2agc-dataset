@@ -54,6 +54,7 @@ export class SubSelectorComponent implements OnInit {
       this.selection = selection;
     }
 
+    this.showMenu = false;
     this.selectionChange.emit(this.selection);
   }
 
@@ -63,5 +64,19 @@ export class SubSelectorComponent implements OnInit {
     }
 
     return this.subOptions.filter(option => option.charAt(0).toLowerCase() === this.subOptionFilter.toLowerCase());
+  }
+
+  validSubOption(subOption: string): boolean {
+    console.log('running.');
+    if (!this.subOptions) {
+      return false;
+    }
+
+    const firstLetters = this.subOptions.map(option => option.charAt(0).toLowerCase());
+    if (firstLetters.indexOf(subOption.toLowerCase()) < 0) {
+      return false;
+    }
+
+    return true;
   }
 }

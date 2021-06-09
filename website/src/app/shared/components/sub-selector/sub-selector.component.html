@@ -24,6 +24,7 @@
           <div
             class="letter-filter"
             [class.selected]="subOptionFilter === letter"
+            [class.disabled]="!validSubOption(letter)"
             *ngFor="let letter of LETTERS"
             (click)="subOptionFilter = letter"
           >{{ letter }}</div>

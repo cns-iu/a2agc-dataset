@@ -52,12 +52,19 @@
 
             .letter-filter {
               padding: .25rem;
-              color: lightgray;
+              color: black;
+              border-bottom: 1px solid white;
 
               &.selected {
                 background-color: #fafafa;
                 font-weight: bold;
                 color: black;
+                border-bottom: 1px solid black;
+              }
+
+              &.disabled {
+                color: lightgray;
+                cursor: not-allowed;
               }
             }
           }
