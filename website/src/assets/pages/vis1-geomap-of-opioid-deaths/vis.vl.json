@@ -153,13 +153,19 @@
           "mark": {
             "type": "text"
           },
+          "data": {
+            "values": []
+          },
           "params": [
             {
               "name": "data_variable_selection",
               "select": {
                 "type": "point"
               },
-              "bind": "legend"
+              "bind": "legend",
+              "value": [
+                {"LABEL": "Age"}
+              ]
             }
           ],
           "encoding": {
@@ -361,6 +367,36 @@
         {
           "width": 700,
           "height": 640,
+          "transform": [
+            {
+              "filter": {
+                "param": "data_variable_selection"
+              }
+            },
+            {
+              "filter": {
+                "param": "period"
+              }
+            },
+            {
+              "filter": {
+                "and": [
+                  {
+                    "param": "sex_selection"
+                  },
+                  {
+                    "param": "drug_type_selection"
+                  },
+                  {
+                    "param": "1_year_selection"
+                  },
+                  {
+                    "param": "opioid_rx_selection"
+                  }
+                ]
+              }
+            }
+          ],
           "layer": [
             {
               "data": {
@@ -382,36 +418,6 @@
               }
             },
             {
-              "transform": [
-                {
-                  "filter": {
-                    "param": "data_variable_selection"
-                  }
-                },
-                {
-                  "filter": {
-                    "and": [
-                      {
-                        "param": "sex_selection"
-                      },
-                      {
-                        "param": "drug_type_selection"
-                      },
-                      {
-                        "param": "1_year_selection"
-                      },
-                      {
-                        "param": "opioid_rx_selection"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "filter": {
-                    "param": "period"
-                  }
-                }
-              ],
               "projection": {
                 "type": "mercator"
               },
@@ -524,9 +530,6 @@
                       },
                       {
                         "param": "drug_type_selection"
-                      },
-                      {
-                        "param": "home_state_selection"
                       },
                       {
                         "param": "1_year_selection"
