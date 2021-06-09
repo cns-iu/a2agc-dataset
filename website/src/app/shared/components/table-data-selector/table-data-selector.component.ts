@@ -20,8 +20,7 @@ export class TableDataSelectorComponent {
 
   get selectedDataset(): Dataset {
     if (!this.currentDataset) {
-      const emptyDataset: Dataset = {dataset: '', dataVariables: []};
-      return emptyDataset;
+      return { dataset: '', dataVariables: [] };
     }
 
     return this.currentDataset;
