@@ -22,12 +22,12 @@ EDB="$OUT/a2agc.db.e"
 
 DATA_SOURCES="$ORIG/box-health/[Box Health] Final Datasets"
 
-SCHEMA_DIR="$THIS/docs/schema"
+SCHEMA_DIR="$THIS/../website/src/assets/schema"
 SCHEMA_NAME=A2AGC
 SCHEMA="$SCHEMA_DIR/$SCHEMA_NAME.public.xml"
 
 COLUMN_DISTRIBUTION_OVERRIDES=./column-distribution-overrides.yml
-AGGREGATE_DATA="$OUT/aggregate-table-data.yml"
+AGGREGATE_DATA="$OUT/site-data/aggregate-table-data.json"
 
 BASE_URL="https://demo.cns.iu.edu/a2agc-dataset/"
 

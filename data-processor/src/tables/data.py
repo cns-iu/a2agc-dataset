@@ -6,6 +6,7 @@ import typing as t
 
 import mypy_extensions as te
 import yaml
+import json
 
 from a2agc import schema
 import bar_chart
@@ -54,7 +55,8 @@ def loadf(file: t.TextIO) -> Data:
     return yaml.safe_load(file)
 
 def savef(file: t.TextIO, data: Data) -> None:
-    file.write(yaml.dump(data, default_flow_style=False))
+    # file.write(yaml.dump(data, default_flow_style=False))
+    file.write(json.dumps(data))
 
 def load(file: str) -> Data:
     with open(file) as fp:
