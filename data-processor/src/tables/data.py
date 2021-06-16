@@ -56,7 +56,7 @@ def loadf(file: t.TextIO) -> Data:
 
 def savef(file: t.TextIO, data: Data) -> None:
     # file.write(yaml.dump(data, default_flow_style=False))
-    file.write(json.dumps(data))
+    file.write(json.dumps(data, indent=2))
 
 def load(file: str) -> Data:
     with open(file) as fp:
