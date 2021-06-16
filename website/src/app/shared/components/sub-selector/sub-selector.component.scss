@@ -25,6 +25,8 @@
     .select-menu {
       width: 45rem;
       min-height: 5rem;
+      max-height: 45vh;
+      overflow: auto;
       position: absolute;
       left: 0;
       display: block;
@@ -101,6 +103,8 @@
     min-width: 11rem;
     padding: 1rem 0rem;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &.selected {
       background-color: #fafafa;
