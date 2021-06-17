@@ -1,32 +1,60 @@
-import { EMPTY_TABLE_DATA_DIRECTORY, TableDataDirectory } from './../../models/table-data.model';
 import { HttpClient } from '@angular/common/http';
+import { Dataset, EMPTY_DATASET } from './../../models/dataset.model';
 import { Injectable } from '@angular/core';
-import { EMPTY_TABLE_DATA, TableData } from '../../models/table-data.model';
-import { Dataset } from '../../models/dataset.model';
+import { Computed, DataAction, StateRepository } from '@ngxs-labs/data/decorators';
+import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
+import { State } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
+import { EMPTY_TABLE_DATA, EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirectory } from '../../models/table-data.model';
+
+interface DataDistributionsStateModel {
+  datasets: Dataset[];
+  currentDataset: Dataset;
+}
 
 const SUB_LABEL_FLAG = 'Tox lab flag';
 const ASSETS_DIRECTORY = 'assets/generated/aggregate-table-data.json';
 const SUB_LABEL = 'Drug';
 
-@Injectable({
-  providedIn: 'root'
+@StateRepository()
+@State<DataDistributionsStateModel>({
+  name: 'page',
+  defaults: {
+    datasets: [],
+    currentDataset: EMPTY_DATASET
+  }
 })
-export class DataDistributionsService {
+@Injectable()
+export class DataDistributionsState extends NgxsDataRepository<DataDistributionsStateModel> {
   private tableData: TableData = EMPTY_TABLE_DATA;
   private tableDataDirectory: TableDataDirectory = EMPTY_TABLE_DATA_DIRECTORY;
-  private datasets: Dataset[] = [];
 
-  constructor(private readonly http: HttpClient) { }
+  @Computed()
+  get datasets$(): Observable<Dataset[]> {
+    return this.state$.pipe(pluck('datasets'));
+  }
 
-  async getCurrentTableData(): Promise<TableData> {
-    if (this.tableData === EMPTY_TABLE_DATA) {
-      const directory = await this.getTableDataDirectory();
-      for (var prop in directory) {
-        this.tableData = directory[prop];
-        break;
-      }
-    }
-    return {...this.tableData};
+  @Computed()
+  get currentDataset$(): Observable<Dataset> {
+    return this.state$.pipe(pluck('currentDataset'));
+  }
+
+  constructor(private readonly http: HttpClient) {
+    super();
+  }
+
+  async ngxsOnInit(): Promise<void> {
+    super.ngxsOnInit();
+    const datasets: Dataset[] = await this.getDatasets();
+    this.patchState({ datasets });
+  }
+
+  @DataAction()
+  setCurrentDataset(dataset: Dataset): void {
+    this.ctx.patchState({
+      currentDataset: Object.assign({}, dataset)
+    });
   }
 
   async getTableDataDirectory(): Promise<TableDataDirectory> {
@@ -50,18 +78,10 @@ export class DataDistributionsService {
     return EMPTY_TABLE_DATA;
   }
 
-  async setCurrentDataset(key: string): Promise<void> {
-    this.tableData = await this.getTableData(key);
-  }
-
   async getDatasets(): Promise<Dataset[]> {
-    if (this.datasets.length > 0) {
-      return this.datasets;
-    }
-
     const tableDataDirectory = await this.getTableDataDirectory();
-    this.datasets = this.tableDataDirectoryToDatasets(tableDataDirectory);
-    return this.datasets;
+    const datasets = this.tableDataDirectoryToDatasets(tableDataDirectory);
+    return datasets;
   }
 
   tableDataDirectoryToDatasets(tableDataDirectory: TableDataDirectory): Dataset[] {

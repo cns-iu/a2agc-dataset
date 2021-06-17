@@ -5,3 +5,8 @@ export interface Dataset {
   subLabel?: string;
   subDataVariables?: string[];
 }
+
+export const EMPTY_DATASET: Dataset = {
+  dataset: '',
+  dataVariables: []
+}

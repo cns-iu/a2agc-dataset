@@ -6,6 +6,7 @@ import { DataDistributionsService } from 'src/app/core/services/data-distributio
 import { VisualizationSpec } from 'vega-embed';
 
 import { createPieSpec, VariableData } from './data-distributions.vega';
+import { DataDistributionsState } from 'src/app/core/state/data-distribution/data-distribution.state';
 
 
 /**
@@ -15,7 +16,8 @@ import { createPieSpec, VariableData } from './data-distributions.vega';
   selector: 'agc-data-distributions',
   templateUrl: './data-distributions.component.html',
   styleUrls: ['./data-distributions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DataDistributionsState]
 })
 export class DataDistributionsComponent implements OnInit {
   /**
@@ -48,96 +50,14 @@ export class DataDistributionsComponent implements OnInit {
    * Creates a pie or bar visualization based on variable type
    */
   constructor(
-    private readonly dataService: DataDistributionsService
+    private readonly dataService: DataDistributionsService,
+    readonly data: DataDistributionsState
   ) {
     this.spec = this.variable.type === 'Boolean' ? this.createPieSpec(this.variable) : this.createBarSpec(this.variable);
   }
 
   async ngOnInit(): Promise<void> {
-    this.tableDataDirectory = await this.dataService.getTableDataDirectory();
-    this.tableData = await this.dataService.getCurrentTableData();
-    this.datasets = this.tableDataDirectoryToDatasets(this.tableDataDirectory);
-
-    console.log('datasets: ', this.datasets);
-    console.log('tabledatadirectory: ', this.tableDataDirectory, '\ntabledata: ', this.tableData);
-  }
-
-  tableDataDirectoryToDatasets(tableDataDirectory: TableDataDirectory): Dataset[] {
-    const datasets: Dataset[] = [];
-
-    for (let prop in tableDataDirectory) {
-      datasets.push(this.tableDataToDataset(tableDataDirectory[prop]));
-    }
-
-    return datasets;
-  }
-
-  tableDataToDataset(tableData: TableData): Dataset {
-    // TODO:  Move this constant out.
-    const SUB_LABEL_FLAG = 'Tox lab flag';
-    let dataset: Dataset = {} as Dataset;
-
-    dataset.dataset = tableData.name;
-    dataset.description = tableData.remarks ? tableData.remarks : '';
-    dataset.dataVariables = this.getColumnsFromTableData(tableData, SUB_LABEL_FLAG);
-    dataset.subLabel = this.getSubLabel(tableData);
-    dataset.subDataVariables =  this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG);
-
-    return dataset;
-  }
-
-  getColumnsFromTableData(tableData: TableData, subLabelFlag: string): string[] {
-    let columns: string[] = [];
-
-    for (let prop in tableData.columns) {
-      if (tableData.columns[prop].remarks !== subLabelFlag) {
-        let newColumn = prop;
-        columns.push(newColumn);
-      }
-    }
-
-    return columns;
-  }
-
-  getSubDataVariablesFromTableData(tableData: TableData,  subLabelFlag: string): string[] {
-    let subDataVariables: string[] = [];
-
-    if (this.getSubLabel(tableData).length <= 0) {
-      return subDataVariables;
-    }
-
-    for (let prop in tableData.columns) {
-      if (tableData.columns[prop].remarks === subLabelFlag) {
-        let newVariable = tableData.columns[prop].name;
-        subDataVariables.push(newVariable);
-      }
-    }
-
-    return subDataVariables;
-  }
-
-  getSubLabel(tableData: TableData): string {
-    return 'Drug';
-  }
-
-  cleanText(text: string): string {
-    let cleanText = '';
-
-    let words = text.split('_');
-    let cleanWord = '';
-    for (let i = 0; i < words.length; i++) {
-      cleanWord = words[i].toLowerCase();
-      cleanWord = cleanWord.charAt(0).toUpperCase() + text.slice(1);
-      cleanText += cleanWord;
-      cleanWord = '';
-
-      if (i < (words.length - 1)) {
-        cleanText += ' ';
-      }
-    }
-    console.log('text: ', text, '\ncleanText: ', cleanText);
-
-    return cleanText;
+    this.datasets = await this.dataService.getDatasets();
   }
 
   /**
