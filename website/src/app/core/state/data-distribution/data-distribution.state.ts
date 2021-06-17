@@ -101,7 +101,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   tableDataDirectoryToDatasets(tableDataDirectory: TableDataDirectory): Dataset[] {
     const datasets: Dataset[] = [];
 
-    for (let prop in tableDataDirectory) {
+    for (const prop in tableDataDirectory) {
       datasets.push(this.tableDataToDataset(tableDataDirectory[prop]));
     }
 
@@ -109,23 +109,23 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   }
 
   tableDataToDataset(tableData: TableData): Dataset {
-    let dataset: Dataset = {} as Dataset;
+    const dataset: Dataset = EMPTY_DATASET;
 
     dataset.dataset = tableData.name;
     dataset.description = tableData.remarks ? tableData.remarks : '';
     dataset.dataVariables = this.getColumnsFromTableData(tableData, SUB_LABEL_FLAG);
     dataset.subLabel = this.getSubLabel(tableData);
-    dataset.subDataVariables =  this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG);
+    dataset.subDataVariables = this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG);
 
     return dataset;
   }
 
   getColumnsFromTableData(tableData: TableData, subLabelFlag: string): string[] {
-    let columns: string[] = [];
+    const columns: string[] = [];
 
-    for (let prop in tableData.columns) {
+    for (const prop in tableData.columns) {
       if (tableData.columns[prop].remarks !== subLabelFlag) {
-        let newColumn = prop;
+        const newColumn = prop;
         columns.push(newColumn);
       }
     }
@@ -133,16 +133,16 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return columns;
   }
 
-  getSubDataVariablesFromTableData(tableData: TableData,  subLabelFlag: string): string[] {
-    let subDataVariables: string[] = [];
+  getSubDataVariablesFromTableData(tableData: TableData, subLabelFlag: string): string[] {
+    const subDataVariables: string[] = [];
 
-    if (this.getSubLabel(tableData).length <= 0) {
+    if (this.getSubLabel().length <= 0) {
       return subDataVariables;
     }
 
-    for (let prop in tableData.columns) {
+    for (const prop in tableData.columns) {
       if (tableData.columns[prop].remarks === subLabelFlag) {
-        let newVariable = tableData.columns[prop].name;
+        const newVariable = tableData.columns[prop].name;
         subDataVariables.push(newVariable);
       }
     }
@@ -150,7 +150,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return subDataVariables;
   }
 
-  getSubLabel(tableData: TableData): string {
+  getSubLabel(): string {
     return SUB_LABEL;
   }
 }

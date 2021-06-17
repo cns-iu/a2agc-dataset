@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export interface TableData {
   name: string;
   remarks: string;
@@ -10,8 +11,8 @@ export interface TableData {
       n_non_null: number;
       pct_missing: number;
       dist_type: string;
-    }
-  }
+    };
+  };
 }
 
 export interface TableDataDirectory {
@@ -19,34 +20,34 @@ export interface TableDataDirectory {
 }
 
 export const EMPTY_TABLE_DATA: TableData = {
-  name: "",
-  remarks: "",
+  name: '',
+  remarks: '',
   row_count: 0,
   columns: {
-    "": {
-      name: "",
-      type: "",
-      remarks: "",
+    '': {
+      name: '',
+      type: '',
+      remarks: '',
       n_non_null: 0,
       pct_missing: 0,
-      dist_type: ""
+      dist_type: ''
     }
   }
 };
 
 export const EMPTY_TABLE_DATA_DIRECTORY: TableDataDirectory = {
-  "": {
-    name: "",
-    remarks: "",
+  '': {
+    name: '',
+    remarks: '',
     row_count: 0,
     columns: {
-      "": {
-        name: "",
-        type: "",
-        remarks: "",
+      '': {
+        name: '',
+        type: '',
+        remarks: '',
         n_non_null: 0,
         pct_missing: 0,
-        dist_type: ""
+        dist_type: ''
       }
     }
   }
