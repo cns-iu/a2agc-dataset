@@ -114,7 +114,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     dataset.dataset = tableData.name;
     dataset.description = tableData.remarks ? tableData.remarks : '';
     dataset.dataVariables = this.getColumnsFromTableData(tableData, SUB_LABEL_FLAG);
-    dataset.subLabel = this.getSubLabel(tableData);
+    dataset.subLabel = this.getSubLabel();
     dataset.subDataVariables = this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG);
 
     return dataset;
