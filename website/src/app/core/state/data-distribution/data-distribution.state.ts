@@ -11,18 +11,20 @@ import { EMPTY_TABLE_DATA, EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirec
 interface DataDistributionsStateModel {
   datasets: Dataset[];
   currentDataset: Dataset;
+  currentDataVariable: string;
 }
 
+const DISTRIBUTIONS_CONFIG_PATH = 'assets/generated/aggregate-table-data.json';
 const SUB_LABEL_FLAG = 'Tox lab flag';
-const ASSETS_DIRECTORY = 'assets/generated/aggregate-table-data.json';
 const SUB_LABEL = 'Drug';
 
 @StateRepository()
 @State<DataDistributionsStateModel>({
-  name: 'page',
+  name: 'dataDistributions',
   defaults: {
     datasets: [],
-    currentDataset: EMPTY_DATASET
+    currentDataset: EMPTY_DATASET,
+    currentDataVariable: ''
   }
 })
 @Injectable()
@@ -40,6 +42,11 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return this.state$.pipe(pluck('currentDataset'));
   }
 
+  @Computed()
+  get currentDataVariable$(): Observable<string> {
+    return this.state$.pipe(pluck('currentDataVariable'));
+  }
+
   constructor(private readonly http: HttpClient) {
     super();
   }
@@ -48,6 +55,13 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     super.ngxsOnInit();
     const datasets: Dataset[] = await this.getDatasets();
     this.patchState({ datasets });
+  }
+
+  @DataAction()
+  setCurrentDataVariable(dataVariable: string): void {
+    this.ctx.patchState({
+      currentDataVariable: Object.assign({}, dataVariable)
+    });
   }
 
   @DataAction()
@@ -66,7 +80,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   }
 
   async fetchTableDataDirectory(): Promise<TableDataDirectory> {
-    return await this.http.get(ASSETS_DIRECTORY).toPromise() as TableDataDirectory;
+    return await this.http.get(DISTRIBUTIONS_CONFIG_PATH).toPromise() as TableDataDirectory;
   }
 
   async getTableData(key: string): Promise<TableData> {

@@ -1,3 +1,4 @@
+import { DataDistributionsState } from 'src/app/core/state/data-distribution/data-distribution.state';
 import { NgModule, Type } from '@angular/core';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -14,7 +15,8 @@ import { VisualizationsState } from './visualizations/visualizations.state';
 const ROOT_STATES: Type<unknown>[] = [
   RouterState,
   PageState,
-  VisualizationsState
+  VisualizationsState,
+  DataDistributionsState
 ];
 
 @NgModule({
