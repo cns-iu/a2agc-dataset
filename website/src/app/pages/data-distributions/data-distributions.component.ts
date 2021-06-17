@@ -1,8 +1,7 @@
 import { Dataset } from './../../core/models/dataset.model';
 import { TableDataDirectory, EMPTY_TABLE_DATA_DIRECTORY } from './../../core/models/table-data.model';
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { EMPTY_TABLE_DATA, TableData } from 'src/app/core/models/table-data.model';
-import { DataDistributionsService } from 'src/app/core/services/data-distributions/data-distributions.service';
 import { VisualizationSpec } from 'vega-embed';
 
 import { createPieSpec, VariableData } from './data-distributions.vega';
@@ -19,7 +18,7 @@ import { DataDistributionsState } from 'src/app/core/state/data-distribution/dat
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DataDistributionsState]
 })
-export class DataDistributionsComponent implements OnInit {
+export class DataDistributionsComponent {
   /**
    * HTML class name
    */
@@ -50,14 +49,9 @@ export class DataDistributionsComponent implements OnInit {
    * Creates a pie or bar visualization based on variable type
    */
   constructor(
-    private readonly dataService: DataDistributionsService,
     readonly data: DataDistributionsState
   ) {
     this.spec = this.variable.type === 'Boolean' ? this.createPieSpec(this.variable) : this.createBarSpec(this.variable);
-  }
-
-  async ngOnInit(): Promise<void> {
-    this.datasets = await this.dataService.getDatasets();
   }
 
   /**

@@ -1,4 +1,6 @@
 <agc-table-data-selector
   [datasets]="$any(data.datasets$ | async)"
+  (datasetChange)="data.setCurrentDataset($event)"
+  (dataVariableChange)="data.setCurrentDataVariable($event)"
 ></agc-table-data-selector>
 <ngx-vega [spec]="spec" [options]="{}" [autosize]="{ width: true, height: false }"></ngx-vega>

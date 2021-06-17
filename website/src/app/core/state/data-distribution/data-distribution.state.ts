@@ -29,7 +29,6 @@ const SUB_LABEL = 'Drug';
 })
 @Injectable()
 export class DataDistributionsState extends NgxsDataRepository<DataDistributionsStateModel> {
-  private tableData: TableData = EMPTY_TABLE_DATA;
   private tableDataDirectory: TableDataDirectory = EMPTY_TABLE_DATA_DIRECTORY;
 
   @Computed()
@@ -60,7 +59,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   @DataAction()
   setCurrentDataVariable(dataVariable: string): void {
     this.ctx.patchState({
-      currentDataVariable: Object.assign({}, dataVariable)
+      currentDataVariable: dataVariable
     });
   }
 
@@ -109,13 +108,13 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   }
 
   tableDataToDataset(tableData: TableData): Dataset {
-    const dataset: Dataset = EMPTY_DATASET;
-
-    dataset.dataset = tableData.name;
-    dataset.description = tableData.remarks ? tableData.remarks : '';
-    dataset.dataVariables = this.getColumnsFromTableData(tableData, SUB_LABEL_FLAG);
-    dataset.subLabel = this.getSubLabel();
-    dataset.subDataVariables = this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG);
+    const dataset: Dataset = {
+      dataset: tableData.name,
+      description: tableData.remarks ? tableData.remarks : '',
+      dataVariables: this.getColumnsFromTableData(tableData, SUB_LABEL_FLAG),
+      subLabel: this.getSubLabel(),
+      subDataVariables: this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG)
+    }
 
     return dataset;
   }
