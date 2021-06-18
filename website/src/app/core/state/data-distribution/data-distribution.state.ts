@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Computed, DataAction, StateRepository } from '@ngxs-labs/data/decorators';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { State } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 
 import { EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirectory } from '../../models/table-data.model';
