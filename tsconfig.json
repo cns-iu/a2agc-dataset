@@ -1,0 +1,40 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "ngx-vega": [
+        "dist/ngx-vega/ngx-vega",
+        "dist/ngx-vega"
+      ],
+      "vega-lite": [
+        "node_modules/vega-lite/build/vega-lite"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

@@ -1,11 +1,11 @@
-import { Dataset } from './../../core/models/dataset.model';
-import { TableDataDirectory, EMPTY_TABLE_DATA_DIRECTORY } from './../../core/models/table-data.model';
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { EMPTY_TABLE_DATA, TableData } from 'src/app/core/models/table-data.model';
+import { DataDistributionsState } from 'src/app/core/state/data-distribution/data-distribution.state';
 import { VisualizationSpec } from 'vega-embed';
 
+import { Dataset } from './../../core/models/dataset.model';
+import { EMPTY_TABLE_DATA_DIRECTORY, TableDataDirectory } from './../../core/models/table-data.model';
 import { createPieSpec, VariableData } from './data-distributions.vega';
-import { DataDistributionsState } from 'src/app/core/state/data-distribution/data-distribution.state';
 
 
 /**

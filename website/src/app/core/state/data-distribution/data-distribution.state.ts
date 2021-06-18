@@ -1,17 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Dataset, EMPTY_DATASET } from './../../models/dataset.model';
 import { Injectable } from '@angular/core';
 import { Computed, DataAction, StateRepository } from '@ngxs-labs/data/decorators';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { State } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { pluck } from 'rxjs/operators';
-import { EMPTY_TABLE_DATA, EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirectory } from '../../models/table-data.model';
+
+import { EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirectory } from '../../models/table-data.model';
+import { Dataset, EMPTY_DATASET } from './../../models/dataset.model';
 
 interface DataDistributionsStateModel {
   datasets: Dataset[];
   currentDataset: Dataset;
   currentDataVariable: string;
+  tableDataDirectory: TableDataDirectory;
 }
 
 const DISTRIBUTIONS_CONFIG_PATH = 'assets/generated/aggregate-table-data.json';
@@ -24,13 +26,12 @@ const SUB_LABEL = 'Drug';
   defaults: {
     datasets: [],
     currentDataset: EMPTY_DATASET,
-    currentDataVariable: ''
+    currentDataVariable: '',
+    tableDataDirectory: EMPTY_TABLE_DATA_DIRECTORY
   }
 })
 @Injectable()
 export class DataDistributionsState extends NgxsDataRepository<DataDistributionsStateModel> {
-  private tableDataDirectory: TableDataDirectory = EMPTY_TABLE_DATA_DIRECTORY;
-
   @Computed()
   get datasets$(): Observable<Dataset[]> {
     return this.state$.pipe(pluck('datasets'));
@@ -46,6 +47,11 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return this.state$.pipe(pluck('currentDataVariable'));
   }
 
+  @Computed()
+  get tableDataDirectory$(): Observable<TableDataDirectory> {
+    return this.state$.pipe(pluck('tableDataDirectory'));
+  }
+
   constructor(private readonly http: HttpClient) {
     super();
   }
@@ -53,7 +59,8 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   async ngxsOnInit(): Promise<void> {
     super.ngxsOnInit();
     const datasets: Dataset[] = await this.getDatasets();
-    this.patchState({ datasets });
+    const tableDataDirectory: TableDataDirectory = await this.getTableDataDirectory();
+    this.patchState({ datasets, tableDataDirectory });
   }
 
   @DataAction()
@@ -70,34 +77,32 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     });
   }
 
-  async getTableDataDirectory(): Promise<TableDataDirectory> {
-    if (this.tableDataDirectory === EMPTY_TABLE_DATA_DIRECTORY) {
-      const directory = await this.fetchTableDataDirectory();
-      this.tableDataDirectory = directory;
-    }
-    return {...this.tableDataDirectory};
+  @DataAction()
+  setTableDataDirectory(directory: TableDataDirectory): void {
+    this.ctx.patchState({
+      tableDataDirectory: Object.assign({}, directory)
+    });
   }
 
-  async fetchTableDataDirectory(): Promise<TableDataDirectory> {
+  private async fetchTableDataDirectory(): Promise<TableDataDirectory> {
     return await this.http.get(DISTRIBUTIONS_CONFIG_PATH).toPromise() as TableDataDirectory;
   }
 
-  async getTableData(key: string): Promise<TableData> {
-    const directory: TableDataDirectory = await this.getTableDataDirectory();
-    if (directory[key]) {
-      return directory[key];
+  private async getTableDataDirectory(): Promise<TableDataDirectory> {
+    if (this.snapshot.tableDataDirectory === EMPTY_TABLE_DATA_DIRECTORY) {
+      const directory = await this.fetchTableDataDirectory();
+      return directory;
     }
-
-    return EMPTY_TABLE_DATA;
+    return {...this.snapshot.tableDataDirectory};
   }
 
-  async getDatasets(): Promise<Dataset[]> {
+  private async getDatasets(): Promise<Dataset[]> {
     const tableDataDirectory = await this.getTableDataDirectory();
     const datasets = this.tableDataDirectoryToDatasets(tableDataDirectory);
     return datasets;
   }
 
-  tableDataDirectoryToDatasets(tableDataDirectory: TableDataDirectory): Dataset[] {
+  private tableDataDirectoryToDatasets(tableDataDirectory: TableDataDirectory): Dataset[] {
     const datasets: Dataset[] = [];
 
     for (const prop in tableDataDirectory) {
@@ -107,7 +112,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return datasets;
   }
 
-  tableDataToDataset(tableData: TableData): Dataset {
+  private tableDataToDataset(tableData: TableData): Dataset {
     const dataset: Dataset = {
       dataset: tableData.name,
       description: tableData.remarks ? tableData.remarks : '',
@@ -119,7 +124,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return dataset;
   }
 
-  getColumnsFromTableData(tableData: TableData, subLabelFlag: string): string[] {
+  private getColumnsFromTableData(tableData: TableData, subLabelFlag: string): string[] {
     const columns: string[] = [];
 
     for (const prop in tableData.columns) {
@@ -132,7 +137,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return columns;
   }
 
-  getSubDataVariablesFromTableData(tableData: TableData, subLabelFlag: string): string[] {
+  private getSubDataVariablesFromTableData(tableData: TableData, subLabelFlag: string): string[] {
     const subDataVariables: string[] = [];
 
     if (this.getSubLabel().length <= 0) {
@@ -149,7 +154,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return subDataVariables;
   }
 
-  getSubLabel(): string {
+  private getSubLabel(): string {
     return SUB_LABEL;
   }
 }
