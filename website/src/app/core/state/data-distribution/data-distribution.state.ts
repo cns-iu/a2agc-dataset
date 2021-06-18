@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Computed, DataAction, StateRepository } from '@ngxs-labs/data/decorators';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { State } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { pluck, map } from 'rxjs/operators';
 
 import { EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirectory } from '../../models/table-data.model';
 import { Dataset, EMPTY_DATASET } from './../../models/dataset.model';
@@ -56,11 +56,11 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     super();
   }
 
-  async ngxsOnInit(): Promise<void> {
+  ngxsOnInit(): void {
     super.ngxsOnInit();
-    const datasets: Dataset[] = await this.getDatasets();
-    const tableDataDirectory: TableDataDirectory = await this.getTableDataDirectory();
-    this.patchState({ datasets, tableDataDirectory });
+
+    this.getDatasets().subscribe(datasets => this.ctx.patchState({datasets}));
+    this.getTableDataDirectory().subscribe(tableDataDirectory => this.ctx.patchState({tableDataDirectory}));
   }
 
   @DataAction()
@@ -84,22 +84,22 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     });
   }
 
-  private async fetchTableDataDirectory(): Promise<TableDataDirectory> {
-    return await this.http.get(DISTRIBUTIONS_CONFIG_PATH).toPromise() as TableDataDirectory;
+  private fetchTableDataDirectory(): Observable<TableDataDirectory> {
+    const tableDataDirectory: Observable<TableDataDirectory> = new Observable(() => {
+      this.http.get(DISTRIBUTIONS_CONFIG_PATH);
+    });
+    return tableDataDirectory;
   }
 
-  private async getTableDataDirectory(): Promise<TableDataDirectory> {
+  private getTableDataDirectory(): Observable<TableDataDirectory> {
     if (this.snapshot.tableDataDirectory === EMPTY_TABLE_DATA_DIRECTORY) {
-      const directory = await this.fetchTableDataDirectory();
-      return directory;
+      return this.fetchTableDataDirectory();
     }
-    return {...this.snapshot.tableDataDirectory};
+    return of({...this.snapshot.tableDataDirectory});
   }
 
-  private async getDatasets(): Promise<Dataset[]> {
-    const tableDataDirectory = await this.getTableDataDirectory();
-    const datasets = this.tableDataDirectoryToDatasets(tableDataDirectory);
-    return datasets;
+  private getDatasets(): Observable<Dataset[]> {
+    return this.getTableDataDirectory().pipe(map((dir: TableDataDirectory) => this.tableDataDirectoryToDatasets(dir)));
   }
 
   private tableDataDirectoryToDatasets(tableDataDirectory: TableDataDirectory): Dataset[] {
