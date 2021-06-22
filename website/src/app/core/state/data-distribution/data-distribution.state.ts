@@ -33,6 +33,11 @@ const SUB_LABEL = 'Drug';
 @Injectable()
 export class DataDistributionsState extends NgxsDataRepository<DataDistributionsStateModel> {
   @Computed()
+  get tableDataDirectory$(): Observable<TableDataDirectory> {
+    return this.state$.pipe(pluck('tableDataDirectory'));
+  }
+
+  @Computed()
   get datasets$(): Observable<Dataset[]> {
     return this.state$.pipe(pluck('datasets'));
   }
@@ -47,11 +52,6 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return this.state$.pipe(pluck('currentDataVariable'));
   }
 
-  @Computed()
-  get tableDataDirectory$(): Observable<TableDataDirectory> {
-    return this.state$.pipe(pluck('tableDataDirectory'));
-  }
-
   constructor(private readonly http: HttpClient) {
     super();
   }
@@ -59,8 +59,15 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   ngxsOnInit(): void {
     super.ngxsOnInit();
 
-    this.getDatasets().subscribe(datasets => this.ctx.patchState({datasets}));
-    this.getTableDataDirectory().subscribe(tableDataDirectory => this.ctx.patchState({tableDataDirectory}));
+    this.getDatasets().subscribe(datasets => this.ctx.patchState({ datasets }));
+    this.getTableDataDirectory().subscribe(tableDataDirectory => this.ctx.patchState({ tableDataDirectory }));
+  }
+
+  @DataAction()
+  setTableDataDirectory(directory: TableDataDirectory): void {
+    this.ctx.patchState({
+      tableDataDirectory: Object.assign({}, directory)
+    });
   }
 
   @DataAction()
@@ -77,11 +84,11 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     });
   }
 
-  @DataAction()
-  setTableDataDirectory(directory: TableDataDirectory): void {
-    this.ctx.patchState({
-      tableDataDirectory: Object.assign({}, directory)
-    });
+  private getTableDataDirectory(): Observable<TableDataDirectory> {
+    if (this.snapshot.tableDataDirectory === EMPTY_TABLE_DATA_DIRECTORY) {
+      return this.fetchTableDataDirectory();
+    }
+    return of({ ...this.snapshot.tableDataDirectory });
   }
 
   private fetchTableDataDirectory(): Observable<TableDataDirectory> {
@@ -89,13 +96,6 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
       this.http.get(DISTRIBUTIONS_CONFIG_PATH);
     });
     return tableDataDirectory;
-  }
-
-  private getTableDataDirectory(): Observable<TableDataDirectory> {
-    if (this.snapshot.tableDataDirectory === EMPTY_TABLE_DATA_DIRECTORY) {
-      return this.fetchTableDataDirectory();
-    }
-    return of({...this.snapshot.tableDataDirectory});
   }
 
   private getDatasets(): Observable<Dataset[]> {
