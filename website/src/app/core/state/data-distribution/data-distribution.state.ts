@@ -59,14 +59,21 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   ngxsOnInit(): void {
     super.ngxsOnInit();
 
-    this.getDatasets().subscribe(datasets => this.ctx.patchState({ datasets }));
-    this.getTableDataDirectory().subscribe(tableDataDirectory => this.ctx.patchState({ tableDataDirectory }));
+    this.getDatasets().subscribe(datasets => this.setDatasets(datasets));
+    this.getTableDataDirectory().subscribe(tableDataDirectory => this.setTableDataDirectory(tableDataDirectory));
   }
 
   @DataAction()
   setTableDataDirectory(directory: TableDataDirectory): void {
     this.ctx.patchState({
-      tableDataDirectory: Object.assign({}, directory)
+      tableDataDirectory: directory
+    });
+  }
+
+  @DataAction()
+  setDatasets(datasets: Dataset[]): void {
+    this.ctx.patchState({
+      datasets
     });
   }
 
@@ -80,7 +87,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   @DataAction()
   setCurrentDataset(dataset: Dataset): void {
     this.ctx.patchState({
-      currentDataset: Object.assign({}, dataset)
+      currentDataset: dataset
     });
   }
 
@@ -92,9 +99,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   }
 
   private fetchTableDataDirectory(): Observable<TableDataDirectory> {
-    return new Observable(() => {
-      this.http.get(DISTRIBUTIONS_CONFIG_PATH);
-    });
+    return this.http.get<TableDataDirectory>(DISTRIBUTIONS_CONFIG_PATH);
   }
 
   private getDatasets(): Observable<Dataset[]> {
