@@ -3,4 +3,5 @@
   (datasetChange)="data.setCurrentDataset($event)"
   (dataVariableChange)="data.setCurrentDataVariable($event)"
 ></agc-table-data-selector>
-<ngx-vega [spec]="spec" [options]="{}" [autosize]="{ width: true, height: false }"></ngx-vega>
+
+<ngx-vega [spec]="$any(data.currentSpec$ | async)" [options]="{}" [autosize]="{ width: true, height: false }"></ngx-vega>

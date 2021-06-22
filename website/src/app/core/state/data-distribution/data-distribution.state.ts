@@ -5,6 +5,8 @@ import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { State } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { pluck, map } from 'rxjs/operators';
+import { VisualizationSpec } from 'vega-embed';
+
 
 import { EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirectory } from '../../models/table-data.model';
 import { Dataset, EMPTY_DATASET } from './../../models/dataset.model';
@@ -14,6 +16,7 @@ interface DataDistributionsStateModel {
   currentDataset: Dataset;
   currentDataVariable: string;
   tableDataDirectory: TableDataDirectory;
+  currentSpec?: VisualizationSpec;
 }
 
 const DISTRIBUTIONS_CONFIG_PATH = 'assets/generated/aggregate-table-data.json';
@@ -52,6 +55,11 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return this.state$.pipe(pluck('currentDataVariable'));
   }
 
+  @Computed()
+  get currentSpec$(): Observable<VisualizationSpec | undefined> {
+    return this.state$.pipe(pluck('currentSpec'));
+  }
+
   constructor(private readonly http: HttpClient) {
     super();
   }
@@ -80,7 +88,8 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   @DataAction()
   setCurrentDataVariable(dataVariable: string): void {
     this.ctx.patchState({
-      currentDataVariable: dataVariable
+      currentDataVariable: dataVariable,
+      currentSpec: JSON.parse(this.snapshot.currentDataset.specs[dataVariable] as string)
     });
   }
 
@@ -122,8 +131,20 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
       description: tableData.remarks ? tableData.remarks : '',
       dataVariables: this.getColumnsFromTableData(tableData, SUB_LABEL_FLAG),
       subLabel: this.getSubLabel(),
-      subDataVariables: this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG)
+      subDataVariables: this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG),
+      specs: this.getDataSpecs(tableData)
     }
+  }
+
+  private getDataSpecs(tableData: TableData): { [dataVariable: string]: VisualizationSpec } {
+    const specs: { [dataVariable: string]: VisualizationSpec } = {};
+    const columns = tableData.columns;
+    for (const column in columns) {
+      if (columns[column].dist_data !== undefined) {
+        specs[column] = columns[column].dist_data as VisualizationSpec;
+      }
+    }
+    return specs;
   }
 
   private getColumnsFromTableData(tableData: TableData, subLabelFlag: string): string[] {

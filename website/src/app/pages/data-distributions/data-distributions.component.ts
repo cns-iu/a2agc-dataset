@@ -37,9 +37,9 @@ export class DataDistributionsComponent {
    * Metadata for the selected variable
    */
   @Input() variable: VariableData = {
-    dataset: 'Deaths',
+    dataset: 'deaths',
     name: 'Cocaine',
-    variableName: 'COCAINE',
+    variableName: 'COCAINE_AMOUNT',
     type: 'Boolean',
     description: 'Tox lab flag',
     missingValues: 0.0
