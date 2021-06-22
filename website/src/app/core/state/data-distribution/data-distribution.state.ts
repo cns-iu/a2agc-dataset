@@ -92,10 +92,9 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   }
 
   private fetchTableDataDirectory(): Observable<TableDataDirectory> {
-    const tableDataDirectory: Observable<TableDataDirectory> = new Observable(() => {
+    return new Observable(() => {
       this.http.get(DISTRIBUTIONS_CONFIG_PATH);
     });
-    return tableDataDirectory;
   }
 
   private getDatasets(): Observable<Dataset[]> {
@@ -113,15 +112,13 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   }
 
   private tableDataToDataset(tableData: TableData): Dataset {
-    const dataset: Dataset = {
+    return {
       dataset: tableData.name,
       description: tableData.remarks ? tableData.remarks : '',
       dataVariables: this.getColumnsFromTableData(tableData, SUB_LABEL_FLAG),
       subLabel: this.getSubLabel(),
       subDataVariables: this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG)
     }
-
-    return dataset;
   }
 
   private getColumnsFromTableData(tableData: TableData, subLabelFlag: string): string[] {
