@@ -4,4 +4,22 @@
   (dataVariableChange)="data.setCurrentDataVariable($event)"
 ></agc-table-data-selector>
 
-<ngx-vega [spec]="$any(data.currentSpec$ | async)" [options]="{}" [autosize]="{ width: true, height: false }"></ngx-vega>
+<div class="data-block" *ngIf="!!$any(data.currentSpec$ | async)">
+  <ngx-vega *ngIf="$any(data.currentSpec$ | async).config; else textBlock" [spec]="$any(data.currentSpec$ | async)" [options]="{}" [autosize]="{ width: true, height: false }"></ngx-vega>
+  <ng-template #textBlock>
+    <div class="text-block">
+      <h4>{{ data.currentDataVariable$ | async }}</h4>
+      <ul>
+        <li>
+          Distinct - {{ $any(data.currentSpec$ | async).distinct }}
+        </li>
+        <li>
+          Max - {{ $any(data.currentSpec$ | async).max }}
+        </li>
+        <li>
+          Min - {{ $any(data.currentSpec$ | async).min }}
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+</div>

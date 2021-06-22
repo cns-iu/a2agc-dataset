@@ -1,3 +1,4 @@
+import { Any } from '@angular-ru/common/typings';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Computed, DataAction, StateRepository } from '@ngxs-labs/data/decorators';
@@ -87,10 +88,24 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
 
   @DataAction()
   setCurrentDataVariable(dataVariable: string): void {
-    this.ctx.patchState({
-      currentDataVariable: dataVariable,
-      currentSpec: JSON.parse(this.snapshot.currentDataset.specs[dataVariable] as string)
-    });
+    let spec = this.snapshot.currentDataset.specs[dataVariable];
+
+    if (this.isJson(spec)) {
+      spec = JSON.parse(spec as string);
+    }
+
+    try {
+      spec = JSON.parse(spec as string);
+      this.ctx.patchState({
+        currentDataVariable: dataVariable,
+        currentSpec: JSON.parse(spec as string)
+      });
+    } catch (e) {
+      this.ctx.patchState({
+        currentDataVariable: dataVariable,
+        currentSpec: spec
+      });
+    }
   }
 
   @DataAction()
@@ -98,6 +113,15 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     this.ctx.patchState({
       currentDataset: dataset
     });
+  }
+
+  private isJson(str: Any) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
   }
 
   private getTableDataDirectory(): Observable<TableDataDirectory> {
