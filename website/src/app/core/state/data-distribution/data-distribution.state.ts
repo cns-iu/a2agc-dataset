@@ -88,19 +88,16 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
 
   @DataAction()
   setCurrentDataVariable(dataVariable: string): void {
-    const spec = this.snapshot.currentDataset.specs[dataVariable];
+    let spec = this.snapshot.currentDataset.specs[dataVariable];
 
-    try {
-      this.ctx.patchState({
-        currentDataVariable: dataVariable,
-        currentSpec: JSON.parse(spec as string)
-      });
-    } catch (e) {
-      this.ctx.patchState({
-        currentDataVariable: dataVariable,
-        currentSpec: spec
-      });
+    if (spec && typeof spec === 'string') {
+      spec = JSON.parse(spec as string);
     }
+
+    this.ctx.patchState({
+      currentDataVariable: dataVariable,
+      currentSpec: spec
+    });
   }
 
   @DataAction()
