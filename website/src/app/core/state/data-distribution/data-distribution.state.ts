@@ -88,14 +88,9 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
 
   @DataAction()
   setCurrentDataVariable(dataVariable: string): void {
-    let spec = this.snapshot.currentDataset.specs[dataVariable];
-
-    if (this.isJson(spec)) {
-      spec = JSON.parse(spec as string);
-    }
+    const spec = this.snapshot.currentDataset.specs[dataVariable];
 
     try {
-      spec = JSON.parse(spec as string);
       this.ctx.patchState({
         currentDataVariable: dataVariable,
         currentSpec: JSON.parse(spec as string)
@@ -113,15 +108,6 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     this.ctx.patchState({
       currentDataset: dataset
     });
-  }
-
-  private isJson(str: Any) {
-    try {
-      JSON.parse(str);
-    } catch (e) {
-      return false;
-    }
-    return true;
   }
 
   private getTableDataDirectory(): Observable<TableDataDirectory> {
