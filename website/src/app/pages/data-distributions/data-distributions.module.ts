@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { NgxVegaModule } from 'ngx-vega';
 import { DataDistributionsRoutingModule } from './data-distributions-routing.module';
 import { DataDistributionsComponent } from './data-distributions.component';
-import { TableDataSelectorModule} from '../../shared/components/table-data-selector/table-data-selector.module';
+import { TableDataSelectorModule } from '../../shared/components/table-data-selector/table-data-selector.module';
+import { DatasetSummaryModule } from './../../shared/components/dataset-summary/dataset-summary.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { TableDataSelectorModule} from '../../shared/components/table-data-selec
     NgxVegaModule,
     CommonModule,
     DataDistributionsRoutingModule,
-    TableDataSelectorModule
+    TableDataSelectorModule,
+    DatasetSummaryModule
   ]
 })
 export class DataDistributionsModule { }

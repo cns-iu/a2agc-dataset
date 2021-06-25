@@ -9,7 +9,7 @@ import { VisualizationSpec } from 'vega-embed';
 
 
 import { EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirectory } from '../../models/table-data.model';
-import { Dataset, DatasetColumn, DatasetColumns, EMPTY_DATASET } from './../../models/dataset.model';
+import { Dataset, DatasetColumn, DatasetColumns, DatasetSummary, EMPTY_DATASET } from './../../models/dataset.model';
 
 interface DataDistributionsStateModel {
   datasets: Dataset[];
@@ -18,6 +18,7 @@ interface DataDistributionsStateModel {
   tableDataDirectory: TableDataDirectory;
   currentSpec?: VisualizationSpec;
   currentColumn?: DatasetColumn;
+  currentColumnSummary?: DatasetSummary[];
 }
 
 const DISTRIBUTIONS_CONFIG_PATH = 'assets/generated/aggregate-table-data.json';
@@ -66,6 +67,11 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return this.state$.pipe(pluck('currentColumn'));
   }
 
+  @Computed()
+  get currentColumnSummary$(): Observable<DatasetSummary[] | undefined> {
+    return this.state$.pipe(pluck('currentColumnSummary'));
+  }
+
   constructor(private readonly http: HttpClient) {
     super();
   }
@@ -95,6 +101,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   setCurrentDataVariable(dataVariable: string): void {
     let spec = this.snapshot.currentDataset.specs[dataVariable];
     const column = this.snapshot.currentDataset.columns[dataVariable];
+    const columnSummary = this.getColumnSummary(column);
 
     if (spec && typeof spec === 'string') {
       spec = JSON.parse(spec as string);
@@ -103,7 +110,8 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     this.ctx.patchState({
       currentDataVariable: dataVariable,
       currentSpec: spec,
-      currentColumn: column
+      currentColumn: column,
+      currentColumnSummary: columnSummary
     });
   }
 
@@ -112,6 +120,27 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     this.ctx.patchState({
       currentDataset: dataset
     });
+  }
+
+  public getColumnSummary(column: DatasetColumn): DatasetSummary[] {
+    const summary: DatasetSummary[] = [];
+
+    if (!column) {
+      return summary;
+    }
+
+    summary.push({ label: 'Type', value: column.type });
+    summary.push({ label: 'Description', value: column.remarks });
+    summary.push({ label: 'Missing values', value: `${column.percentMissing}%` });
+
+    // @TODO: Figure out how to get typescript to allow this.
+    // if (column.distType === 'summary' && typeof(column.distData) !== 'string') {
+    //   summary.push({ label: 'Distinct entries', value: column.distData.distinct });
+    //   summary.push({ label: 'Minimum value/length', value: column.distData.min });
+    //   summary.push({ label: 'Maximum value/length', value: column.distData.max });
+    // }
+
+    return summary;
   }
 
   private getTableDataDirectory(): Observable<TableDataDirectory> {

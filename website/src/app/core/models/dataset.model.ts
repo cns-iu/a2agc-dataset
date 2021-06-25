@@ -15,6 +15,11 @@ export interface DatasetColumns {
   [key: string] : DatasetColumn;
 }
 
+export interface DatasetSummary {
+  label: string;
+  value: string;
+}
+
 export interface DatasetColumn {
   distData: string | VisualizationSpec | SummaryDistData;
   distType: string;
