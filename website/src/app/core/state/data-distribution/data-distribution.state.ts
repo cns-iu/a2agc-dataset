@@ -17,6 +17,7 @@ interface DataDistributionsStateModel {
   currentDataVariable: string;
   tableDataDirectory: TableDataDirectory;
   currentSpec?: VisualizationSpec;
+  currentColumn?: DatasetColumn;
 }
 
 const DISTRIBUTIONS_CONFIG_PATH = 'assets/generated/aggregate-table-data.json';
@@ -60,6 +61,11 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return this.state$.pipe(pluck('currentSpec'));
   }
 
+  @Computed()
+  get currentColumn$(): Observable<DatasetColumn | undefined> {
+    return this.state$.pipe(pluck('currentColumn'));
+  }
+
   constructor(private readonly http: HttpClient) {
     super();
   }
@@ -88,6 +94,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   @DataAction()
   setCurrentDataVariable(dataVariable: string): void {
     let spec = this.snapshot.currentDataset.specs[dataVariable];
+    const column = this.snapshot.currentDataset.columns[dataVariable];
 
     if (spec && typeof spec === 'string') {
       spec = JSON.parse(spec as string);
@@ -95,7 +102,8 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
 
     this.ctx.patchState({
       currentDataVariable: dataVariable,
-      currentSpec: spec
+      currentSpec: spec,
+      currentColumn: column
     });
   }
 
