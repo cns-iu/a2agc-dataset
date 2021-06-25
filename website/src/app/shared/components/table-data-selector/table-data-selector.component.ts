@@ -1,3 +1,4 @@
+import { EMPTY_DATASET } from './../../../core/models/dataset.model';
 import { Component, HostBinding, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { Dataset } from 'src/app/core/models/dataset.model';
@@ -20,7 +21,7 @@ export class TableDataSelectorComponent {
 
   get selectedDataset(): Dataset {
     if (!this.currentDataset) {
-      return { dataset: '', dataVariables: [], specs: {} };
+      return EMPTY_DATASET;
     }
 
     return this.currentDataset;

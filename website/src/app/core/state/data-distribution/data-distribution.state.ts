@@ -9,7 +9,7 @@ import { VisualizationSpec } from 'vega-embed';
 
 
 import { EMPTY_TABLE_DATA_DIRECTORY, TableData, TableDataDirectory } from '../../models/table-data.model';
-import { Dataset, EMPTY_DATASET } from './../../models/dataset.model';
+import { Dataset, DatasetColumn, DatasetColumns, EMPTY_DATASET } from './../../models/dataset.model';
 
 interface DataDistributionsStateModel {
   datasets: Dataset[];
@@ -123,6 +123,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
 
   private tableDataDirectoryToDatasets(tableDataDirectory: TableDataDirectory): Dataset[] {
     const datasets: Dataset[] = [];
+    console.log('tableDataDirectory: ', tableDataDirectory);
 
     for (const prop in tableDataDirectory) {
       datasets.push(this.tableDataToDataset(tableDataDirectory[prop]));
@@ -135,10 +136,11 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return {
       dataset: tableData.name,
       description: tableData.remarks ? tableData.remarks : '',
-      dataVariables: this.getColumnsFromTableData(tableData, SUB_LABEL_FLAG),
+      dataVariables: this.getDataVariables(tableData, SUB_LABEL_FLAG, false),
       subLabel: this.getSubLabel(),
-      subDataVariables: this.getSubDataVariablesFromTableData(tableData, SUB_LABEL_FLAG),
-      specs: this.getDataSpecs(tableData)
+      subDataVariables: this.getDataVariables(tableData, SUB_LABEL_FLAG, true),
+      specs: this.getDataSpecs(tableData),
+      columns: this.getDatasetColumns(tableData)
     }
   }
 
@@ -153,34 +155,44 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     return specs;
   }
 
-  private getColumnsFromTableData(tableData: TableData, subLabelFlag: string): string[] {
-    const columns: string[] = [];
+  private getDatasetColumns(tableData: TableData): DatasetColumns {
+    const columns: DatasetColumns = {};
 
     for (const prop in tableData.columns) {
-      if (tableData.columns[prop].remarks !== subLabelFlag) {
-        const newColumn = prop;
-        columns.push(newColumn);
+      const tableDataColumn = tableData.columns[prop];
+      const newColumn: DatasetColumn = {
+        distData: tableDataColumn.dist_data ? tableDataColumn.dist_data : '',
+        distType: tableDataColumn.dist_type,
+        nonNullCount: tableDataColumn.n_non_null,
+        name: tableDataColumn.name,
+        percentMissing: tableDataColumn.pct_missing,
+        remarks: tableDataColumn.remarks,
+        type: tableDataColumn.type
       }
+      columns[prop] = newColumn;
     }
 
     return columns;
   }
 
-  private getSubDataVariablesFromTableData(tableData: TableData, subLabelFlag: string): string[] {
-    const subDataVariables: string[] = [];
+  private getDataVariables(tableData: TableData, subLabelFlag: string, sub: boolean): string[] {
+    const dv: string[] = [];
 
-    if (this.getSubLabel().length <= 0) {
-      return subDataVariables;
+    // If requesting subDV but there is no sub label, return.
+    if (sub && this.getSubLabel().length <= 0) {
+      return dv;
     }
 
     for (const prop in tableData.columns) {
-      if (tableData.columns[prop].remarks === subLabelFlag) {
-        const newVariable = tableData.columns[prop].name;
-        subDataVariables.push(newVariable);
+      const tableDataColumn = tableData.columns[prop];
+      // If getting subDV (sub = true) make sure remarks == subLabelFlag.
+      if ((tableDataColumn.remarks === subLabelFlag) === sub) {
+        const newDV = tableDataColumn.name;
+        dv.push(newDV);
       }
     }
 
-    return subDataVariables;
+    return dv;
   }
 
   private getSubLabel(): string {
