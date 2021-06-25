@@ -1,7 +1,17 @@
-.data-block {
-  margin-top: 3rem;
+:host {
+  .header {
+    display: flex;
+    height: 4rem;
+    margin-bottom: 4.5rem;
+    padding: 0 1rem;
+    align-items: center;
+  }
 
-  ngx-vega {
+  .data-block {
     margin-top: 2rem;
+
+    ngx-vega {
+      margin-top: 2rem;
+    }
   }
 }

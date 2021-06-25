@@ -1,3 +1,5 @@
+import { SummaryDistData } from './../../models/table-data.model';
+import { Any } from '@angular-ru/common/typings';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Computed, DataAction, StateRepository } from '@ngxs-labs/data/decorators';
@@ -133,12 +135,12 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     summary.push({ label: 'Description', value: column.remarks });
     summary.push({ label: 'Missing values', value: `${column.percentMissing}%` });
 
-    // @TODO: Figure out how to get typescript to allow this.
-    // if (column.distType === 'summary' && typeof(column.distData) !== 'string') {
-    //   summary.push({ label: 'Distinct entries', value: column.distData.distinct });
-    //   summary.push({ label: 'Minimum value/length', value: column.distData.min });
-    //   summary.push({ label: 'Maximum value/length', value: column.distData.max });
-    // }
+    if (column.distType === 'summary' && typeof(column.distData) !== 'string') {
+      const distData: SummaryDistData = column.distData as SummaryDistData;
+      summary.push({ label: 'Distinct entries', value: distData.distinct.toString() });
+      summary.push({ label: 'Minimum value/length', value: distData.min.toString() });
+      summary.push({ label: 'Maximum value/length', value: distData.max.toString() });
+    }
 
     return summary;
   }
