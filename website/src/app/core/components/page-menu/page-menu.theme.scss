@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@use '~@angular/material' as mat;
 
 @mixin color($config-or-theme) {
   $config: mat-get-color-config($config-or-theme);
@@ -6,49 +6,49 @@
   $accent: map-get($config, accent);
 
   .agc-page-menu {
-    background-color: mat-color($accent, 50);
+    background-color: mat.get-color-from-palette($accent, 50);
 
     mat-divider {
-      color: mat-color($accent, 300);
+      color: mat.get-color-from-palette($accent, 300);
     }
 
     mat-icon {
-      color: mat-color($accent, 500);
+      color: mat.get-color-from-palette($accent, 500);
     }
 
     .header {
-      background-color: mat-color($primary, 700);
-      color: mat-color($primary, "700-contrast");
+      background-color: mat.get-color-from-palette($primary, 700);
+      color: mat.get-color-from-palette($primary, "700-contrast");
     }
 
     .pages {
-      background-color: mat-color($accent, A100);
+      background-color: mat.get-color-from-palette($accent, A100);
 
       .link {
-        color: mat-color($accent, "100-contrast");
+        color: mat.get-color-from-palette($accent, "100-contrast");
 
         &.active > div {
-          background-color: mat-color($accent, 300);
+          background-color: mat.get-color-from-palette($accent, 300);
         }
 
         &:hover {
-          color: mat-color($primary);
+          color: mat.get-color-from-palette($primary);
 
           & > div {
-            background-color: mat-color($accent, 300);
+            background-color: mat.get-color-from-palette($accent, 300);
           }
         }
       }
     }
 
     .info .link {
-      color: mat-color($accent, default-contrast);
+      color: mat.get-color-from-palette($accent, default-contrast);
 
       &:hover {
-        color: mat-color($primary);
+        color: mat.get-color-from-palette($primary);
 
         mat-icon {
-          color: mat-color($primary);
+          color: mat.get-color-from-palette($primary);
         }
       }
     }
@@ -60,22 +60,22 @@
 
   .agc-page-menu {
     .header {
-      @include mat-typography-level-to-styles($config, title);
+      @include mat.typography-level($config, title);
     }
 
     .pages .link {
       .title {
-        @include mat-typography-level-to-styles($config, subheading-2);
+        @include mat.typography-level($config, subheading-2);
         font-weight: bold;
       }
 
       .description {
-        @include mat-typography-level-to-styles($config, subheading-2);
+        @include mat.typography-level($config, subheading-2);
       }
     }
 
     .info .link {
-      @include mat-typography-level-to-styles($config, subheading-2);
+      @include mat.typography-level($config, subheading-2);
     }
   }
 }

@@ -1,11 +1,11 @@
-@import "~@angular/material/theming";
+@use '~@angular/material' as mat;
 
 @mixin color($config-or-theme) {
   $config: mat-get-color-config($config-or-theme);
   $primary: map-get($config, primary);
 
   .agc-sub-bar {
-    background-color: mat-color($primary, 700);
+    background-color: mat.get-color-from-palette($primary, 700);
   }
 }
 

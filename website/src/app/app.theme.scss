@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@use '~@angular/material' as mat;
 
 
 @mixin color($config-or-theme) {
@@ -9,13 +9,13 @@
   .agc-root {
     // Material overrides
     mat-expansion-panel-header {
-      background-color: mat-color($accent, 50);
-      border-top: 1px solid mat-color($accent, 300);
-      border-bottom: 1px solid mat-color($accent, 300);
+      background-color: mat.get-color-from-palette($accent, 50);
+      border-top: 1px solid mat.get-color-from-palette($accent, 300);
+      border-bottom: 1px solid mat.get-color-from-palette($accent, 300);
     }
 
     mat-sidenav-content {
-      background-color: mat-color($accent, A100);
+      background-color: mat.get-color-from-palette($accent, A100);
     }
 
     // Markdown table styling
@@ -26,7 +26,7 @@
       }
 
       td {
-        border: 0.125rem solid mat-color($accent, 300);
+        border: 0.125rem solid mat.get-color-from-palette($accent, 300);
 
         &:first-child {
           border-left: none;
@@ -47,7 +47,7 @@
     // Markdown styling
     markdown {
       strong, table th {
-        @include mat-typography-level-to-styles($config, subheading-2);
+        @include mat.typography-level($config, subheading-2);
         font-weight: bold;
       }
     }

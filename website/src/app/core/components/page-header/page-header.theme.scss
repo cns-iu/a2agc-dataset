@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@use '~@angular/material' as mat;
 
 
 @mixin color($config-or-theme) {
@@ -6,7 +6,7 @@
   $primary: map-get($config, primary);
 
   .agc-page-header {
-    background-color: mat-color($primary);
+    background-color: mat.get-color-from-palette($primary);
 
     .menu {
       border-right-color: rgba(0, 0, 0, 0.15);

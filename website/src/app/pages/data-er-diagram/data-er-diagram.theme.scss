@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@use '~@angular/material' as mat;
 
 
 @mixin color($config-or-theme) {
@@ -8,8 +8,8 @@
 
   .data-er-diagram {
     .header {
-      background-color: mat-color($primary, 600);
-      color: mat-color($primary, '600-contrast');
+      background-color: mat.get-color-from-palette($primary, 600);
+      color: mat.get-color-from-palette($primary, '600-contrast');
     }
   }
 }
@@ -19,7 +19,7 @@
 
   .data-er-diagram {
     .header {
-      @include mat-typography-level-to-styles($config, title);
+      @include mat.typography-level($config, title);
     }
   }
 }

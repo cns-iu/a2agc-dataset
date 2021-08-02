@@ -1,15 +1,15 @@
-@import "~@angular/material/theming";
+@use '~@angular/material' as mat;
 
 @mixin color($config-or-theme) {
   $config: mat-get-color-config($config-or-theme);
   $primary: map-get($config, primary);
 
   .agc-banner {
-    background-color: mat-color($primary, 900);
+    background-color: mat.get-color-from-palette($primary, 900);
 
     .info {
-      background-color: mat-color($primary, 500);
-      color: mat-color($primary, "500-contrast");
+      background-color: mat.get-color-from-palette($primary, 500);
+      color: mat.get-color-from-palette($primary, "500-contrast");
     }
   }
 }
@@ -20,9 +20,9 @@
   .agc-banner {
     .info {
       font: {
-        family: mat-font-family($config, headline);
-        size: mat-font-size($config, headline);
-        weight: mat-font-weight($config, headline);
+        family: mat.font-family($config, headline);
+        size: mat.font-size($config, headline);
+        weight: mat.font-weight($config, headline);
       }
     }
   }
