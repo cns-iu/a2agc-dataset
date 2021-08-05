@@ -1,13 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "padding": 0,
+  "padding": {"top": 50},
   "config": {
     "view": {"strokeOpacity": 0}
   },
   "autosize": {
     "contains": "padding"
   },
-
   "data": {
     "url": "assets/generated/visualization5/data.csv",
     "format": {
@@ -17,6 +16,66 @@
       }
     }
   },
+  "transform": [
+    {
+      "calculate": "if(datum['Touchpoint A'] == 1 || datum['Touchpoint A'] == 2, 1, 0)",
+      "as": "OD"
+    },
+    {
+      "calculate": "if(datum['Touchpoint A'] == 3 || datum['Touchpoint A'] == 2, 1, 0)",
+      "as": "Rx"
+    },
+    {
+      "calculate": "if(datum['Touchpoint B'] == 3 || datum['Touchpoint B'] == 2, 1, 0)",
+      "as": "Health"
+    },
+    {
+      "calculate": "if(datum['Touchpoint B'] == 1 || datum['Touchpoint B'] == 2, 1, 0)",
+      "as": "Jail"
+    },
+    {
+      "calculate": "if(datum['Touchpoint A'] == 0 && datum['Touchpoint B'] == 0, 1, 0)",
+      "as": "∅"
+    },
+    {
+      "calculate": "if(toString(show_Rx['show_Rx']), true, false)",
+      "as": "show_Rx"
+    },
+    {
+      "calculate": "if(toString(show_OD['show_OD']), true, false)",
+      "as": "show_OD"
+    },
+    {
+      "calculate": "if(toString(show_Health['show_Health']), true, false)",
+      "as": "show_Health"
+    },
+    {
+      "calculate": "if(toString(show_Jail['show_Jail']), true, false)",
+      "as": "show_Jail"
+    },
+    {
+      "calculate": "if(toString(show_Null['show_Null']), true, false)",
+      "as": "show_Null"
+    },
+    {
+      "calculate": "!datum.show_Rx && !datum.show_OD && !datum.show_Health && !datum.show_Jail && !datum.show_Null",
+      "as": "show_All"
+    },
+    {
+      "calculate": "datum.show_All || (datum['show_Rx'] && datum['Rx'] == '1' || datum['show_OD'] && datum['OD'] == '1' || datum['show_Health'] && datum['Health'] == '1' || datum['show_Jail'] && datum['Jail'] == '1' || datum['show_Null'] && datum['∅'] == '1')",
+      "as": "show"
+    },
+    {
+      "filter": "datum.show"
+    },
+    {
+      "calculate": "(datum['show_Rx'] && datum['Rx'] == '0') || (datum['show_OD'] && datum['OD'] == '0') || (datum['show_Health'] && datum['Health'] == '0') || (datum['show_Jail'] && datum['Jail'] == '0') || (datum['show_Null'] && datum['∅'] == '0')",
+      "as": "do_not_show"
+    },
+    {
+      "filter": "!datum.do_not_show"
+    }
+  ],
 
   "hconcat": [
     {
@@ -29,11 +88,31 @@
         {
           "data": {
             "values": [
-              {"idx": 0, "x": "Rx = Opioid Prescription", "Rx": 1}
+              {"idx": 0, "x": "Rx = Opioid Prescription", "show_Rx": true},
+              {"idx": 1, "x": "OD = Overdose", "show_OD": true},
+              {"idx": 2, "x": "Jail = Incarceration", "show_Jail": true},
+              {"idx": 3, "x": "Health = Health Data", "show_Health": true},
+              {"idx": 4, "x": "∅ = No Touchpoints", "show_Null": true}
             ]
           },
-          "mark": {
-            "type": "text"
+          "mark": "text",
+          "encoding": {
+            "text": {
+              "type": "nominal",
+              "field": "x"
+            },
+            "y": {
+              "field": "idx",
+              "type": "ordinal",
+              "axis": null
+            },
+            "opacity": {
+              "condition": {
+                "param": "label",
+                "value": 1
+              },
+              "value": 0.5
+            }
           },
           "params": [
             {
@@ -46,229 +125,60 @@
               }
             },
             {
-              "name": "Rx",
+              "name": "show_Rx",
               "select": {
                 "type": "point",
                 "fields": [
-                  "Rx"
-                ]
-              }
-            }
-          ],
-          "encoding": {
-            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
-            "text": {
-              "type": "nominal",
-              "field": "x"
-            },
-            "y": {
-              "field": "idx",
-              "type": "ordinal",
-              "axis": null
-            }
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"idx": 0, "x": "OD = Overdose", "OD": 1}
-            ]
-          },
-          "mark": {
-            "type": "text",
-            "xOffset": -22
-          },
-          "params": [
-            {
-              "name": "label",
-              "select": {
-                "type": "point",
-                "fields": [
-                  "x"
+                  "show_Rx"
                 ]
               }
             },
             {
-              "name": "OD",
+              "name": "show_OD",
               "select": {
                 "type": "point",
                 "fields": [
-                  "OD"
-                ]
-              }
-            }
-          ],
-          "encoding": {
-            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
-            "text": {
-              "type": "nominal",
-              "field": "x"
-            },
-            "y": {
-              "field": "idx",
-              "type": "ordinal",
-              "axis": null
-            }
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"idx": 0, "x": "Jail = Incarceration", "Jail": 1}
-            ]
-          },
-          "mark": {
-            "type": "text",
-            "xOffset": -13
-          },
-          "params": [
-            {
-              "name": "label",
-              "select": {
-                "type": "point",
-                "fields": [
-                  "x"
+                  "show_OD"
                 ]
               }
             },
             {
-              "name": "Jail",
+              "name": "show_Health",
               "select": {
                 "type": "point",
                 "fields": [
-                  "Jail"
-                ]
-              }
-            }
-          ],
-          "encoding": {
-            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
-            "text": {
-              "type": "nominal",
-              "field": "x"
-            },
-            "y": {
-              "field": "idx",
-              "type": "ordinal",
-              "axis": null
-            }
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"idx": 0, "x": "Health = Health Data", "Health": 1}
-            ]
-          },
-          "mark": {
-            "type": "text",
-            "xOffset": -8
-          },
-          "params": [
-            {
-              "name": "label",
-              "select": {
-                "type": "point",
-                "fields": [
-                  "x"
+                  "show_Health"
                 ]
               }
             },
             {
-              "name": "Health",
+              "name": "show_Jail",
               "select": {
                 "type": "point",
                 "fields": [
-                  "Health"
-                ]
-              }
-            }
-          ],
-          "encoding": {
-            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
-            "text": {
-              "type": "nominal",
-              "field": "x"
-            },
-            "y": {
-              "field": "idx",
-              "type": "ordinal",
-              "axis": null
-            }
-          }
-        },
-        {
-          "data": {
-            "values": [
-              {"idx": 0, "x": "∅ = No Touchpoints", "∅": 1}
-            ]
-          },
-          "mark": {
-            "type": "text",
-            "xOffset": -12
-          },
-					"params": [
-            {
-              "name": "label",
-              "select": {
-                "type": "point",
-                "fields": [
-                  "x"
+                  "show_Jail"
                 ]
               }
             },
             {
-              "name": "∅",
+              "name": "show_Null",
               "select": {
                 "type": "point",
                 "fields": [
-                  "∅"
+                  "show_Null"
                 ]
               }
             }
-          ],
-          "encoding": {
-            "opacity": {"condition": {"param": "label", "value": 1}, "value": 1},
-            "text": {
-              "type": "nominal",
-              "field": "x"
-            },
-            "y": {
-              "field": "idx",
-              "type": "ordinal",
-              "axis": null
-            }
-          }
+          ]
         }
       ]
     },
     {
       "vconcat": [
         {
-
           "height": 600,
           "transform": [
-            {"filter": { "param": "period" }},
-            {
-              "calculate": "if(datum['Touchpoint A'] == 1 || datum['Touchpoint A'] == 2, 1, 0)",
-              "as": "OD"
-            },
-            {
-              "calculate": "if(datum['Touchpoint A'] == 3 || datum['Touchpoint A'] == 2, 1, 0)",
-              "as": "Rx"
-            },
-            {
-              "calculate": "if(datum['Touchpoint B'] == 3 || datum['Touchpoint B'] == 2, 1, 0)",
-              "as": "Health"
-            },
-            {
-              "calculate": "if(datum['Touchpoint B'] == 1 || datum['Touchpoint B'] == 2, 1, 0)",
-              "as": "Jail"
-            },
-            {
-              "calculate": "if(datum['Touchpoint A'] == 0 && datum['Touchpoint B'] == 0, 1, 0)",
-              "as": "∅"
-            }
+            {"filter": { "param": "period" }}
           ],
           "encoding": {
             "y": {
@@ -394,7 +304,6 @@
             }
           ]
         },
-
         {
           "title": {
             "text": "Select Date Range to Update Datasets",
