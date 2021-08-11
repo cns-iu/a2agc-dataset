@@ -9,9 +9,12 @@ export interface VariableData {
   missingValues: number;
 }
 
-export function createPieSpec(variable: VariableData): VisualizationSpec {
+export function createPieSpec(variable: VariableData, periodDataset: any): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+    datasets: {
+      periodDataset: periodDataset
+    },
     vconcat: [
       {
         width: 600,
@@ -23,7 +26,6 @@ export function createPieSpec(variable: VariableData): VisualizationSpec {
           strokeOpacity: 0
         },
         transform: [
-          {filter: { param: 'period' }},
           {
             lookup: 'CASE_NUMBER',
             from: {
@@ -32,7 +34,7 @@ export function createPieSpec(variable: VariableData): VisualizationSpec {
                 'PERIOD'
               ],
               data: {
-                url: 'assets/generated/visualization5/data.csv'
+                name: 'periodDataset'
               }
             }
           },
@@ -171,12 +173,23 @@ export function createPieSpec(variable: VariableData): VisualizationSpec {
             }
           }
         ]
-      },
+      }
+    ]
+  }
+}
+
+export function createTimeSpec(periodDataset: any): VisualizationSpec {
+  return {
+    $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+    datasets: {
+      periodDataset: periodDataset
+    },
+    vconcat: [
       {
         width: 800,
         height: 150,
         data: {
-          url: 'assets/generated/visualization5/data.csv'
+          name: 'periodDataset'
         },
         view: {
           strokeOpacity: 0

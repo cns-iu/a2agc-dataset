@@ -6,7 +6,7 @@
   (dataVariableChange)="data.setCurrentDataVariable($event)"
 ></agc-table-data-selector>
 
-<div class="data-block" *ngIf="!!$any(data.currentSpec$ | async)">
+<!-- <div class="data-block" *ngIf="!!$any(data.currentSpec$ | async)">
   <agc-dataset-summary
     [summary]="data.currentColumnSummary$ | async"
     [title]="data.currentDataVariable$ | async"
@@ -14,6 +14,23 @@
   <ngx-vega
     *ngIf="$any(data.currentColumn$ | async).distType !== 'summary'"
     [spec]="$any(data.currentSpec$ | async)"
+    [options]="{}"
+    [autosize]="{ width: true, height: false }"
+  ></ngx-vega>
+</div> -->
+
+<div class="data-block">
+  <agc-dataset-summary
+    [summary]="data.currentColumnSummary$ | async"
+    [title]="data.currentDataVariable$ | async"
+  ></agc-dataset-summary>
+  <ngx-vega
+    [spec]="spec"
+    [options]="{}"
+    [autosize]="{ width: true, height: false }"
+  ></ngx-vega>
+  <ngx-vega
+    [spec]="timeSpec"
     [options]="{}"
     [autosize]="{ width: true, height: false }"
   ></ngx-vega>
