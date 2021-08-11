@@ -26,10 +26,6 @@
 </div> -->
 
 <div class="data-block">
-  <agc-dataset-summary
-    [summary]="data.currentColumnSummary$ | async"
-    [title]="data.currentDataVariable$ | async"
-  ></agc-dataset-summary>
   <ngx-vega
     [spec]="spec"
     [options]="{}"
