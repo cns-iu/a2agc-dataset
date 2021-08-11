@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { VisualizationSpec } from 'vega-embed';
 
 export interface TableData {
@@ -6,7 +6,7 @@ export interface TableData {
   remarks: string;
   row_count: number;
   columns: {
-    [key:string]: {
+    [key: string]: {
       name: string;
       type: string;
       remarks: string;
@@ -25,7 +25,7 @@ export interface SummaryDistData {
 }
 
 export interface TableDataDirectory {
-  [key:string]: TableData;
+  [key: string]: TableData;
 }
 
 export const EMPTY_TABLE_DATA: TableData = {

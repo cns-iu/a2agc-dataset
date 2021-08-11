@@ -14,7 +14,7 @@ import { filter, map, takeUntil } from 'rxjs/operators';
 })
 @Injectable()
 export class RouterState extends NgxsImmutableDataRepository<never> implements OnDestroy {
-  private readonly destroy$ = new Subject<void>();
+  readonly destroy$ = new Subject<void>();
 
   readonly navigationStart$ = this.router.events.pipe(
     filter((ev): ev is NavigationStart => ev instanceof NavigationStart),

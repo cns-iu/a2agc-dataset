@@ -33,7 +33,7 @@ export const USA_ZOOM_CONFIG: GeoZoomOptions = {
  * @param opts - The zoom configuration.
  */
 export function addGeoZoom(spec: Spec, opts: GeoZoomOptions): void {
-  const signals = spec.signals || (spec.signals = []);
+  const signals = (spec.signals ??= []);
   const projection = spec.projections ? spec.projections[0] : undefined; // Assumes single geo projection
 
   if (!projection || projection.type === 'albersUsa') {

@@ -134,7 +134,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
     summary.push({ label: 'Description', value: column.remarks });
     summary.push({ label: 'Missing values', value: `${column.percentMissing}%` });
 
-    if (column.distType === 'summary' && typeof(column.distData) !== 'string') {
+    if (column.distType === 'summary' && typeof (column.distData) !== 'string') {
       const distData: SummaryDistData = column.distData as SummaryDistData;
       summary.push({ label: 'Distinct entries', value: distData.distinct.toString() });
       summary.push({ label: 'Minimum value/length', value: distData.min.toString() });
@@ -160,13 +160,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   }
 
   private tableDataDirectoryToDatasets(tableDataDirectory: TableDataDirectory): Dataset[] {
-    const datasets: Dataset[] = [];
-
-    for (const prop in tableDataDirectory) {
-      datasets.push(this.tableDataToDataset(tableDataDirectory[prop]));
-    }
-
-    return datasets;
+    return Object.values(tableDataDirectory).map(data => this.tableDataToDataset(data));
   }
 
   private tableDataToDataset(tableData: TableData): Dataset {
@@ -178,7 +172,7 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
       subDataVariables: this.getDataVariables(tableData, SUB_LABEL_FLAG, true),
       specs: this.getDataSpecs(tableData),
       columns: this.getDatasetColumns(tableData)
-    }
+    };
   }
 
   private getDataSpecs(tableData: TableData): { [dataVariable: string]: VisualizationSpec } {
@@ -193,43 +187,35 @@ export class DataDistributionsState extends NgxsDataRepository<DataDistributions
   }
 
   private getDatasetColumns(tableData: TableData): DatasetColumns {
-    const columns: DatasetColumns = {};
+    return Object.entries(tableData.columns).reduce<DatasetColumns>((columns, [key, column]) => {
+      columns[key] = {
+        distData: column.dist_data ?? '',
+        distType: column.dist_type,
+        nonNullCount: column.n_non_null,
+        name: column.name,
+        percentMissing: column.pct_missing,
+        remarks: column.remarks,
+        type: column.type
+      };
 
-    for (const prop in tableData.columns) {
-      const tableDataColumn = tableData.columns[prop];
-      const newColumn: DatasetColumn = {
-        distData: tableDataColumn.dist_data ? tableDataColumn.dist_data : '',
-        distType: tableDataColumn.dist_type,
-        nonNullCount: tableDataColumn.n_non_null,
-        name: tableDataColumn.name,
-        percentMissing: tableDataColumn.pct_missing,
-        remarks: tableDataColumn.remarks,
-        type: tableDataColumn.type
-      }
-      columns[prop] = newColumn;
-    }
-
-    return columns;
+      return columns;
+    }, {});
   }
 
   private getDataVariables(tableData: TableData, subLabelFlag: string, sub: boolean): string[] {
-    const dv: string[] = [];
-
     // If requesting subDV but there is no sub label, return.
     if (sub && this.getSubLabel().length <= 0) {
-      return dv;
+      return [];
     }
 
-    for (const prop in tableData.columns) {
-      const tableDataColumn = tableData.columns[prop];
-      // If getting subDV (sub = true) make sure remarks == subLabelFlag.
-      if ((tableDataColumn.remarks === subLabelFlag) === sub) {
-        const newDV = tableDataColumn.name;
-        dv.push(newDV);
+    return Object.values(tableData.columns).reduce<string[]>((dv, column) => {
+      const labelEquals = column.remarks === subLabelFlag;
+      if (labelEquals === sub) {
+        dv.push(column.name);
       }
-    }
 
-    return dv;
+      return dv;
+    }, []);
   }
 
   private getSubLabel(): string {

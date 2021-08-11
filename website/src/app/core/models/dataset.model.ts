@@ -7,12 +7,12 @@ export interface Dataset {
   description?: string;
   subLabel?: string;
   subDataVariables?: string[];
-  specs: { [dataVariable: string]: VisualizationSpec };
+  specs: Record<string, VisualizationSpec>;
   columns: DatasetColumns;
 }
 
 export interface DatasetColumns {
-  [key: string] : DatasetColumn;
+  [key: string]: DatasetColumn;
 }
 
 export interface DatasetSummary {
@@ -35,4 +35,4 @@ export const EMPTY_DATASET: Dataset = {
   dataVariables: [],
   specs: {},
   columns: {}
-}
+};

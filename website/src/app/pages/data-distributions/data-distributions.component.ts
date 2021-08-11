@@ -15,14 +15,25 @@ import { createPieSpec, createTimeSpec, VariableData } from './data-distribution
   selector: 'agc-data-distributions',
   templateUrl: './data-distributions.component.html',
   styleUrls: ['./data-distributions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DataDistributionsState]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataDistributionsComponent {
   /**
    * HTML class name
    */
   @HostBinding('class') readonly clsName = 'data-schema-browser';
+
+  /**
+   * Metadata for the selected variable
+   */
+  @Input() variable: VariableData = {
+    dataset: 'deaths',
+    name: 'Cocaine',
+    variableName: 'COCAINE',
+    type: 'Boolean',
+    description: 'Tox lab flag',
+    missingValues: 0.0
+  };
 
   /**
    * Vega-lite spec to be displayed
@@ -43,18 +54,6 @@ export class DataDistributionsComponent {
   tableData: TableData = EMPTY_TABLE_DATA;
   tableDataDirectory: TableDataDirectory = EMPTY_TABLE_DATA_DIRECTORY;
   datasets: Dataset[] = [];
-
-  /**
-   * Metadata for the selected variable
-   */
-  @Input() variable: VariableData = {
-    dataset: 'deaths',
-    name: 'Cocaine',
-    variableName: 'COCAINE',
-    type: 'Boolean',
-    description: 'Tox lab flag',
-    missingValues: 0.0
-  };
 
   /**
    * Creates a pie or bar visualization based on variable type

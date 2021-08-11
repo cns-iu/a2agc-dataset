@@ -18,7 +18,7 @@ export class SubSelectorComponent implements OnInit {
 
   showMenu = false;
   subOptionFilter = 'A';
-  readonly LETTERS: string[] = [...Array(26)].map((val, i) => String.fromCharCode(i + 65));
+  readonly LETTERS: string[] = [...Array(26)].map((_val, i) => String.fromCharCode(i + 65));
 
   ngOnInit(): void {
     if (this.subOptions.length > 0) {

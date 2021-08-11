@@ -29,8 +29,7 @@ export class ThemeService implements OnDestroy {
   private readonly elements: HTMLElement[] = [];
   private currentTheme: string;
 
-  constructor(
-    @Inject(THEME_OPTIONS) options: ThemeOptions,
+  constructor(@Inject(THEME_OPTIONS) options: ThemeOptions,
     @Optional() overlay: OverlayContainer | null,
   ) {
     this.defaultTheme = options.default ?? '';
