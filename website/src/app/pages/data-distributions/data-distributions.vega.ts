@@ -7,6 +7,7 @@ export interface VariableData {
   type: string;
   description: string;
   missingValues: number;
+  horizontal?: boolean;
 }
 
 export interface DistributionData {
@@ -164,6 +165,170 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
           },
           color: {
             value: 'black'
+          }
+        }
+      }
+    ]
+  }
+}
+
+export function createBarSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
+  return {
+    $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+    datasets: {
+      distribution: distributionData
+    },
+    height: 300,
+    data: {
+      name: 'distribution'
+    },
+    view: {
+      strokeOpacity: 0
+    },
+    hconcat: [
+      {
+        title: {
+          text: `${variable.dataset} by ${variable.name}`,
+        },
+        view: {
+          strokeOpacity: 0,
+        },
+        layer: [
+          {
+            data: {
+              values: [
+                /* eslint-disable @typescript-eslint/naming-convention */
+                { y: 1.7, LABEL: 'Type' },
+                { y: 1.6, LABEL: 'Description' },
+                { y: 1.5, LABEL: 'Missing values' }
+                /* eslint-enable @typescript-eslint/naming-convention */
+              ]
+            },
+            mark: {
+              type: 'text',
+              align: 'left',
+              fontWeight: 'bold',
+              yOffset: 100
+            },
+            encoding: {
+              text: {
+                type: 'nominal',
+                field: 'LABEL'
+              },
+              y: {
+                type: 'quantitative',
+                field: 'y',
+                axis: null
+              },
+              color: {
+                value: 'black'
+              }
+            }
+          },
+          {
+            data: {
+              values: [
+                /* eslint-disable @typescript-eslint/naming-convention */
+                { y: 1.7, VALUE: `${variable.type}` },
+                { y: 1.6, VALUE: `${variable.description}` },
+                { y: 1.5, VALUE: `${variable.missingValues.toFixed(1)}%` }
+                /* eslint-enable @typescript-eslint/naming-convention */
+              ]
+            },
+            mark: {
+              type: 'text',
+              align: 'left',
+              yOffset: 100,
+              xOffset: 100
+            },
+            encoding: {
+              text: {
+                type: 'nominal',
+                field: 'VALUE'
+              },
+              y: {
+                type: 'quantitative',
+                field: 'y',
+                axis: null
+              },
+              color: {
+                value: 'black'
+              }
+            }
+          }
+        ]
+      },
+      {
+        width: 600,
+        view: {
+          strokeOpacity: 0
+        },
+        mark: {
+          type: 'bar',
+          orient: `${variable.horizontal ? 'horizontal' : 'vertical'}`
+        },
+        transform: [
+          {
+            aggregate: [{
+              op: 'sum',
+              field: 'count',
+              as: 'total'
+            }],
+            groupby: variable.horizontal ? ['value'] : ['period']
+          }
+        ],
+        encoding: !variable.horizontal ? 
+        {
+          x: {
+            field: 'period',
+            type: 'temporal',
+            axis: {
+              minExtent: 0,
+              titleFontSize: 14,
+              tickColor: '#757575',
+              domainColor: '#757575',
+              labelFlush: false,
+              labelExpr: '[timeFormat(datum.value, "%m") == "01" ? timeFormat(datum.value, "%Y") : ""]',
+              grid: false
+            }
+          },
+          y: {
+            field: 'total',
+            type: 'quantitative',
+            title: 'Count of Records',
+            axis: {
+              titleFontSize: 14,
+              gridColor: '#e0e0e0',
+              tickColor: '#757575',
+              domainColor: '#757575',
+              labelFontSize: 10
+            }
+          }
+        } :
+        {
+          y: {
+            field: 'value',
+            type: 'nominal',
+            axis: {
+              minExtent: 0,
+              titleFontSize: 14,
+              tickColor: '#757575',
+              domainColor: '#757575',
+              labelFlush: false,
+              grid: false
+            }
+          },
+          x: {
+            field: 'total',
+            type: 'quantitative',
+            title: 'Count of Records',
+            axis: {
+              titleFontSize: 14,
+              gridColor: '#e0e0e0',
+              tickColor: '#757575',
+              domainColor: '#757575',
+              labelFontSize: 10
+            }
           }
         }
       }
