@@ -45,10 +45,10 @@ export class DataDistributionsComponent {
   readonly dataset = 'assets/generated/visualization5/data.csv';
 
   readonly periodDataset = [
-    {CASE_NUMBER: '120638', Touchpoint_A: '3', Touchpoint_B: '3', PERIOD: '2012-4-1', Set: 'Rx + Health', True: '1'},
-    {CASE_NUMBER: '120638', Touchpoint_A: '3', Touchpoint_B: '3', PERIOD: '2012-4-1', Set: 'Rx + Health', True: '1'},
-    {CASE_NUMBER: '150270', Touchpoint_A: '0', Touchpoint_B: '3', PERIOD: '2015-1-1', Set: 'Health', True: '1'},
-    {CASE_NUMBER: '170545', Touchpoint_A: '0', Touchpoint_B: '2', PERIOD: '2017-1-1', Set: 'Jail + Health', True: '1'},
+    {PERIOD: '2012-4-1', True: '1'},
+    {PERIOD: '2012-4-1', True: '1'},
+    {PERIOD: '2015-1-1', True: '1'},
+    {PERIOD: '2017-1-1', True: '1'},
   ]
 
   tableData: TableData = EMPTY_TABLE_DATA;
