@@ -8,6 +8,8 @@ export interface VariableData {
   description: string;
   missingValues: number;
   horizontal?: boolean;
+  xLabel?: string;
+  yLabel?: string;
 }
 
 export interface DistributionData {
@@ -17,6 +19,11 @@ export interface DistributionData {
 }
 
 export function createPieSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
+  let totalCount = 0;
+  for (let i = 0; i < distributionData.length; i++) {
+    totalCount += distributionData[i].count;
+  };
+
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     datasets: {
@@ -43,7 +50,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
         groupby: ['category']
       },
       {
-        calculate: 'format(datum.total*100/2332, ",.2f") + "%"',
+        calculate: `format(datum.total*100/${totalCount}, ",.2f") + "%"`,
         as: 'percent'
       },
       {
@@ -71,10 +78,10 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
       {
         title: {
           text: `${variable.dataset} by ${variable.name}`,
-          dx: -370,
+          dx: -520,
           dy: 50
         },
-        mark: { type: 'arc', outerRadius: 100, strokeWidth: 2, stroke: 'white' },
+        mark: { type: 'arc', outerRadius: 130, strokeWidth: 2, stroke: 'white' },
         encoding: {
           theta: {
             field: 'total',
@@ -84,7 +91,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
         }
       },
       {
-        mark: { type: 'text', radius: 140, fill: 'black' },
+        mark: { type: 'text', radius: 170, fill: 'black' },
         encoding: {
           text: { field: 'total2', type: 'nominal' },
           theta: {
@@ -95,7 +102,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
         }
       },
       {
-        mark: { type: 'text', radius: 120, fontWeight: 'bold', fill: 'black' },
+        mark: { type: 'text', radius: 150, fontWeight: 'bold', fill: 'black' },
         encoding: {
           text: { field: 'percent', type: 'nominal' },
           theta: {
@@ -109,9 +116,9 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
         data: {
           values: [
             /* eslint-disable @typescript-eslint/naming-convention */
-            { y: 1.7, LABEL: 'Type' },
-            { y: 1.6, LABEL: 'Description' },
-            { y: 1.5, LABEL: 'Missing values' }
+            { y: 1.7, LABEL: 'Type:' },
+            { y: 1.6, LABEL: 'Description:' },
+            { y: 1.5, LABEL: 'Missing values:' }
             /* eslint-enable @typescript-eslint/naming-convention */
           ]
         },
@@ -120,7 +127,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
           align: 'left',
           fontWeight: 'bold',
           yOffset: 100,
-          xOffset: -410
+          xOffset: -560
         },
         encoding: {
           text: {
@@ -151,7 +158,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
           type: 'text',
           align: 'left',
           yOffset: 100,
-          xOffset: -320
+          xOffset: -460
         },
         encoding: {
           text: {
@@ -185,6 +192,12 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
     view: {
       strokeOpacity: 0
     },
+    config: {
+      concat: {
+        spacing: 200,
+        columns: 2
+      }
+    },
     hconcat: [
       {
         title: {
@@ -198,9 +211,9 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
             data: {
               values: [
                 /* eslint-disable @typescript-eslint/naming-convention */
-                { y: 1.7, LABEL: 'Type' },
-                { y: 1.6, LABEL: 'Description' },
-                { y: 1.5, LABEL: 'Missing values' }
+                { y: 1.7, LABEL: 'Type:' },
+                { y: 1.6, LABEL: 'Description:' },
+                { y: 1.5, LABEL: 'Missing values:' }
                 /* eslint-enable @typescript-eslint/naming-convention */
               ]
             },
@@ -208,7 +221,7 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
               type: 'text',
               align: 'left',
               fontWeight: 'bold',
-              yOffset: 100
+              xOffset: -50
             },
             encoding: {
               text: {
@@ -221,7 +234,7 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
                 axis: null
               },
               color: {
-                value: 'black'
+                value: '#212121'
               }
             }
           },
@@ -238,8 +251,7 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
             mark: {
               type: 'text',
               align: 'left',
-              yOffset: 100,
-              xOffset: 100
+              xOffset: 40
             },
             encoding: {
               text: {
@@ -252,44 +264,51 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
                 axis: null
               },
               color: {
-                value: 'black'
+                value: '#212121'
               }
             }
           }
         ]
       },
       {
-        width: 600,
         view: {
           strokeOpacity: 0
         },
-        mark: {
-          type: 'bar',
-          orient: `${variable.horizontal ? 'horizontal' : 'vertical'}`
-        },
+        width: 500,
         transform: [
+          {
+            calculate: 'slice(datum.period, 0, 4)',
+            as: 'year'
+          },
           {
             aggregate: [{
               op: 'sum',
               field: 'count',
               as: 'total'
             }],
-            groupby: variable.horizontal ? ['value'] : ['period']
+            groupby: variable.horizontal ? ['value'] : ['year']
+          },
+          {
+            calculate: 'format(datum.total, ",")',
+            as: 'totalFinal'
           }
         ],
-        encoding: !variable.horizontal ? 
-        {
+        encoding: !variable.horizontal ? {
           x: {
-            field: 'period',
-            type: 'temporal',
+            field: 'year',
+            type: 'nominal',
             axis: {
+              titlePadding: 10,
               minExtent: 0,
-              titleFontSize: 14,
+              titleColor: '#212121',
+              titleFontSize: 12,
+              titleFontWeight: 'bold',
               tickColor: '#757575',
               domainColor: '#757575',
               labelFlush: false,
-              labelExpr: '[timeFormat(datum.value, "%m") == "01" ? timeFormat(datum.value, "%Y") : ""]',
-              grid: false
+              grid: false,
+              title: variable.xLabel,
+              labelAngle: 0
             }
           },
           y: {
@@ -297,25 +316,32 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
             type: 'quantitative',
             title: 'Count of Records',
             axis: {
-              titleFontSize: 14,
+              titlePadding: 10,
+              titleColor: '#212121',
+              titleFontSize: 12,
+              titleFontWeight: 'bold',
               gridColor: '#e0e0e0',
               tickColor: '#757575',
               domainColor: '#757575',
-              labelFontSize: 10
+              labelFontSize: 10,
+              title: variable.yLabel
             }
           }
-        } :
-        {
+        } : {
           y: {
             field: 'value',
             type: 'nominal',
             axis: {
+              titlePadding: 10,
               minExtent: 0,
-              titleFontSize: 14,
+              titleColor: '#212121',
+              titleFontSize: 12,
+              titleFontWeight: 'bold',
               tickColor: '#757575',
               domainColor: '#757575',
               labelFlush: false,
-              grid: false
+              grid: false,
+              title: variable.yLabel
             }
           },
           x: {
@@ -323,14 +349,42 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
             type: 'quantitative',
             title: 'Count of Records',
             axis: {
-              titleFontSize: 14,
+              titlePadding: 10,
+              titleColor: '#212121',
+              titleFontSize: 12,
+              titleFontWeight: 'bold',
               gridColor: '#e0e0e0',
               tickColor: '#757575',
               domainColor: '#757575',
-              labelFontSize: 10
+              labelFontSize: 10,
+              title: variable.xLabel
             }
           }
-        }
+        },
+        layer: [
+          {
+            mark: {
+              type: 'bar',
+              width: 24,
+              color: '#77ACF0',
+              strokeWidth: 1,
+              stroke: "white",
+              orient: `${variable.horizontal ? 'horizontal' : 'vertical'}`
+            }
+          },
+          {
+            mark: {
+              type: 'text',
+              align: variable.horizontal ? 'left' : 'center',
+              baseline: 'middle',
+              dx: variable.horizontal ? 3 : 0,
+              dy: variable.horizontal ? 0 : -10
+            },
+            encoding: {
+              text: {field: 'totalFinal', type: 'nominal'}
+            }
+          }
+        ]
       }
     ]
   }
@@ -352,7 +406,7 @@ export function createTimeSpec(distributionData: DistributionData[] = []): Visua
     title: {
       text: 'Select Date Range to Update Datasets',
       dy: -20,
-      dx: -320
+      dx: -360
     },
     layer: [
       {
@@ -375,6 +429,7 @@ export function createTimeSpec(distributionData: DistributionData[] = []): Visua
             type: 'temporal',
             title: 'Year',
             axis: {
+              titlePadding: 10,
               minExtent: 0,
               titleFontSize: 14,
               tickColor: '#757575',
@@ -397,6 +452,7 @@ export function createTimeSpec(distributionData: DistributionData[] = []): Visua
             type: 'quantitative',
             title: '# Deaths',
             axis: {
+              titlePadding: 10,
               titleFontSize: 14,
               gridColor: '#e0e0e0',
               tickColor: '#757575',

@@ -17,12 +17,6 @@
     [options]="{}"
     [autosize]="{ width: true, height: false }"
   ></ngx-vega>
-  <ngx-vega
-    *ngIf="$any(data.currentColumn$ | async).distType !== 'summary'"
-    [spec]="timeSpec"
-    [options]="{}"
-    [autosize]="{ width: true, height: false }"
-></ngx-vega>
 </div> -->
 
 <div class="data-block">
@@ -31,7 +25,7 @@
     [options]="{}"
     [autosize]="{ width: true, height: false }"
   ></ngx-vega>
-  <ngx-vega
+  <ngx-vega class="time-spec"
     [spec]="timeSpec"
     [options]="{}"
     [autosize]="{ width: true, height: false }"
