@@ -1,3 +1,4 @@
+import { VisualizationSpec } from 'vega-embed';
 import { VariableData, DistributionData } from '../data-distributions.component';
 
 import { createBarSpec } from './bar-chart.vl';
@@ -11,7 +12,7 @@ const pieVariableData: VariableData = {
   type: 'Boolean',
   description: 'Tox lab flag',
   missingValues: 0.0
-}
+};
 
 const barVariableData: VariableData = {
   dataset: 'Diagnoses',
@@ -23,19 +24,19 @@ const barVariableData: VariableData = {
   horizontal: false,
   xLabel: 'DOD',
   yLabel: 'Count of Records'
-}
+};
 
 const horizBarVariableData: VariableData = {
-    dataset: 'Deaths',
-    name: 'Education',
-    variableName: 'EDUCATION',
-    type: 'Character',
-    description: 'Social Covariates',
-    missingValues: 17.37,
-    horizontal: true,
-    xLabel: '# Total Deaths',
-    yLabel: 'Education Level'
-}
+  dataset: 'Deaths',
+  name: 'Education',
+  variableName: 'EDUCATION',
+  type: 'Character',
+  description: 'Social Covariates',
+  missingValues: 17.37,
+  horizontal: true,
+  xLabel: '# Total Deaths',
+  yLabel: 'Education Level'
+};
 
 const pieDistributionData: DistributionData[] = [
   { period: '2010-01-01', value: 0, count: 19 },
@@ -113,43 +114,43 @@ const pieDistributionData: DistributionData[] = [
 ];
 
 const barDistributionData: DistributionData[] = [
-  {period: '2010-01-01', count: 10000},
-  {period: '2012-10-01', count: 70000},
-  {period: '2013-07-01', count: 50000},
-  {period: '2014-01-01', count: 10000},
-  {period: '2014-10-01', count: 30000},
-  {period: '2015-04-01', count: 20000},
-  {period: '2015-10-01', count: 40000},
-  {period: '2016-01-01', count: 30000},
-  {period: '2016-04-01', count: 10000},
-  {period: '2018-07-01', count: 20000},
-  {period: '2018-10-01', count: 10000}
+  { period: '2010-01-01', count: 10000 },
+  { period: '2012-10-01', count: 70000 },
+  { period: '2013-07-01', count: 50000 },
+  { period: '2014-01-01', count: 10000 },
+  { period: '2014-10-01', count: 30000 },
+  { period: '2015-04-01', count: 20000 },
+  { period: '2015-10-01', count: 40000 },
+  { period: '2016-01-01', count: 30000 },
+  { period: '2016-04-01', count: 10000 },
+  { period: '2018-07-01', count: 20000 },
+  { period: '2018-10-01', count: 10000 }
 ];
 
 const horizBarDistributionData: DistributionData[] = [
-  {period: '2010-01-01', value: 'College degree', count: 2},
-  {period: '2011-01-01', value: 'Graduated high school', count: 5},
-  {period: '2012-01-01', value: 'High school - Not finished', count: 14},
-  {period: '2013-01-01', value: 'Some college - No degree', count: 5},
-  {period: '2014-04-01', value: 'College degree', count: 4},
-  {period: '2015-04-01', value: 'Graduated high school', count: 16},
-  {period: '2016-04-01', value: 'High school - Not finished', count: 12},
-  {period: '2017-04-01', value: 'Post graduation degree (Masters, PHD, MD, etc.)', count: 2},
-  {period: '2018-04-01', value: 'Some college - No degree', count: 5}
+  { period: '2010-01-01', value: 'College degree', count: 2 },
+  { period: '2011-01-01', value: 'Graduated high school', count: 5 },
+  { period: '2012-01-01', value: 'High school - Not finished', count: 14 },
+  { period: '2013-01-01', value: 'Some college - No degree', count: 5 },
+  { period: '2014-04-01', value: 'College degree', count: 4 },
+  { period: '2015-04-01', value: 'Graduated high school', count: 16 },
+  { period: '2016-04-01', value: 'High school - Not finished', count: 12 },
+  { period: '2017-04-01', value: 'Post graduation degree (Masters, PHD, MD, etc.)', count: 2 },
+  { period: '2018-04-01', value: 'Some college - No degree', count: 5 }
 ];
 
-export function createDemoPieSpec() {
+export function createDemoPieSpec(): VisualizationSpec {
   return createPieSpec(pieVariableData, pieDistributionData);
 }
 
-export function createDemoBarSpec() {
+export function createDemoBarSpec(): VisualizationSpec {
   return createBarSpec(barVariableData, barDistributionData);
 }
 
-export function createDemoHorizBarSpec() {
+export function createDemoHorizBarSpec(): VisualizationSpec {
   return createBarSpec(horizBarVariableData, horizBarDistributionData);
 }
 
-export function createDemoTimeSpec() {
+export function createDemoTimeSpec(): VisualizationSpec {
   return createTimeSpec(pieDistributionData);
 }

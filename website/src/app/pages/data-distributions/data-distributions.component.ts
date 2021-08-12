@@ -58,7 +58,7 @@ export class DataDistributionsComponent {
   readonly demoPieSpec: VisualizationSpec;
 
   readonly demoBarChartSpec: VisualizationSpec;
-  
+
   readonly demoHorizBarChartSpec: VisualizationSpec;
 
   readonly timeSpec: VisualizationSpec;
