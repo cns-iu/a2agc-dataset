@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { EMPTY_TABLE_DATA, TableData } from 'src/app/core/models/table-data.model';
 import { DataDistributionsState } from 'src/app/core/state/data-distribution/data-distribution.state';
-import { VisualizationSpec } from 'vega-embed';
 
 import { Dataset } from './../../core/models/dataset.model';
 import { EMPTY_TABLE_DATA_DIRECTORY, TableDataDirectory } from './../../core/models/table-data.model';
@@ -14,14 +13,13 @@ export interface VariableData {
   type: string;
   description: string;
   missingValues: number;
-  horizontal?: boolean;
   xLabel?: string;
   yLabel?: string;
 }
 
 export interface DistributionData {
-  period: string;
-  value?: string | number;
+  period?: string;
+  value: string | number;
   count: number;
 }
 
@@ -55,13 +53,13 @@ export class DataDistributionsComponent {
   /**
    * Vega-lite spec to be displayed
    */
-  readonly demoPieSpec: VisualizationSpec;
+  readonly demoPieSpec = createDemoPieSpec();
 
-  readonly demoBarChartSpec: VisualizationSpec;
+  readonly demoBarChartSpec = createDemoBarSpec();
 
-  readonly demoHorizBarChartSpec: VisualizationSpec;
+  readonly demoHorizBarChartSpec = createDemoHorizBarSpec();
 
-  readonly timeSpec: VisualizationSpec;
+  readonly timeSpec = createDemoTimeSpec();
 
   tableData: TableData = EMPTY_TABLE_DATA;
   tableDataDirectory: TableDataDirectory = EMPTY_TABLE_DATA_DIRECTORY;
@@ -70,12 +68,5 @@ export class DataDistributionsComponent {
   /**
    * Creates a pie or bar visualization based on variable type
    */
-  constructor(
-    readonly data: DataDistributionsState
-  ) {
-    this.demoPieSpec = createDemoPieSpec();
-    this.demoBarChartSpec = createDemoBarSpec();
-    this.demoHorizBarChartSpec = createDemoHorizBarSpec();
-    this.timeSpec = createDemoTimeSpec();
-  }
+  constructor(readonly data: DataDistributionsState) { }
 }

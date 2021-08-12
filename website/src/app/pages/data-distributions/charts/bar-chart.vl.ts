@@ -1,7 +1,11 @@
 import { VisualizationSpec } from 'vega-embed';
 import { VariableData, DistributionData } from '../data-distributions.component';
 
-export function createBarSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
+export function createHorizBarSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
+  return createBarSpec(variable, distributionData, true);
+}
+
+export function createBarSpec(variable: VariableData, distributionData: DistributionData[] = [], flipAxes = false): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     datasets: {
@@ -32,11 +36,9 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
           {
             data: {
               values: [
-                /* eslint-disable @typescript-eslint/naming-convention */
-                { y: 1.7, LABEL: 'Type:' },
-                { y: 1.6, LABEL: 'Description:' },
-                { y: 1.5, LABEL: 'Missing values:' }
-                /* eslint-enable @typescript-eslint/naming-convention */
+                { y: 1.7, label: 'Type:' },
+                { y: 1.55, label: 'Description:' },
+                { y: 1.4, label: 'Missing values:' }
               ]
             },
             mark: {
@@ -48,7 +50,7 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
             encoding: {
               text: {
                 type: 'nominal',
-                field: 'LABEL'
+                field: 'label'
               },
               y: {
                 type: 'quantitative',
@@ -63,11 +65,9 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
           {
             data: {
               values: [
-                /* eslint-disable @typescript-eslint/naming-convention */
-                { y: 1.7, VALUE: `${variable.type}` },
-                { y: 1.6, VALUE: `${variable.description}` },
-                { y: 1.5, VALUE: `${variable.missingValues.toFixed(1)}%` }
-                /* eslint-enable @typescript-eslint/naming-convention */
+                { y: 1.7, value: `${variable.type}` },
+                { y: 1.55, value: `${variable.description}` },
+                { y: 1.4, value: `${variable.missingValues.toFixed(1)}%` }
               ]
             },
             mark: {
@@ -78,7 +78,7 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
             encoding: {
               text: {
                 type: 'nominal',
-                field: 'VALUE'
+                field: 'value'
               },
               y: {
                 type: 'quantitative',
@@ -99,25 +99,21 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
         width: 500,
         transform: [
           {
-            calculate: 'slice(datum.period, 0, 4)',
-            as: 'year'
-          },
-          {
             aggregate: [{
               op: 'sum',
               field: 'count',
               as: 'total'
             }],
-            groupby: variable.horizontal ? ['value'] : ['year']
+            groupby: ['value']
           },
           {
             calculate: 'format(datum.total, ",")',
             as: 'totalFinal'
           }
         ],
-        encoding: !variable.horizontal ? {
+        encoding: !flipAxes ? {
           x: {
-            field: 'year',
+            field: 'value',
             type: 'nominal',
             axis: {
               titlePadding: 10,
@@ -191,16 +187,16 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
               color: '#77ACF0',
               strokeWidth: 1,
               stroke: 'white',
-              orient: `${variable.horizontal ? 'horizontal' : 'vertical'}`
+              orient: flipAxes ? 'horizontal' : 'vertical'
             }
           },
           {
             mark: {
               type: 'text',
-              align: variable.horizontal ? 'left' : 'center',
+              align: flipAxes ? 'left' : 'center',
               baseline: 'middle',
-              dx: variable.horizontal ? 3 : 0,
-              dy: variable.horizontal ? 0 : -10
+              dx: flipAxes ? 3 : 0,
+              dy: flipAxes ? 0 : -10
             },
             encoding: {
               text: { field: 'totalFinal', type: 'nominal' }

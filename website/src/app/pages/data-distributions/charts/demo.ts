@@ -1,7 +1,7 @@
 import { VisualizationSpec } from 'vega-embed';
 import { VariableData, DistributionData } from '../data-distributions.component';
 
-import { createBarSpec } from './bar-chart.vl';
+import { createBarSpec, createHorizBarSpec } from './bar-chart.vl';
 import { createPieSpec } from './pie-chart.vl';
 import { createTimeSpec } from './time-slider.vl';
 
@@ -21,7 +21,6 @@ const barVariableData: VariableData = {
   type: 'Character',
   description: 'Date of death from coroner data',
   missingValues: 0.0,
-  horizontal: false,
   xLabel: 'DOD',
   yLabel: 'Count of Records'
 };
@@ -33,7 +32,6 @@ const horizBarVariableData: VariableData = {
   type: 'Character',
   description: 'Social Covariates',
   missingValues: 17.37,
-  horizontal: true,
   xLabel: '# Total Deaths',
   yLabel: 'Education Level'
 };
@@ -114,17 +112,17 @@ const pieDistributionData: DistributionData[] = [
 ];
 
 const barDistributionData: DistributionData[] = [
-  { period: '2010-01-01', count: 10000 },
-  { period: '2012-10-01', count: 70000 },
-  { period: '2013-07-01', count: 50000 },
-  { period: '2014-01-01', count: 10000 },
-  { period: '2014-10-01', count: 30000 },
-  { period: '2015-04-01', count: 20000 },
-  { period: '2015-10-01', count: 40000 },
-  { period: '2016-01-01', count: 30000 },
-  { period: '2016-04-01', count: 10000 },
-  { period: '2018-07-01', count: 20000 },
-  { period: '2018-10-01', count: 10000 }
+  { value: '2010-01-01', count: 10000 },
+  { value: '2012-10-01', count: 70000 },
+  { value: '2013-07-01', count: 50000 },
+  { value: '2014-01-01', count: 10000 },
+  { value: '2014-10-01', count: 30000 },
+  { value: '2015-04-01', count: 20000 },
+  { value: '2015-10-01', count: 40000 },
+  { value: '2016-01-01', count: 30000 },
+  { value: '2016-04-01', count: 10000 },
+  { value: '2018-07-01', count: 20000 },
+  { value: '2018-10-01', count: 10000 }
 ];
 
 const horizBarDistributionData: DistributionData[] = [
@@ -148,7 +146,7 @@ export function createDemoBarSpec(): VisualizationSpec {
 }
 
 export function createDemoHorizBarSpec(): VisualizationSpec {
-  return createBarSpec(horizBarVariableData, horizBarDistributionData);
+  return createHorizBarSpec(horizBarVariableData, horizBarDistributionData);
 }
 
 export function createDemoTimeSpec(): VisualizationSpec {

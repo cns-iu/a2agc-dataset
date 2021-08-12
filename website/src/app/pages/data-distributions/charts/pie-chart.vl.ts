@@ -2,11 +2,6 @@ import { VisualizationSpec } from 'vega-embed';
 import { VariableData, DistributionData } from '../data-distributions.component';
 
 export function createPieSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
-  let totalCount = 0;
-  for (const entry of distributionData) {
-    totalCount += entry.count;
-  }
-
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     datasets: {
@@ -33,7 +28,19 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
         groupby: ['category']
       },
       {
-        calculate: `format(datum.total*100/${totalCount}, ",.2f") + "%"`,
+        calculate: '1',
+        as: 'True'
+      },
+      {
+        joinaggregate: [{
+          op: 'sum',
+          field: 'total',
+          as: 'totalCount'
+        }],
+        groupby: ['True']
+      },
+      {
+        calculate: `format(datum.total*100/datum.totalCount, ",.2f") + "%"`,
         as: 'percent'
       },
       {
@@ -98,11 +105,9 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
       {
         data: {
           values: [
-            /* eslint-disable @typescript-eslint/naming-convention */
-            { y: 1.7, LABEL: 'Type:' },
-            { y: 1.6, LABEL: 'Description:' },
-            { y: 1.5, LABEL: 'Missing values:' }
-            /* eslint-enable @typescript-eslint/naming-convention */
+            { y: 1.7, label: 'Type:' },
+            { y: 1.6, label: 'Description:' },
+            { y: 1.5, label: 'Missing values:' }
           ]
         },
         mark: {
@@ -115,7 +120,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
         encoding: {
           text: {
             type: 'nominal',
-            field: 'LABEL'
+            field: 'label'
           },
           y: {
             type: 'quantitative',
@@ -130,23 +135,21 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
       {
         data: {
           values: [
-            /* eslint-disable @typescript-eslint/naming-convention */
-            { y: 1.7, VALUE: `${variable.type}` },
-            { y: 1.6, VALUE: `${variable.description}` },
-            { y: 1.5, VALUE: `${variable.missingValues.toFixed(1)}%` }
-            /* eslint-enable @typescript-eslint/naming-convention */
+            { y: 1.7, value: `${variable.type}` },
+            { y: 1.6, value: `${variable.description}` },
+            { y: 1.5, value: `${variable.missingValues.toFixed(1)}%` }
           ]
         },
         mark: {
           type: 'text',
           align: 'left',
           yOffset: 100,
-          xOffset: -460
+          xOffset: -470
         },
         encoding: {
           text: {
             type: 'nominal',
-            field: 'VALUE'
+            field: 'value'
           },
           y: {
             type: 'quantitative',
