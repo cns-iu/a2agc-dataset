@@ -40,7 +40,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
         groupby: ['True']
       },
       {
-        calculate: `format(datum.total*100/datum.totalCount, ",.2f") + "%"`,
+        calculate: 'format(datum.total*100/datum.totalCount, ",.2f") + "%"',
         as: 'percent'
       },
       {
