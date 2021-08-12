@@ -126,15 +126,15 @@ const barDistributionData: DistributionData[] = [
 ];
 
 const horizBarDistributionData: DistributionData[] = [
-  { period: '2010-01-01', value: 'College degree', count: 2 },
-  { period: '2011-01-01', value: 'Graduated high school', count: 5 },
-  { period: '2012-01-01', value: 'High school - Not finished', count: 14 },
-  { period: '2013-01-01', value: 'Some college - No degree', count: 5 },
-  { period: '2014-04-01', value: 'College degree', count: 4 },
-  { period: '2015-04-01', value: 'Graduated high school', count: 16 },
-  { period: '2016-04-01', value: 'High school - Not finished', count: 12 },
-  { period: '2017-04-01', value: 'Post graduation degree (Masters, PHD, MD, etc.)', count: 2 },
-  { period: '2018-04-01', value: 'Some college - No degree', count: 5 }
+  { value: 'College degree', count: 2 },
+  { value: 'Graduated high school', count: 5 },
+  { value: 'High school - Not finished', count: 14 },
+  { value: 'Some college - No degree', count: 5 },
+  { value: 'College degree', count: 4 },
+  { value: 'Graduated high school', count: 16 },
+  { value: 'High school - Not finished', count: 12 },
+  { value: 'Post graduation degree (Masters, PHD, MD, etc.)', count: 2 },
+  { value: 'Some college - No degree', count: 5 }
 ];
 
 export function createDemoPieSpec(): VisualizationSpec {

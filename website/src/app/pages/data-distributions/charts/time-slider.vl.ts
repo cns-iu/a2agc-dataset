@@ -4,9 +4,6 @@ import { DistributionData } from '../data-distributions.component';
 export function createTimeSpec(distributionData: DistributionData[] = []): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-    datasets: {
-      distribution: distributionData
-    },
     height: 150,
     data: {
       name: 'distribution'
@@ -87,6 +84,9 @@ export function createTimeSpec(distributionData: DistributionData[] = []): Visua
           }
         }
       }
-    ]
+    ],
+    datasets: {
+      distribution: distributionData
+    }
   };
 }

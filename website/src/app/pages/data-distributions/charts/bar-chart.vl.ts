@@ -8,9 +8,6 @@ export function createHorizBarSpec(variable: VariableData, distributionData: Dis
 export function createBarSpec(variable: VariableData, distributionData: DistributionData[] = [], flipAxes = false): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-    datasets: {
-      distribution: distributionData
-    },
     height: 300,
     data: {
       name: 'distribution'
@@ -204,6 +201,9 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
           }
         ]
       }
-    ]
+    ],
+    datasets: {
+      distribution: distributionData
+    }
   };
 }

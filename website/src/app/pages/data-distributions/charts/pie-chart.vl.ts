@@ -4,9 +4,6 @@ import { VariableData, DistributionData } from '../data-distributions.component'
 export function createPieSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-    datasets: {
-      distribution: distributionData
-    },
     height: 300,
     data: {
       name: 'distribution'
@@ -161,6 +158,9 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
           }
         }
       }
-    ]
+    ],
+    datasets: {
+      distribution: distributionData
+    }
   };
 }
