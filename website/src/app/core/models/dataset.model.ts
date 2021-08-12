@@ -17,3 +17,8 @@ export interface DatasetVariable {
   percentMissing: number;
   distribution: Distribution;
 }
+
+export interface DatasetMetaEntry {
+  label: string;
+  value: string;
+}
