@@ -17,5 +17,7 @@ export type DatasetsStateModel = EntityCollections<Dataset, string>;
 })
 @Injectable()
 export class DatasetsState extends NgxsDataEntityCollectionsRepository<Dataset, string> {
-  readonly primaryKey = 'name';
+  selectId(dataset: string | Dataset): string {
+    return typeof dataset === 'string' ? dataset : dataset.name;
+  }
 }

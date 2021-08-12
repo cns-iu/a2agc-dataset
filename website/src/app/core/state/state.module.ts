@@ -1,4 +1,3 @@
-import { DataDistributionsState } from 'src/app/core/state/data-distribution/data-distribution.state';
 import { NgModule, Type } from '@angular/core';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
@@ -7,6 +6,9 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 
 import { environment } from '../../../environments/environment';
+import { DataState } from './data/data.state';
+import { DatasetVariablesState } from './data/dataset-variables.state';
+import { DatasetsState } from './data/datasets.state';
 import { PageState } from './page/page.state';
 import { RouterState } from './router/router.state';
 import { VisualizationsState } from './visualizations/visualizations.state';
@@ -16,7 +18,10 @@ const ROOT_STATES: Type<unknown>[] = [
   RouterState,
   PageState,
   VisualizationsState,
-  DataDistributionsState
+
+  DataState,
+  DatasetsState,
+  DatasetVariablesState
 ];
 
 @NgModule({
