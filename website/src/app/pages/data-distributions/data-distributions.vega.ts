@@ -20,15 +20,15 @@ export interface DistributionData {
 
 export function createPieSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
   let totalCount = 0;
-  for (let i = 0; i < distributionData.length; i++) {
-    totalCount += distributionData[i].count;
-  };
+  for (const entry of distributionData) {
+    totalCount += entry.count;
+  }
 
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     datasets: {
       distribution: distributionData
-    },      
+    },
     height: 300,
     data: {
       name: 'distribution'
@@ -38,7 +38,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
     },
     transform: [
       {
-        calculate: "datum.value === 1 ? 'True' : 'False'",
+        calculate: 'datum.value === 1 ? "True" : "False"',
         as: 'category'
       },
       {
@@ -176,7 +176,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
         }
       }
     ]
-  }
+  };
 }
 
 export function createBarSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
@@ -368,7 +368,7 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
               width: 24,
               color: '#77ACF0',
               strokeWidth: 1,
-              stroke: "white",
+              stroke: 'white',
               orient: `${variable.horizontal ? 'horizontal' : 'vertical'}`
             }
           },
@@ -381,13 +381,13 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
               dy: variable.horizontal ? 0 : -10
             },
             encoding: {
-              text: {field: 'totalFinal', type: 'nominal'}
+              text: { field: 'totalFinal', type: 'nominal' }
             }
           }
         ]
       }
     ]
-  }
+  };
 }
 
 export function createTimeSpec(distributionData: DistributionData[] = []): VisualizationSpec {
