@@ -1,23 +1,27 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { NgxVegaModule } from 'ngx-vega';
-import { DataDistributionsRoutingModule } from './data-distributions-routing.module';
-import { DataDistributionsComponent } from './data-distributions.component';
+
 import { TableDataSelectorModule } from '../../shared/components/table-data-selector/table-data-selector.module';
 import { DatasetSummaryModule } from './../../shared/components/dataset-summary/dataset-summary.module';
+import { DataDistributionsRoutingModule } from './data-distributions-routing.module';
+import { DataDistributionsComponent } from './data-distributions.component';
+import { StateModule } from './state/state.module';
 
 
 @NgModule({
-  declarations: [
-    DataDistributionsComponent
-  ],
   imports: [
-    NgxVegaModule,
     CommonModule,
-    DataDistributionsRoutingModule,
+
+    NgxVegaModule,
+
+    DatasetSummaryModule,
     TableDataSelectorModule,
-    DatasetSummaryModule
-  ]
+
+    DataDistributionsRoutingModule,
+    StateModule
+  ],
+  declarations: [DataDistributionsComponent],
+  exports: [DataDistributionsComponent]
 })
 export class DataDistributionsModule { }
