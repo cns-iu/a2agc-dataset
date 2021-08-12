@@ -13,16 +13,12 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
     },
     transform: [
       {
-        calculate: 'datum.value === 1 ? "True" : "False"',
-        as: 'category'
-      },
-      {
         aggregate: [{
           op: 'sum',
           field: 'count',
           as: 'total'
         }],
-        groupby: ['category']
+        groupby: ['value']
       },
       {
         calculate: '1',
@@ -47,14 +43,13 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
     ],
     encoding: {
       color: {
-        field: 'category',
+        field: 'value',
         type: 'nominal',
         scale: { range: ['#77ACF0', '#2a4d87'] },
         legend: {
           orient: 'none',
           title: null,
           symbolType: 'square',
-          values: ['True', 'False'],
           legendX: 20,
           legendY: 60,
           labelFontWeight: 'bold'
