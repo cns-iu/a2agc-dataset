@@ -1,12 +1,27 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { EMPTY_TABLE_DATA, TableData } from 'src/app/core/models/table-data.model';
 import { DataDistributionsState } from 'src/app/core/state/data-distribution/data-distribution.state';
-import { VisualizationSpec } from 'vega-embed';
 
 import { Dataset } from './../../core/models/dataset.model';
 import { EMPTY_TABLE_DATA_DIRECTORY, TableDataDirectory } from './../../core/models/table-data.model';
-import { createPieSpec, VariableData } from './data-distributions.vega';
+import { createDemoPieSpec, createDemoBarSpec, createDemoHorizBarSpec, createDemoTimeSpec } from './charts/demo';
 
+export interface VariableData {
+  dataset: string;
+  name: string;
+  variableName: string;
+  type: string;
+  description: string;
+  missingValues: number;
+  xLabel?: string;
+  yLabel?: string;
+}
+
+export interface DistributionData {
+  period?: string;
+  value: string | number;
+  count: number;
+}
 
 /**
  * Component
@@ -27,9 +42,9 @@ export class DataDistributionsComponent {
    * Metadata for the selected variable
    */
   @Input() variable: VariableData = {
-    dataset: 'deaths',
+    dataset: 'Deaths',
     name: 'Cocaine',
-    variableName: 'COCAINE_AMOUNT',
+    variableName: 'COCAINE',
     type: 'Boolean',
     description: 'Tox lab flag',
     missingValues: 0.0
@@ -38,7 +53,13 @@ export class DataDistributionsComponent {
   /**
    * Vega-lite spec to be displayed
    */
-  readonly spec: VisualizationSpec;
+  readonly demoPieSpec = createDemoPieSpec();
+
+  readonly demoBarChartSpec = createDemoBarSpec();
+
+  readonly demoHorizBarChartSpec = createDemoHorizBarSpec();
+
+  readonly timeSpec = createDemoTimeSpec();
 
   tableData: TableData = EMPTY_TABLE_DATA;
   tableDataDirectory: TableDataDirectory = EMPTY_TABLE_DATA_DIRECTORY;
@@ -47,29 +68,5 @@ export class DataDistributionsComponent {
   /**
    * Creates a pie or bar visualization based on variable type
    */
-  constructor(
-    readonly data: DataDistributionsState
-  ) {
-    this.spec = this.variable.type === 'Boolean' ? this.createPieSpec(this.variable) : this.createBarSpec(this.variable);
-  }
-
-  /**
-   * Creates pie graph visualization
-   *
-   * @param variable data for selected variable
-   * @returns visualization
-   */
-  createPieSpec(variable: VariableData): VisualizationSpec {
-    return createPieSpec(variable);
-  }
-
-  /**
-   * Creates bar graph visualization
-   *
-   * @param variable data for selected variable
-   * @returns visualization
-   */
-  createBarSpec(variable: VariableData): VisualizationSpec {
-    return createPieSpec(variable); //replace with createBarSpec
-  }
+  constructor(readonly data: DataDistributionsState) { }
 }
