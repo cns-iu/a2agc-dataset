@@ -1,6 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "data": {"url": "http://localhost:33284/assets/generated/visualization6/data1.csv",
+  "data": {
+    "url": "assets/generated/visualization6/data-row-wise.csv",
     "format": {
       "type":"csv",
       "parse": {
@@ -8,7 +9,7 @@
         "DOD":"date",
         "COUNT": "number",
         "RANK": "number",
-        "Encounter_Type": "string"
+        "ENCOUNTER_TYPE": "string"
       }
     }
   },
@@ -16,10 +17,6 @@
     {
       "calculate": "round(12 * (datum.DOD - datum.PERIOD) / 3.154e+10)",
       "as": "TIME_BEFORE_DEATH"
-    },
-    {
-      "calculate": "toNumber(datum.TIME_BEFORE_DEATH) / 12",
-      "as": "MONTHS_BEFORE_DEATH"
     },
     {
       "filter": "datum.TIME_BEFORE_DEATH >= 0"
@@ -70,8 +67,9 @@
         }
       },
       "color": {
-        "field": "Encounter_Type",
+        "field": "ENCOUNTER_TYPE",
         "type": "nominal",
+        "title": "Encounter Type",
         "scale": {
           "domain": [
             "All Types",
@@ -89,10 +87,12 @@
           ]
         }
       },
-      "tooltip": {
-        "field": "RANK",
-        "type": "nominal"
-      }
+      "tooltip": [
+        { "field": "CASE_NUMBER", "type": "nominal" },
+        { "field": "PERIOD", "type": "temporal", "timeUnit": "yearquarter", "title": "Quarter" },
+        { "field": "ENCOUNTER_TYPE", "type": "nominal", "title": "Encounter Type" },
+        { "field": "COUNT", "type": "quantitative", "title": "# Days encounter occurred" }
+      ]
     }
   },
   "config": {
