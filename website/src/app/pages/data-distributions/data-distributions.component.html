@@ -1,13 +1,15 @@
 <div class="header">Data Distributions</div>
 
-<agc-table-data-selector
-  [datasets]="data.datasets$ | async"
-  (datasetChange)="data.setCurrentDataset($event)"
-  (dataVariableChange)="data.setCurrentDataVariable($event)"
-></agc-table-data-selector>
+<agc-table-data-selector [subLabel]="(subLabel$ | async) ?? ''" [datasets]="(datasets$ | async) ?? []"
+                         [variables]="(variables$ | async) ?? []" [subVariables]="(subVariables$ | async) ?? []"
+                         (datasetChange)="setSelectedDataset($event)"
+                         (dataVariableChange)="setSelectedVariable($event)">
+</agc-table-data-selector>
 
-<div class="data-block" *ngIf="!!$any(data.currentSpec$ | async)">
-  <agc-dataset-summary
+<div class="data-block" *ngIf="specs.length !== 0">
+  <agc-lazy-visualization *ngFor="let spec of specs" [spec]="spec">
+  </agc-lazy-visualization>
+  <!-- <agc-dataset-summary
     [summary]="data.currentColumnSummary$ | async"
     [title]="data.currentDataVariable$ | async"
   ></agc-dataset-summary>
@@ -16,5 +18,5 @@
     [spec]="$any(data.currentSpec$ | async)"
     [options]="{}"
     [autosize]="{ width: true, height: false }"
-  ></ngx-vega>
+  ></ngx-vega> -->
 </div>
