@@ -1,7 +1,7 @@
-import { EMPTY_DATASET } from './../../../core/models/dataset.model';
-import { Component, HostBinding, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
-import { Dataset } from 'src/app/core/models/dataset.model';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+
+import { Dataset, DatasetVariable } from '../../../core/models/dataset.model';
+
 
 @Component({
   selector: 'agc-table-data-selector',
@@ -12,92 +12,41 @@ import { Dataset } from 'src/app/core/models/dataset.model';
 export class TableDataSelectorComponent {
   @HostBinding('class') readonly clsName = 'agc-table-data-selector';
 
-  @Input() datasets: Dataset[] | null = [];
+  @Input() datasets: Dataset[] = [];
+  @Input() variables: DatasetVariable[] = [];
+  @Input() subLabel = '';
+  @Input() subVariables: DatasetVariable[] = [];
+
   @Output() readonly datasetChange = new EventEmitter<Dataset>();
-  @Output() readonly dataVariableChange = new EventEmitter<string>();
+  @Output() readonly dataVariableChange = new EventEmitter<DatasetVariable>();
 
-  selectedDataVariable: string | undefined;
-  currentDataset: Dataset | undefined;
+  selectedDataset: Dataset | undefined;
+  selectedVariable: DatasetVariable | undefined;
 
-  get selectedDataset(): Dataset {
-    if (!this.currentDataset) {
-      return EMPTY_DATASET;
-    }
-
-    return this.currentDataset;
+  get variableNames(): string[] {
+    return this.variables.map(v => v.name);
   }
 
-  get subDataVariables(): string[] {
-    if (!this.selectedDataset.subDataVariables) {
-      return [];
-    }
-
-    return this.selectedDataset.subDataVariables;
+  get subVariableNames(): string[] {
+    return this.subVariables.map(v => v.name);
   }
 
-  get subLabel(): string {
-    if (!this.selectedDataset.subLabel){
-      return '';
+  setDataset(dataset: Dataset | undefined): void {
+    if (dataset !== undefined) {
+      this.selectedDataset = dataset;
+      this.datasetChange.emit(dataset);
     }
-
-    return this.selectedDataset.subLabel;
   }
 
-  handleDatasetChange(event: MatSelectChange): void {
-    const newIndex = event.value;
-    this.setCurrentDatasetIndex(newIndex);
-  }
+  setVariableFromName(name: string): void {
+    if (this.selectedDataset !== undefined) {
+      const variable = this.variables.find(v => v.name === name) ??
+        this.subVariables.find(v => v.name === name);
 
-  dataVariableIsValid(dataset: Dataset, dataVariable: string): boolean {
-    if (dataset.dataVariables.indexOf(dataVariable) >= 0) {
-      return true;
-    }
-
-    if (dataset.subDataVariables) {
-      if (dataset.subDataVariables.indexOf(dataVariable) >= 0) {
-        return true;
+      if (variable?.dataset === this.selectedDataset.name) {
+        this.selectedVariable = variable;
+        this.dataVariableChange.emit(variable);
       }
     }
-
-    return false;
-  }
-
-  setDataVariable(dataVariable: string): void {
-    if (!this.selectedDataset) {
-      return;
-    }
-
-    if (!this.dataVariableIsValid(this.selectedDataset, dataVariable)) {
-      return;
-    }
-
-    this.selectedDataVariable = dataVariable;
-    this.dataVariableChange.emit(dataVariable);
-  }
-
-  setCurrentDatasetIndex(index: number): void {
-    if (!this.datasets) {
-      return;
-    }
-
-    if (!this.datasets[index]) {
-      return;
-    }
-
-    this.currentDataset = this.datasets[index];
-    this.datasetChange.emit(this.currentDataset);
-  }
-
-  setCurrentDataset(dataset: Dataset): void {
-    if (!this.datasets) {
-      return;
-    }
-
-    if (this.datasets.indexOf(dataset) < 0) {
-      return;
-    }
-
-    const newIndex = this.datasets.indexOf(dataset);
-    this.setCurrentDatasetIndex(newIndex);
   }
 }
