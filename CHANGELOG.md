@@ -3,6 +3,19 @@
 
 Changelog for A2AGC
 
+## 0.5.0 - 2021-08-16
+
+### Added in 0.5.0
+
+- Improved speed/responsiveness of geomap
+- Fixed data filtering in visualization 5
+- Added two Maps of Health visualizations (POC)
+- Added an updated Data Distributions Page
+- Updated dependencies to Angular 12
+- Updated specs to vega-lite 5
+- Remember if a user has seen the initial help display for the life of the browser cache (localStorage)
+- Run automatic testing + build previews of code for development (CI/CD)
+
 ## 0.4.0 - 2020-11-02
 
 ### Added in 0.4.0

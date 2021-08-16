@@ -8,6 +8,23 @@ import { DatasetVariablesState } from '../../core/state/data/dataset-variables.s
 import { DatasetsState } from '../../core/state/data/datasets.state';
 
 
+export interface VariableData {
+  dataset: string;
+  name: string;
+  variableName: string;
+  type: string;
+  description: string;
+  missingValues: number;
+  xLabel?: string;
+  yLabel?: string;
+}
+
+export interface DistributionData {
+  period?: string;
+  value: string | number;
+  count: number;
+}
+
 @Component({
   selector: 'agc-data-distributions',
   templateUrl: './data-distributions.component.html',

@@ -2,6 +2,7 @@ import { Options } from 'ngx-vega';
 import { Spec } from 'vega';
 
 import { createGeoZoomPatch } from '../../../shared/components/visualization-page/shared/geomap-zoom-patch';
+import { VisualizationOneView } from './../../../shared/components/visualization-page/shared/visualization1-data-handler';
 
 
 export interface Visualization {
@@ -22,7 +23,7 @@ export const visualizations: Visualization[] = [
     description: 'Marion County by Place of Injury (2010-2018)',
     spec: 'assets/pages/vis1-geomap-of-opioid-deaths/vis.vl.json',
     options: {
-      renderer: 'svg', actions: true,
+      renderer: 'canvas', actions: true,
       patch: (spec: Spec): Spec => {
         spec = createGeoZoomPatch({
           center: [87.44305475, 38.76622477],
@@ -34,7 +35,8 @@ export const visualizations: Visualization[] = [
         spec.width = 941;
         spec.height = 941;
         return spec;
-      }
+      },
+      viewClass: VisualizationOneView
     },
     content: 'assets/pages/vis1-geomap-of-opioid-deaths/README.md',
     sql: 'assets/pages/vis1-geomap-of-opioid-deaths/data.sql',
@@ -82,10 +84,20 @@ export const visualizations: Visualization[] = [
   },
   {
     id: 'vis6-maps-of-health',
-    title: 'Maps of Health (1)',
-    description: 'Maps of Health (1)',
+    title: 'Maps of Health #1',
+    description: 'Marion County Encounters Over Time (2010 - 2018)',
     spec: 'assets/pages/vis6-maps-of-health/vis.vl.json',
-    options: {},
+    options: { renderer: 'canvas', actions: true, width: 1268 },
+    content: 'assets/pages/vis6-maps-of-health/README.md',
+    sql: 'assets/pages/vis6-maps-of-health/data.sql',
+    csv: 'assets/generated/visualization6/data.csv'
+  },
+  {
+    id: 'vis6-maps-of-health-v2',
+    title: 'Maps of Health #2',
+    description: 'Marion County Encounters Over Time (2010 - 2018)',
+    spec: 'assets/pages/vis6-maps-of-health/vis2.vl.json',
+    options: { renderer: 'canvas', actions: true, width: 1268 },
     content: 'assets/pages/vis6-maps-of-health/README.md',
     sql: 'assets/pages/vis6-maps-of-health/data.sql',
     csv: 'assets/generated/visualization6/data.csv'

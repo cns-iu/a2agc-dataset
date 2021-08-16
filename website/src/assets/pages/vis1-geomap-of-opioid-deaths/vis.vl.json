@@ -22,32 +22,8 @@
   "autosize": {
     "contains": "padding"
   },
-  "data": {
-    "url": "assets/generated/vis-geomap-opioid-deaths.csv",
-    "format": {
-      "type": "csv",
-      "parse": {
-        "N_OPIOID_PRESCRIPTIONS": "number",
-        "LATITUDE": "number",
-        "LONGITUDE": "number",
-        "PERIOD": "date"
-      }
-    }
-  },
+  "data": { "name": "source" },
   "transform": [
-    {
-      "lookup": "DATA_VARIABLE",
-      "from": {
-        "key": "DATA_VARIABLE",
-        "fields": [
-          "LEGEND_ORDER",
-          "LABEL"
-        ],
-        "data": {
-          "url": "assets/pages/vis1-geomap-of-opioid-deaths/vis-data-variables.csv"
-        }
-      }
-    },
     {
       "filter": "isValid(datum.VALUE) && datum.VALUE.length > 0"
     },
@@ -370,11 +346,6 @@
           "transform": [
             {
               "filter": {
-                "param": "data_variable_selection"
-              }
-            },
-            {
-              "filter": {
                 "param": "period"
               }
             },
@@ -618,5 +589,8 @@
         }
       ]
     }
-  ]
+  ],
+  "datasets": {
+    "source": []
+  }
 }
