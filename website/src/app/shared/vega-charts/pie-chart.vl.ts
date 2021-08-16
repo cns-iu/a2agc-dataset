@@ -1,7 +1,13 @@
 import { VisualizationSpec } from 'vega-embed';
-import { VariableData, DistributionData } from '../data-distributions.component';
 
-export function createPieSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
+import { DatasetVariable } from '../../core/models/dataset.model';
+import { DistributionDataEntry } from '../../core/models/distribution.model';
+
+
+export function createPieSpec(
+  variable: DatasetVariable,
+  distributionData: DistributionDataEntry[] = []
+): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     height: 300,
@@ -129,7 +135,7 @@ export function createPieSpec(variable: VariableData, distributionData: Distribu
           values: [
             { y: 1.7, value: `${variable.type}` },
             { y: 1.6, value: `${variable.description}` },
-            { y: 1.5, value: `${variable.missingValues.toFixed(1)}%` }
+            { y: 1.5, value: `${variable.percentMissing.toFixed(1)}%` }
           ]
         },
         mark: {

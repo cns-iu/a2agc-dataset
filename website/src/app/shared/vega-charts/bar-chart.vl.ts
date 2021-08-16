@@ -1,11 +1,21 @@
 import { VisualizationSpec } from 'vega-embed';
-import { VariableData, DistributionData } from '../data-distributions.component';
 
-export function createHorizBarSpec(variable: VariableData, distributionData: DistributionData[] = []): VisualizationSpec {
+import { DatasetVariable } from '../../core/models/dataset.model';
+import { DistributionDataEntry } from '../../core/models/distribution.model';
+
+
+export function createHorizBarSpec(
+  variable: DatasetVariable,
+  distributionData: DistributionDataEntry[] = []
+): VisualizationSpec {
   return createBarSpec(variable, distributionData, true);
 }
 
-export function createBarSpec(variable: VariableData, distributionData: DistributionData[] = [], flipAxes = false): VisualizationSpec {
+export function createBarSpec(
+  variable: DatasetVariable,
+  distributionData: DistributionDataEntry[] = [],
+  flipAxes = false
+): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     height: 300,
@@ -64,7 +74,7 @@ export function createBarSpec(variable: VariableData, distributionData: Distribu
               values: [
                 { y: 1.7, value: `${variable.type}` },
                 { y: 1.55, value: `${variable.description}` },
-                { y: 1.4, value: `${variable.missingValues.toFixed(1)}%` }
+                { y: 1.4, value: `${variable.percentMissing.toFixed(1)}%` }
               ]
             },
             mark: {
