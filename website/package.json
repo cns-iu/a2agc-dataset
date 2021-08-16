@@ -32,6 +32,7 @@
     "css-element-queries": "^1.2.3",
     "ngx-markdown": "^12.0.1",
     "ngx-vega": "^0.52.0",
+    "papaparse": "^5.3.1",
     "rxjs": "^6.6.7",
     "tslib": "^2.3.0",
     "vega": "^5.20.2",
