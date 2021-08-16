@@ -62,6 +62,17 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
     return this.entities$.pipe(pluck(key), distinctUntilChanged());
   }
 
+  getVariables(dataset: string | Dataset): Observable<DatasetVariable[]> {
+    const datasetId = this.datasetsState.selectId(dataset);
+
+    return this.entitiesArray$.pipe(map(variables => {
+      const belongsToDataset = (variable: DatasetVariable) =>
+        this.datasetsState.selectId(variable.dataset) === datasetId;
+
+      return variables.filter(belongsToDataset);
+    }));
+  }
+
   getSubVariables(dataset?: string | Dataset): Observable<DatasetVariable[]> {
     const datasetId = dataset && this.datasetsState.selectId(dataset);
 
@@ -70,7 +81,8 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
       map(([variables, subLabelFlag]) => {
         const isSubVariable = (variable: DatasetVariable) =>
           variable.description === subLabelFlag &&
-          (datasetId === undefined || variable.dataset === datasetId);
+          (datasetId === undefined ||
+            this.datasetsState.selectId(variable.dataset) === datasetId);
 
         return variables.filter(isSubVariable);
       })
