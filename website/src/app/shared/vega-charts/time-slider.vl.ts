@@ -3,7 +3,6 @@ import { VisualizationSpec } from 'vega-embed';
 import { DistributionDataEntry } from '../../core/models/distribution.model';
 
 
-
 export function createTimeSpec(distributionData: DistributionDataEntry[] = []): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
