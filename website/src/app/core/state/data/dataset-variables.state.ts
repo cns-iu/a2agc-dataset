@@ -4,7 +4,7 @@ import { Computed, StateRepository } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
 import { State } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, pluck, withLatestFrom } from 'rxjs/operators';
+import { distinctUntilChanged, map, pluck } from 'rxjs/operators';
 
 import { DATA_CONFIG } from '../../../../configs/config';
 import { Dataset, DatasetMetaEntry, DatasetVariable } from '../../models/dataset.model';
@@ -14,6 +14,13 @@ import { DatasetsState } from './datasets.state';
 export interface DatasetVariablesStateModel extends EntityCollections<DatasetVariable, string> {
   subLabel: string;
   subLabelFlag: string;
+}
+
+
+export enum DatasetVariableGroup {
+  all = 'all',
+  sub = 'sub',
+  nonSub = 'non-sub'
 }
 
 
@@ -62,31 +69,13 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
     return this.entities$.pipe(pluck(key), distinctUntilChanged());
   }
 
-  getVariables(dataset: string | Dataset): Observable<DatasetVariable[]> {
-    const datasetId = this.datasetsState.selectId(dataset);
-
-    return this.entitiesArray$.pipe(map(variables => {
-      const belongsToDataset = (variable: DatasetVariable) =>
-        this.datasetsState.selectId(variable.dataset) === datasetId;
-
-      return variables.filter(belongsToDataset);
-    }));
+  getVariables(dataset?: string | Dataset, group?: DatasetVariableGroup): Observable<DatasetVariable[]> {
+    const selector = this.createVariableSelector(dataset, group);
+    return this.entitiesArray$.pipe(map(variables => variables.filter(selector)));
   }
 
   getSubVariables(dataset?: string | Dataset): Observable<DatasetVariable[]> {
-    const datasetId = dataset && this.datasetsState.selectId(dataset);
-
-    return this.entitiesArray$.pipe(
-      withLatestFrom(this.subLabelFlag$),
-      map(([variables, subLabelFlag]) => {
-        const isSubVariable = (variable: DatasetVariable) =>
-          variable.description === subLabelFlag &&
-          (datasetId === undefined ||
-            this.datasetsState.selectId(variable.dataset) === datasetId);
-
-        return variables.filter(isSubVariable);
-      })
-    );
+    return this.getVariables(dataset, DatasetVariableGroup.sub);
   }
 
   getMetadata(key: string): Observable<DatasetMetaEntry[]> {
@@ -114,5 +103,42 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
         return meta;
       })
     );
+  }
+
+  private createVariableSelector(
+    dataset?: string | Dataset,
+    group?: DatasetVariableGroup
+  ): (variable: DatasetVariable) => boolean {
+    type PredFn = (variable: DatasetVariable) => boolean;
+    const predicates: PredFn[] = [];
+
+    // Add dataset check
+    if (dataset !== undefined) {
+      const { datasetsState } = this;
+      const selectDatasetId = datasetsState.selectId.bind(datasetsState);
+      const id = selectDatasetId(dataset);
+      predicates.push(variable => selectDatasetId(variable.dataset) === id);
+    }
+
+    // Add group check
+    const { snapshot: { subLabelFlag } } = this;
+    switch (group) {
+      case DatasetVariableGroup.nonSub:
+        predicates.push(variable => variable.description !== subLabelFlag);
+        break;
+
+      case DatasetVariableGroup.sub:
+        predicates.push(variable => variable.description === subLabelFlag);
+        break;
+
+      default:
+        break;
+    }
+
+    return predicates.length === 0 ?
+      () => true :
+      predicates.length === 1 ?
+        predicates[0] :
+        variable => predicates.every(pred => pred(variable));
   }
 }
