@@ -1,4 +1,5 @@
-<ngx-vega class="visualization" [spec]="spec" (viewChange)="setView($event)" (viewLoading)="loading = $event">
+<ngx-vega class="visualization" [spec]="spec" [autosize]="autosize" [options]="options" (viewChange)="setView($event)"
+          (viewLoading)="loading = $event">
 </ngx-vega>
 
 <mat-spinner *ngIf="loading">

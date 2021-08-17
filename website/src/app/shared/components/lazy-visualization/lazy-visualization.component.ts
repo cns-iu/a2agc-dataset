@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Autosize, Options } from 'ngx-vega';
 import { View } from 'vega';
 import { VisualizationSpec } from 'vega-embed';
 
@@ -15,6 +16,8 @@ export class LazyVisualizationComponent<T> implements OnChanges {
   @Input() spec!: VisualizationSpec;
   @Input() dataBindingName!: string;
   @Input() data: T[] = [];
+  @Input() autosize: Autosize = {};
+  @Input() options?: Options;
 
   loading = true;
 
