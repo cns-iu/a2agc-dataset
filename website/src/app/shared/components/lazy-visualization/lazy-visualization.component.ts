@@ -38,5 +38,6 @@ export class LazyVisualizationComponent<T> implements OnChanges {
 
   attachData(): void {
     this.vegaInstance?.data(this.dataBindingName, this.data);
+    this.vegaInstance?.runAsync();
   }
 }
