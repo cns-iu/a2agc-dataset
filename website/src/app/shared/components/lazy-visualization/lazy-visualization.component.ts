@@ -31,13 +31,13 @@ export class LazyVisualizationComponent<T> implements OnChanges {
     }
   }
 
-  setView(view: View): void {
+  async setView(view: View): Promise<void> {
     this.vegaInstance = view;
-    this.attachData();
+    await this.attachData();
   }
 
-  attachData(): void {
+  async attachData(): Promise<void> {
     this.vegaInstance?.data(this.dataBindingName, this.data);
-    this.vegaInstance?.runAsync();
+    await this.vegaInstance?.runAsync();
   }
 }
