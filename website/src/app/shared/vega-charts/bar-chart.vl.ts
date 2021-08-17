@@ -4,17 +4,26 @@ import { DatasetVariable } from '../../core/models/dataset.model';
 import { DistributionDataEntry } from '../../core/models/distribution.model';
 
 
+export interface BarChartExtraOptions {
+  xLabel?: string;
+  yLabel?: string;
+
+  flipAxes?: boolean;
+}
+
+
 export function createHorizBarSpec(
   variable: DatasetVariable,
-  distributionData: DistributionDataEntry[] = []
+  distributionData: DistributionDataEntry[] = [],
+  options: BarChartExtraOptions = {}
 ): VisualizationSpec {
-  return createBarSpec(variable, distributionData, true);
+  return createBarSpec(variable, distributionData, { ...options, flipAxes: true });
 }
 
 export function createBarSpec(
   variable: DatasetVariable,
   distributionData: DistributionDataEntry[] = [],
-  flipAxes = false
+  options: BarChartExtraOptions = {}
 ): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
@@ -118,7 +127,7 @@ export function createBarSpec(
             as: 'totalFinal'
           }
         ],
-        encoding: !flipAxes ? {
+        encoding: !options.flipAxes ? {
           x: {
             field: 'value',
             type: 'nominal',
@@ -132,7 +141,7 @@ export function createBarSpec(
               domainColor: '#757575',
               labelFlush: false,
               grid: false,
-              title: variable.xLabel,
+              title: options.xLabel,
               labelAngle: 0
             }
           },
@@ -149,7 +158,7 @@ export function createBarSpec(
               tickColor: '#757575',
               domainColor: '#757575',
               labelFontSize: 10,
-              title: variable.yLabel
+              title: options.yLabel
             }
           }
         } : {
@@ -166,7 +175,7 @@ export function createBarSpec(
               domainColor: '#757575',
               labelFlush: false,
               grid: false,
-              title: variable.yLabel
+              title: options.yLabel
             }
           },
           x: {
@@ -182,7 +191,7 @@ export function createBarSpec(
               tickColor: '#757575',
               domainColor: '#757575',
               labelFontSize: 10,
-              title: variable.xLabel
+              title: options.xLabel
             }
           }
         },
@@ -194,16 +203,16 @@ export function createBarSpec(
               color: '#77ACF0',
               strokeWidth: 1,
               stroke: 'white',
-              orient: flipAxes ? 'horizontal' : 'vertical'
+              orient: options.flipAxes ? 'horizontal' : 'vertical'
             }
           },
           {
             mark: {
               type: 'text',
-              align: flipAxes ? 'left' : 'center',
+              align: options.flipAxes ? 'left' : 'center',
               baseline: 'middle',
-              dx: flipAxes ? 3 : 0,
-              dy: flipAxes ? 0 : -10
+              dx: options.flipAxes ? 3 : 0,
+              dy: options.flipAxes ? 0 : -10
             },
             encoding: {
               text: { field: 'totalFinal', type: 'nominal' }
