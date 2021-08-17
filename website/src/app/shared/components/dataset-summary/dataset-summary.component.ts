@@ -1,5 +1,7 @@
-import { Component, HostBinding, ChangeDetectionStrategy, Input } from '@angular/core';
-import { DatasetSummary } from 'src/app/core/models/dataset.model';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+
+import { DatasetMetaEntry } from '../../../core/models/dataset.model';
+
 
 @Component({
   selector: 'agc-dataset-summary',
@@ -10,6 +12,6 @@ import { DatasetSummary } from 'src/app/core/models/dataset.model';
 export class DatasetSummaryComponent {
   @HostBinding('class') readonly clsName = 'dataset-summary';
 
-  @Input() summary: DatasetSummary[] | null | undefined = [];
+  @Input() summary: DatasetMetaEntry[] | null | undefined = [];
   @Input() title: string | null = '';
 }
