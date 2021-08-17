@@ -7,6 +7,7 @@ export function createTimeSpec(distributionData: DistributionDataEntry[] = []): 
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     height: 150,
+    width: 'container',
     data: {
       name: 'distribution'
     },

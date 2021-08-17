@@ -28,6 +28,7 @@ export function createBarSpec(
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     height: 300,
+    width: 'container',
     data: {
       name: 'distribution'
     },
@@ -44,6 +45,8 @@ export function createBarSpec(
       {
         title: {
           text: `${variable.dataset} by ${variable.name}`,
+          align: 'left',
+          anchor: 'start'
         },
         view: {
           strokeOpacity: 0,

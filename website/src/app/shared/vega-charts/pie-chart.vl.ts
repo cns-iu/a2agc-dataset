@@ -11,6 +11,7 @@ export function createPieSpec(
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
     height: 300,
+    width: 'container',
     data: {
       name: 'distribution'
     },
@@ -27,19 +28,14 @@ export function createPieSpec(
         groupby: ['value']
       },
       {
-        calculate: '1',
-        as: 'True'
-      },
-      {
         joinaggregate: [{
           op: 'sum',
           field: 'total',
           as: 'totalCount'
-        }],
-        groupby: ['True']
+        }]
       },
       {
-        calculate: 'format(datum.total*100/datum.totalCount, ",.2f") + "%"',
+        calculate: 'format(100 * datum.total / datum.totalCount, ",.2f") + "%"',
         as: 'percent'
       },
       {
@@ -51,7 +47,10 @@ export function createPieSpec(
       color: {
         field: 'value',
         type: 'nominal',
-        scale: { range: ['#77ACF0', '#2a4d87'] },
+        scale: {
+          domain: ['True', 'False'],
+          range: ['#77ACF0', '#2a4d87']
+        },
         legend: {
           orient: 'none',
           title: null,
@@ -66,8 +65,8 @@ export function createPieSpec(
       {
         title: {
           text: `${variable.dataset} by ${variable.name}`,
-          dx: -520,
-          dy: 50
+          align: 'left',
+          anchor: 'start'
         },
         mark: { type: 'arc', outerRadius: 130, strokeWidth: 2, stroke: 'white' },
         encoding: {
