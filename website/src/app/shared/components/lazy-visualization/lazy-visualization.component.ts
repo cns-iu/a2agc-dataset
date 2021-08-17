@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { View } from 'vega';
 import { VisualizationSpec } from 'vega-embed';
 
@@ -9,9 +9,31 @@ import { VisualizationSpec } from 'vega-embed';
   styleUrls: ['./lazy-visualization.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LazyVisualizationComponent {
+export class LazyVisualizationComponent<T> implements OnChanges {
+  @HostBinding('class') readonly clsName = 'agc-lazy-visualization';
+
   @Input() spec!: VisualizationSpec;
-  @Input() reactive = true;
+  @Input() dataBindingName!: string;
+  @Input() data: T[] = [];
+
+  loading = true;
 
   private vegaInstance?: View;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('spec' in changes) {
+      this.loading = true;
+    } else if ('dataBindingName' in changes || 'data' in changes) {
+      this.attachData();
+    }
+  }
+
+  setView(view: View): void {
+    this.vegaInstance = view;
+    this.attachData();
+  }
+
+  attachData(): void {
+    this.vegaInstance?.data(this.dataBindingName, this.data);
+  }
 }

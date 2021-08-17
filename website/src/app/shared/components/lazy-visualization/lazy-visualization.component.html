@@ -1,5 +1,5 @@
-<ngx-vega class="visualization" [spec]="spec">
+<ngx-vega class="visualization" [spec]="spec" (viewChange)="setView($event)" (viewLoading)="loading = $event">
 </ngx-vega>
 
-<mat-spinner>
+<mat-spinner *ngIf="loading">
 </mat-spinner>
