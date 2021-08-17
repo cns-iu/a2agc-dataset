@@ -1,0 +1,37 @@
+@use '~@angular/material' as mat;
+
+
+@mixin color($config-or-theme) {
+  $config: mat.get-color-config($config-or-theme);
+  $primary: map-get($config, primary);
+  $accent: map-get($config, accent);
+
+  .agc-data-distributions {
+    .header {
+      background-color: mat.get-color-from-palette($primary, 600);
+      color: mat.get-color-from-palette($primary, '600-contrast');
+    }
+  }
+}
+
+@mixin typography($config-or-theme) {
+  $config: mat.get-typography-config($config-or-theme);
+
+  .agc-data-distributions {
+    .header {
+      @include mat.typography-level($config, title);
+    }
+  }
+}
+
+@mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+  $typography: mat.get-typography-config($theme);
+
+  @if $color != null {
+    @include color($color);
+  }
+  @if $typography != null {
+    @include typography($typography);
+  }
+}

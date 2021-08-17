@@ -1,11 +1,13 @@
 @use "./about/about.theme";
 @use "./change-log/change-log.theme";
+@use "./data-distributions/data-distributions.theme";
 @use "./data-er-diagram/data-er-diagram.theme";
 @use "./data-schema-browser/data-schema-browser.theme";
 
 @mixin theme($theme-or-config) {
   @include about.theme($theme-or-config);
   @include change-log.theme($theme-or-config);
+  @include data-distributions.theme($theme-or-config);
   @include data-er-diagram.theme($theme-or-config);
   @include data-schema-browser.theme($theme-or-config);
 }
