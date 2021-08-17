@@ -10,8 +10,8 @@ export function createPieSpec(
 ): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-    height: 300,
     width: 'container',
+    height: 350,
     data: {
       name: 'distribution'
     },

@@ -27,8 +27,10 @@ export function createBarSpec(
 ): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
-    height: 300,
     width: 'container',
+    autosize: {
+      resize: true
+    },
     data: {
       name: 'distribution'
     },
