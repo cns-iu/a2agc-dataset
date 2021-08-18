@@ -1,4 +1,8 @@
 :host {
+  display: block;
+  width: 100%;
+  height: 100%;
+
   .header {
     display: flex;
     height: 4rem;
@@ -8,14 +12,17 @@
   }
 
   .data-block {
+    width: 100%;
+    height: 100%;
     margin-top: 2rem;
 
-    ngx-vega {
-      margin-top: 2rem;
+    .visualization {
+      margin-bottom: 2rem;
     }
 
-    .time-spec {
-      width: 75%;
+    .time-slider {
+      margin-top: 2rem;
+      width: 100%;
     }
   }
 }

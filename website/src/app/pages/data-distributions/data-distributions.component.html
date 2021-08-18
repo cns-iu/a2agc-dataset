@@ -3,34 +3,23 @@
 <agc-table-data-selector [subLabel]="(subLabel$ | async) ?? ''" [datasets]="(datasets$ | async) ?? []"
                          [variables]="(variables$ | async) ?? []" [subVariables]="(subVariables$ | async) ?? []"
                          (datasetChange)="setSelectedDataset($event)"
-                         (dataVariableChange)="setSelectedVariable($event)">
+                         (dataVariableChange)="setSelectedVariable($event)"
+                         (selectAll)="setSelectAllVariables()">
 </agc-table-data-selector>
 
-<div class="data-block" *ngIf="specs.length !== 0">
-  <agc-lazy-visualization *ngFor="let spec of specs" [spec]="spec">
-  </agc-lazy-visualization>
-  <!-- <agc-dataset-summary
-    [summary]="data.currentColumnSummary$ | async"
-    [title]="data.currentDataVariable$ | async"
-  ></agc-dataset-summary>
-  <ngx-vega
-    [spec]="demoPieSpec"
-    [options]="{}"
-    [autosize]="{ width: true, height: false }"
-  ></ngx-vega>
-  <ngx-vega
-    [spec]="demoBarChartSpec"
-    [options]="{}"
-    [autosize]="{ width: true, height: false }"
-  ></ngx-vega>
-  <ngx-vega
-    [spec]="demoHorizBarChartSpec"
-    [options]="{}"
-    [autosize]="{ width: true, height: false }"
-  ></ngx-vega>
-  <ngx-vega class="time-spec"
-    [spec]="timeSpec"
-    [options]="{}"
-    [autosize]="{ width: true, height: false }"
-  ></ngx-vega> -->
+<div class="data-block" *ngIf="visualizations.length !== 0">
+  <div *ngFor="let vis of visualizations" class="visualization">
+    <agc-lazy-visualization *ngIf="vis.spec; else: summary" dataBindingName="distribution" [spec]="vis.spec"
+                            [autosize]="autosize" [data]="(vis.data | async) ?? []">
+    </agc-lazy-visualization>
+
+    <ng-template #summary>
+      <agc-dataset-summary [summary]="vis.metadata | async" [title]="vis.variable.name">
+      </agc-dataset-summary>
+    </ng-template>
+  </div>
+
+  <ngx-vega *ngIf="timeSliderSpec" class="time-slider" [spec]="timeSliderSpec" [autosize]="autosize"
+            [options]="{ actions: false }" (viewChange)="attachPeriodSelector($event)">
+  </ngx-vega>
 </div>
