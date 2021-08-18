@@ -19,6 +19,7 @@ export class TableDataSelectorComponent {
 
   @Output() readonly datasetChange = new EventEmitter<Dataset>();
   @Output() readonly dataVariableChange = new EventEmitter<DatasetVariable>();
+  @Output() readonly selectAll = new EventEmitter<void>();
 
   selectedDataset: Dataset | undefined;
   selectedVariable: DatasetVariable | undefined;

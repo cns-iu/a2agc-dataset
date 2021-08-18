@@ -5,6 +5,11 @@
     mat-form-field:first-of-type {
       margin-right: 2rem;
     }
+
+    .all {
+      margin-left: 2rem;
+      margin-bottom: 1.25em; // Match mat-form-field
+    }
   }
 
   .description {

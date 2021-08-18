@@ -9,5 +9,9 @@
   <agc-sub-selector label="Data Variable" [options]="variableNames" [subLabel]="subLabel"
                     [subOptions]="subVariableNames" (selectionChange)="setVariableFromName($event)">
   </agc-sub-selector>
+
+  <button mat-raised-button class="all" [disabled]="selectedDataset === undefined" (click)="selectAll.emit()">
+    Select All Variables
+  </button>
 </div>
 <div class="description" *ngIf="selectedDataset?.description">{{ selectedDataset!.description }}</div>
