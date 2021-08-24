@@ -14,6 +14,7 @@ import {
 import { DatasetVariableGroup, DatasetVariablesState } from '../../core/state/data/dataset-variables.state';
 import { DatasetsState } from '../../core/state/data/datasets.state';
 import { ChartFactoryService } from '../../shared/vega-charts/chart-factory.service';
+import { VisualizationsManagerService } from './services/visualizations-manager.service';
 
 
 type Filter = [number, number] | undefined;
@@ -30,7 +31,8 @@ export interface VisualizationEntry {
   selector: 'agc-data-distributions',
   templateUrl: './data-distributions.component.html',
   styleUrls: ['./data-distributions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [VisualizationsManagerService]
 })
 export class DataDistributionsComponent {
   /** HTML class name */
@@ -47,6 +49,11 @@ export class DataDistributionsComponent {
   selectedVariable?: DatasetVariable;
   timeSliderSpec?: VisualizationSpec;
   visualizations: VisualizationEntry[] = [];
+
+  get showTimeSlider(): boolean {
+    return this.timeSliderSpec !== undefined &&
+      this.visualizations.some(entry => entry.spec !== undefined);
+  }
 
   private readonly variableObservables$ = new ReplaySubject<ObservableInput<DatasetVariable[]>>(1);
   private readonly subVariableObservables$ = new ReplaySubject<ObservableInput<DatasetVariable[]>>(1);
@@ -139,8 +146,12 @@ export class DataDistributionsComponent {
     }
 
     return data.filter(({ period }: DistributionDataEntry) => {
-      const millisecs = Date.parse(period);
-      return period === '' || (filter[0] <= millisecs && millisecs <= filter[1]);
+      if (period === undefined) {
+        return true;
+      }
+
+      const millisecs = +period;
+      return filter[0] <= millisecs && millisecs <= filter[1];
     });
   }
 }

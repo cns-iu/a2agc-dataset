@@ -19,7 +19,7 @@
     </ng-template>
   </div>
 
-  <ngx-vega *ngIf="timeSliderSpec" class="time-slider" [spec]="timeSliderSpec" [autosize]="autosize"
+  <ngx-vega *ngIf="showTimeSlider" class="time-slider" [spec]="timeSliderSpec!" [autosize]="autosize"
             [options]="{ actions: false }" (viewChange)="attachPeriodSelector($event)">
   </ngx-vega>
 </div>
