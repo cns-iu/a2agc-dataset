@@ -1,7 +1,13 @@
-export type DistributionType = string;
+export enum DistributionType {
+  pie = 'pie-chart',
+  histogram = 'histogram',
+  verticalBar = 'bar-chart',
+  horizontalBar = 'horizontal-bar-chart',
+  summary = 'summary'
+}
 
 export interface Distribution {
-  type: DistributionType;
+  type: DistributionType | string;
   summary: DistributionSummary;
   url: string;
 }
@@ -13,7 +19,7 @@ export interface DistributionSummary {
 }
 
 export interface DistributionDataEntry {
-  period: string;
-  value: string | number;
+  period: Date | undefined;
+  value: unknown;
   count: number;
 }
