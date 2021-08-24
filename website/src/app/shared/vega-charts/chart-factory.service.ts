@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { VisualizationSpec } from 'vega-embed';
 
+import { CHART_CONFIG, ChartType } from '../../../configs/config';
 import { DatasetVariable } from '../../core/models/dataset.model';
+import { DistributionType } from '../../core/models/distribution.model';
 import { createBarSpec } from './bar-chart.vl';
 import { createPieSpec } from './pie-chart.vl';
 import { createTimeSpec } from './time-slider.vl';
 
-
-const VERTICAL_BAR_CHART_THRESHOLD = 50;
 
 @Injectable({
   providedIn: 'root'
@@ -18,25 +18,40 @@ export class ChartFactoryService {
   readonly createTimeSlider = createTimeSpec;
 
   createChart(variable: DatasetVariable): VisualizationSpec | undefined {
-    const { distribution: dist } = variable;
-    switch (dist.type) {
-      case 'horizontal-bar-chart':
-        /* fallthrough */
-      case 'bar-chart':
-        /* fallthrough */
-      case 'histogram': {
-        const horizontal = dist.type !== 'bar-chart' ||
-          dist.summary.distinct > VERTICAL_BAR_CHART_THRESHOLD;
-        const xLabel = horizontal ? '# Total Deaths' : variable.name;
-        const yLabel = horizontal ? variable.name : 'Count of Records';
-        return this.createBarChart(variable, [], {
-          flipAxes: horizontal,
-          xLabel, yLabel
-        });
-      }
+    const { distribution: { type, summary: { distinct } } } = variable;
+    const knownType = Object.values<string>(DistributionType).includes(type);
 
-      case 'pie-chart':
-        return this.createPieChart(variable);
+    if (!knownType || type === DistributionType.summary) {
+      return undefined;
+    }
+
+    if (distinct <= CHART_CONFIG[ChartType.pie].maxDistinctValues) {
+      return createPieSpec(variable);
+    }
+
+    switch (type) {
+      case DistributionType.pie:
+        /* fallthrough */
+      case DistributionType.histogram:
+        /* fallthrough */
+      case DistributionType.verticalBar:
+        if (distinct <= CHART_CONFIG[ChartType.verticalBar].maxDistinctValues) {
+          return this.createBarChart(variable, [], {
+            xLabel: variable.name,
+            yLabel: 'Count of Records'
+          });
+        }
+        /* fallthrough */
+
+      case DistributionType.horizontalBar:
+        if (distinct <= CHART_CONFIG[ChartType.horizontalBar].maxDistinctValues) {
+          return this.createBarChart(variable, [], {
+            flipAxes: true,
+            xLabel: '# Total Deaths',
+            yLabel: variable.name
+          });
+        }
+        /* fallthrough */
 
       default:
         return undefined;
