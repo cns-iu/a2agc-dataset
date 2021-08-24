@@ -8,6 +8,16 @@ import { DatasetVariable } from '../../models/dataset.model';
 import { DistributionDataEntry } from '../../models/distribution.model';
 
 
+export type TransformHandlerFn = (value: string) => unknown;
+export type TransformHandlers = Record<string | number, TransformHandlerFn | undefined>;
+
+
+function castDate(value: string): Date | undefined {
+  const date = new Date(value);
+  return Number.isNaN(+date) ? undefined : date;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,36 +26,93 @@ export class DistributionDataLoaderService {
 
   load(variable: DatasetVariable): Observable<DistributionDataEntry[]> {
     const { distribution: { url } } = variable;
+    const handlers = this.getTransformHandlers(variable);
     const config: ParseConfig = {
       header: true,
       delimiter: ',',
       skipEmptyLines: true,
-      dynamicTyping: {
-        period: false,
-        value: true,
-        count: true
+      dynamicTyping: this.getDynamicTypingConfig(variable),
+      transform: (value, field) => {
+        const handler = handlers[field];
+        return handler ? handler(value) : value;
       }
     };
 
     return this.http.get(url, { responseType: 'text' }).pipe(
       map(text => parse<DistributionDataEntry>(text, config)),
-      map(result => this.normalizeData(result.data, variable))
+      map(result => this.aggregateResult(variable, result.data))
     );
   }
 
-  private normalizeData(
-    data: DistributionDataEntry[],
-    variable: DatasetVariable
-  ): DistributionDataEntry[] {
+  protected getDynamicTypingConfig(variable: DatasetVariable): ParseConfig['dynamicTyping'] {
+    return {
+      value: this.getValueTransform(variable) === undefined
+    };
+  }
+
+  protected getTransformHandlers(variable: DatasetVariable): TransformHandlers {
+    return {
+      period: castDate,
+      value: this.getValueTransform(variable),
+      count: Number
+    };
+  }
+
+  protected aggregateResult(variable: DatasetVariable, result: DistributionDataEntry[]): DistributionDataEntry[] {
     switch (variable.type) {
-      case 'BOOLEAN':
-        return data.map(entry => ({
-          ...entry,
-          value: entry.value === 0 ? 'False' : 'True'
-        }));
+      case 'DATE':
+        return this.aggregateByYear(result);
 
       default:
-        return data;
+        return result;
     }
+  }
+
+  private getValueTransform(variable: DatasetVariable): TransformHandlerFn | undefined {
+    switch (variable.type) {
+      case 'BOOLEAN':
+        return value => value === '0' ? 'False' : 'True';
+
+      case 'DATE':
+        return castDate;
+
+      default:
+        return undefined;
+    }
+  }
+
+  private aggregateByYear(data: DistributionDataEntry[]): DistributionDataEntry[] {
+    const byYear: Record<number, number> = {};
+    let noYearCount = 0;
+    for (const { value, count } of data) {
+      if (value === undefined) {
+        noYearCount += count;
+      } else {
+        const year = (value as Date).getFullYear();
+        byYear[year] ??= 0;
+        byYear[year] += count;
+      }
+    }
+
+    const result: DistributionDataEntry[] = [];
+    for (const [year, count] of Object.entries(byYear)) {
+      const date = new Date(+year, 0);
+      result.push({
+        period: undefined,
+        value: date,
+        count
+      });
+    }
+
+    result.sort((y1, y2) => +(y1.value as Date) - +(y2.value as Date));
+    if (noYearCount !== 0) {
+      result.push({
+        period: undefined,
+        value: '<date unavailable>',
+        count: noYearCount
+      });
+    }
+
+    return result;
   }
 }
