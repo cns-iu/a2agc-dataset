@@ -9,7 +9,6 @@
     "strict": true,
     "skipLibCheck": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
