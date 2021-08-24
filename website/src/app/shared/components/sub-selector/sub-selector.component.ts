@@ -1,4 +1,7 @@
-import { Component, HostBinding, Input, EventEmitter, Output, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges,
+} from '@angular/core';
+
 
 @Component({
   selector: 'agc-sub-selector',
@@ -6,7 +9,7 @@ import { Component, HostBinding, Input, EventEmitter, Output, OnInit, ChangeDete
   styleUrls: ['./sub-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SubSelectorComponent implements OnInit {
+export class SubSelectorComponent implements OnInit, OnChanges {
   @HostBinding('class') readonly clsName = 'agc-sub-selector';
 
   @Input() label = '';
@@ -23,6 +26,12 @@ export class SubSelectorComponent implements OnInit {
   ngOnInit(): void {
     if (this.subOptions.length > 0) {
       this.subOptionFilter = this.subOptions[0].charAt(0);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('selection' in changes) {
+      this.showMenu = false;
     }
   }
 

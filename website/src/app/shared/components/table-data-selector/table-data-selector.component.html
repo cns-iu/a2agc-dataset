@@ -7,7 +7,8 @@
   </mat-form-field>
 
   <agc-sub-selector label="Data Variable" [options]="variableNames" [subLabel]="subLabel"
-                    [subOptions]="subVariableNames" (selectionChange)="setVariableFromName($event)">
+                    [subOptions]="subVariableNames" [selection]="selectedVariable?.name ?? ''"
+                    (selectionChange)="setVariableFromName($event)">
   </agc-sub-selector>
 
   <button mat-raised-button class="all" [disabled]="selectedDataset === undefined" (click)="selectAll.emit()">

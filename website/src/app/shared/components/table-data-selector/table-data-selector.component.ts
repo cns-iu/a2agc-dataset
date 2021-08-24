@@ -33,8 +33,9 @@ export class TableDataSelectorComponent {
   }
 
   setDataset(dataset: Dataset | undefined): void {
-    if (dataset !== undefined) {
+    if (dataset !== undefined && dataset !== this.selectedDataset) {
       this.selectedDataset = dataset;
+      this.selectedVariable = undefined;
       this.datasetChange.emit(dataset);
     }
   }
