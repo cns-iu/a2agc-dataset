@@ -58,10 +58,13 @@ export class DistributionDataLoaderService {
     };
   }
 
-  protected aggregateResult(variable: DatasetVariable, result: DistributionDataEntry[]): DistributionDataEntry[] {
+  protected aggregateResult(
+    variable: DatasetVariable,
+    result: DistributionDataEntry[]
+  ): DistributionDataEntry[] {
     switch (variable.type) {
       case 'DATE':
-        return this.aggregateByYear(result);
+        return this.aggregateByYear(result as DistributionDataEntry<Date | undefined>[]);
 
       default:
         return result;
@@ -81,37 +84,24 @@ export class DistributionDataLoaderService {
     }
   }
 
-  private aggregateByYear(data: DistributionDataEntry[]): DistributionDataEntry[] {
-    const byYear: Record<number, number> = {};
-    let noYearCount = 0;
-    for (const { value, count } of data) {
-      if (value === undefined) {
-        noYearCount += count;
-      } else {
-        const year = (value as Date).getFullYear();
-        byYear[year] ??= 0;
-        byYear[year] += count;
-      }
-    }
+  private aggregateByYear(
+    data: DistributionDataEntry<Date | undefined>[]
+  ): DistributionDataEntry<Date | string>[] {
+    const byYear = data.reduce((mapping, { value, count }) => {
+      const key = value?.getFullYear?.();
+      const newCount = (mapping.get(key) ?? 0) + count;
+      return mapping.set(key, newCount);
+    }, new Map<number | undefined, number>());
 
-    const result: DistributionDataEntry[] = [];
-    for (const [year, count] of Object.entries(byYear)) {
-      const date = new Date(+year, 0);
-      result.push({
-        period: undefined,
-        value: date,
-        count
-      });
-    }
+    const sortedYears = Array.from(byYear.keys()).sort((k1, k2) =>
+      k1 === undefined ? 1 : k2 === undefined ? -1 : k1 - k2
+    );
 
-    result.sort((y1, y2) => +(y1.value as Date) - +(y2.value as Date));
-    if (noYearCount !== 0) {
-      result.push({
-        period: undefined,
-        value: '<date unavailable>',
-        count: noYearCount
-      });
-    }
+    const result = sortedYears.map<DistributionDataEntry<Date | string>>(year => {
+      const period = year !== undefined ? new Date(year, 0) : undefined;
+      const value = period ?? '<date unavailable>';
+      return { period, value, count: byYear.get(year)! };
+    });
 
     return result;
   }
