@@ -25,12 +25,19 @@ export class ChartFactoryService {
       return undefined;
     }
 
-    if (distinct <= CHART_CONFIG[ChartType.pie].maxDistinctValues) {
-      return createPieSpec(variable);
-    }
+    // FIXME: Reenable when pie chart supports more than 2 values
+    // if (distinct <= CHART_CONFIG[ChartType.pie].maxDistinctValues) {
+    //   return createPieSpec(variable);
+    // }
 
     switch (type) {
       case DistributionType.pie:
+        // FIXME: Pie chart only supports boolean data.
+        // Needs to be able to support any data type with more than 2 distinct values
+        if (distinct <= 2 && vtype === 'BOOLEAN') {
+          return createPieSpec(variable);
+        }
+
         /* fallthrough */
       case DistributionType.histogram:
         /* fallthrough */
