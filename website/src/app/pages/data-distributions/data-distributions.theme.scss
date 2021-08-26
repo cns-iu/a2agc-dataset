@@ -11,6 +11,10 @@
       background-color: mat.get-color-from-palette($primary, 600);
       color: mat.get-color-from-palette($primary, '600-contrast');
     }
+
+    .time-slider {
+      background-color: white;
+    }
   }
 }
 

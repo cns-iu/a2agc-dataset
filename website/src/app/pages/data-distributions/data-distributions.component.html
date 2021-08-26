@@ -2,8 +2,7 @@
 
 <agc-table-data-selector [subLabel]="(subLabel$ | async) ?? ''" [datasets]="(datasets$ | async) ?? []"
                          [variables]="(variables$ | async) ?? []" [subVariables]="(subVariables$ | async) ?? []"
-                         (datasetChange)="setSelectedDataset($event)"
-                         (dataVariableChange)="setSelectedVariable($event)"
+                         (datasetChange)="setSelectedDataset($event)" (dataVariableChange)="setSelectedVariable($event)"
                          (selectAll)="setSelectAllVariables()">
 </agc-table-data-selector>
 
@@ -19,7 +18,8 @@
     </ng-template>
   </div>
 
-  <ngx-vega *ngIf="showTimeSlider" class="time-slider" [spec]="timeSliderSpec!" [autosize]="autosize"
-            [options]="{ actions: false }" (viewChange)="attachPeriodSelector($event)">
+  <ngx-vega *ngIf="showTimeSlider" class="time-slider" [class.sticky]="visualizations.length > 1"
+            [spec]="timeSliderSpec!" [autosize]="autosize" [options]="{ actions: false }"
+            (viewChange)="attachPeriodSelector($event)">
   </ngx-vega>
 </div>

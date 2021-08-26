@@ -23,6 +23,12 @@
     .time-slider {
       margin-top: 2rem;
       width: 100%;
+
+      &.sticky {
+        position: sticky;
+        bottom: 0;
+        z-index: 1001;
+      }
     }
   }
 }
