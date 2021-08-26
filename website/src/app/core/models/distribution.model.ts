@@ -18,8 +18,8 @@ export interface DistributionSummary {
   max: number;
 }
 
-export interface DistributionDataEntry {
+export interface DistributionDataEntry<T = unknown> {
   period: Date | undefined;
-  value: unknown;
+  value: T;
   count: number;
 }

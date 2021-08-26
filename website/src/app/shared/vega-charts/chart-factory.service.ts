@@ -18,7 +18,7 @@ export class ChartFactoryService {
   readonly createTimeSlider = createTimeSpec;
 
   createChart(variable: DatasetVariable): VisualizationSpec | undefined {
-    const { distribution: { type, summary: { distinct } } } = variable;
+    const { type: vtype, distribution: { type, summary: { distinct } } } = variable;
     const knownType = Object.values<string>(DistributionType).includes(type);
 
     if (!knownType || type === DistributionType.summary) {
@@ -44,7 +44,7 @@ export class ChartFactoryService {
         /* fallthrough */
 
       case DistributionType.horizontalBar:
-        if (distinct <= CHART_CONFIG[ChartType.horizontalBar].maxDistinctValues) {
+        if (distinct <= CHART_CONFIG[ChartType.horizontalBar].maxDistinctValues || vtype === 'DATE') {
           return this.createBarChart(variable, [], {
             flipAxes: true,
             xLabel: '# Total Deaths',

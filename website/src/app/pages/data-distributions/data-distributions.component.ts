@@ -1,30 +1,21 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Autosize } from 'ngx-vega';
-import { combineLatest, Observable, ObservableInput, ReplaySubject } from 'rxjs';
-import { filter as filterOp, map, startWith, switchAll, switchMap, take, throttleTime } from 'rxjs/operators';
+import { fromEventPattern, Observable, ObservableInput, ReplaySubject } from 'rxjs';
+import { filter as filterOp, map, switchAll, switchMap, take } from 'rxjs/operators';
 import { View } from 'vega';
 import { VisualizationSpec } from 'vega-embed';
 
 import { DATA_CONFIG } from '../../../configs/config';
-import { Dataset, DatasetMetaEntry, DatasetVariable } from '../../core/models/dataset.model';
-import { DistributionDataEntry } from '../../core/models/distribution.model';
+import { Dataset, DatasetVariable } from '../../core/models/dataset.model';
 import {
   DistributionDataLoaderService,
 } from '../../core/services/distribution-data-loader/distribution-data-loader.service';
 import { DatasetVariableGroup, DatasetVariablesState } from '../../core/state/data/dataset-variables.state';
 import { DatasetsState } from '../../core/state/data/datasets.state';
 import { ChartFactoryService } from '../../shared/vega-charts/chart-factory.service';
-import { VisualizationsManagerService } from './services/visualizations-manager.service';
-
-
-type Filter = [number, number] | undefined;
-
-export interface VisualizationEntry {
-  variable: DatasetVariable;
-  spec: VisualizationSpec | undefined;
-  data: Observable<DistributionDataEntry[]>;
-  metadata: Observable<DatasetMetaEntry[]>;
-}
+import {
+  DataFilter, SpecVisualizationEntry, VisualizationEntry, VisualizationsManagerService,
+} from './services/visualizations-manager.service';
 
 
 @Component({
@@ -48,24 +39,25 @@ export class DataDistributionsComponent {
   selectedDataset?: Dataset;
   selectedVariable?: DatasetVariable;
   timeSliderSpec?: VisualizationSpec;
-  visualizations: VisualizationEntry[] = [];
+
+  get visualizations(): VisualizationEntry[] {
+    return this.visManager.visualizations;
+  }
 
   get showTimeSlider(): boolean {
     return this.timeSliderSpec !== undefined &&
-      this.visualizations.some(entry => entry.spec !== undefined);
+      this.visualizations.some(this.hasSpec);
   }
 
   private readonly variableObservables$ = new ReplaySubject<ObservableInput<DatasetVariable[]>>(1);
   private readonly subVariableObservables$ = new ReplaySubject<ObservableInput<DatasetVariable[]>>(1);
 
-  private readonly filterObservable$ = new ReplaySubject<ObservableInput<Filter>>(1);
-  private readonly filters$ = this.filterObservable$.pipe(switchAll());
-
   constructor(
     datasetsState: DatasetsState,
     private readonly variablesState: DatasetVariablesState,
     private readonly dataLoaderService: DistributionDataLoaderService,
-    private readonly chartFactoryService: ChartFactoryService
+    private readonly chartFactoryService: ChartFactoryService,
+    private readonly visManager: VisualizationsManagerService
   ) {
     this.datasets$ = datasetsState.entitiesArray$;
     this.subLabel$ = variablesState.subLabel$;
@@ -75,11 +67,14 @@ export class DataDistributionsComponent {
     this.createTimeSliderVisualization();
   }
 
+  hasSpec(this: void, entry: VisualizationEntry): entry is SpecVisualizationEntry {
+    return 'spec' in entry && entry.spec !== undefined;
+  }
+
   setSelectedDataset(dataset: Dataset): void {
     if (dataset !== this.selectedDataset) {
       this.selectedDataset = dataset;
       this.selectedVariable = undefined;
-      this.visualizations = [];
       this.variableObservables$.next(this.variablesState.getVariables(dataset, DatasetVariableGroup.nonSub));
       this.subVariableObservables$.next(this.variablesState.getSubVariables(dataset));
     }
@@ -88,28 +83,30 @@ export class DataDistributionsComponent {
   setSelectedVariable(variable: DatasetVariable): void {
     if (variable !== this.selectedVariable && this.selectedDataset !== undefined) {
       this.selectedVariable = variable;
-      this.visualizations = [this.createVisualization(variable)];
+      this.visManager.setVariables([variable]);
     }
   }
 
   setSelectAllVariables(): void {
     const { selectedDataset } = this;
     if (selectedDataset !== undefined) {
-      const variables$ = this.variablesState.getVariables(selectedDataset).pipe(take(1));
-      variables$.subscribe(variables => {
-        if (this.selectedDataset === selectedDataset) {
-          this.visualizations = variables.map(v => this.createVisualization(v));
-        }
-      });
+      const variables = this.variablesState.entitiesArray.filter(
+        variable => variable.dataset === selectedDataset.name
+      );
+
+      this.selectedVariable = undefined;
+      this.visManager.setVariables(variables);
     }
   }
 
   attachPeriodSelector(view: View): void {
-    const filters = new ReplaySubject<Filter>(1);
-    const handler = (_name: string, value: { period: Filter }) => filters.next(value.period);
+    const events$ = fromEventPattern<[string, { period: DataFilter }]>(
+      handler => view.addSignalListener('period', handler),
+      handler => view.removeSignalListener('period', handler)
+    );
+    const source$ = events$.pipe(map(([_name, { period }]) => period));
 
-    view.addSignalListener('period', handler);
-    this.filterObservable$.next(filters);
+    this.visManager.setFilterSource(source$);
   }
 
   private createTimeSliderVisualization(): void {
@@ -122,36 +119,6 @@ export class DataDistributionsComponent {
 
     data$.subscribe(data => {
       this.timeSliderSpec = this.chartFactoryService.createTimeSlider(data);
-    });
-  }
-
-  private createVisualization(variable: DatasetVariable): VisualizationEntry {
-    const variableId = this.variablesState.selectId(variable);
-    const spec = this.chartFactoryService.createChart(variable);
-    const data = combineLatest([
-      this.dataLoaderService.load(variable),
-      this.filters$.pipe(startWith(undefined))
-    ]).pipe(
-      throttleTime(100),
-      map(args => this.filterData(...args))
-    );
-    const metadata = this.variablesState.getMetadata(variableId);
-
-    return { variable, spec, data, metadata };
-  }
-
-  private filterData(data: DistributionDataEntry[], filter: Filter): DistributionDataEntry[] {
-    if (filter === undefined) {
-      return data;
-    }
-
-    return data.filter(({ period }: DistributionDataEntry) => {
-      if (period === undefined) {
-        return true;
-      }
-
-      const millisecs = +period;
-      return filter[0] <= millisecs && millisecs <= filter[1];
     });
   }
 }

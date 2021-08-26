@@ -9,7 +9,7 @@
 
 <div class="data-block" *ngIf="visualizations.length !== 0">
   <div *ngFor="let vis of visualizations" class="visualization">
-    <agc-lazy-visualization *ngIf="vis.spec; else: summary" dataBindingName="distribution" [spec]="vis.spec"
+    <agc-lazy-visualization *ngIf="hasSpec(vis); else: summary" dataBindingName="distribution" [spec]="vis.spec"
                             [autosize]="autosize" [data]="(vis.data | async) ?? []">
     </agc-lazy-visualization>
 
