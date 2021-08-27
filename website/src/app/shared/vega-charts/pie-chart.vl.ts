@@ -5,162 +5,133 @@ import { DistributionDataEntry } from '../../core/models/distribution.model';
 
 
 export function createPieSpec(
-  variable: DatasetVariable,
+  _variable: DatasetVariable,
   distributionData: DistributionDataEntry[] = []
 ): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+
     width: 'container',
     height: 350,
-    data: {
-      name: 'distribution'
+    autosize: {
+      resize: true
     },
+
     view: {
       strokeOpacity: 0
     },
+
+    data: {
+      name: 'distribution',
+      values: distributionData
+    },
+
     transform: [
       {
-        aggregate: [{
-          op: 'sum',
-          field: 'count',
-          as: 'total'
-        }],
+        aggregate: [
+          {
+            op: 'sum',
+            field: 'count',
+            as: 'count'
+          }
+        ],
         groupby: ['value']
       },
       {
-        joinaggregate: [{
-          op: 'sum',
-          field: 'total',
-          as: 'totalCount'
-        }]
+        joinaggregate: [
+          {
+            op: 'sum',
+            field: 'count',
+            as: 'total'
+          }
+        ]
       },
       {
-        calculate: 'format(100 * datum.total / datum.totalCount, ",.2f") + "%"',
-        as: 'percent'
+        calculate: 'datum.count / datum.total',
+        as: 'percentage'
+      },
+
+      {
+        calculate: 'isDate(datum.value) ? timeFormat(datum.value, "%Y") : toString(datum.value)',
+        as: 'label'
       },
       {
-        calculate: '"(" + datum.total + ")"',
-        as: 'total2'
+        calculate: '"(" + datum.count + ")"',
+        as: 'countLabel'
+      },
+      {
+        calculate: 'format(datum.percentage, ",.2%")',
+        as: 'percentageLabel'
       }
     ],
+
     encoding: {
       color: {
         field: 'value',
         type: 'nominal',
+
         scale: {
-          domain: ['True', 'False'],
-          range: ['#77ACF0', '#2a4d87']
+          // FIXME: Verify what color scheme to use!
+          scheme: 'tableau20'
         },
+
         legend: {
-          orient: 'none',
           title: null,
+          orient: 'top-left',
           symbolType: 'square',
-          legendX: 20,
-          legendY: 60,
+          labelExpr: 'datum.label',
           labelFontWeight: 'bold'
         }
+      },
+
+      theta: {
+        field: 'count',
+        type: 'quantitative',
+        stack: true
       }
     },
+
     layer: [
       {
-        title: {
-          text: `${variable.dataset} by ${variable.name}`,
-          align: 'left',
-          anchor: 'start'
-        },
-        mark: { type: 'arc', outerRadius: 130, strokeWidth: 2, stroke: 'white' },
-        encoding: {
-          theta: {
-            field: 'total',
-            type: 'quantitative',
-            stack: true
-          }
+        mark: {
+          type: 'arc',
+          radius: 130,
+          stroke: 'white',
+          strokeWidth: 2
         }
       },
+
       {
-        mark: { type: 'text', radius: 170, fill: 'black' },
-        encoding: {
-          text: { field: 'total2', type: 'nominal' },
-          theta: {
-            field: 'total',
-            type: 'quantitative',
-            stack: true
-          }
-        }
-      },
-      {
-        mark: { type: 'text', radius: 150, fontWeight: 'bold', fill: 'black' },
-        encoding: {
-          text: { field: 'percent', type: 'nominal' },
-          theta: {
-            field: 'total',
-            type: 'quantitative',
-            stack: true
-          }
-        }
-      },
-      {
-        data: {
-          values: [
-            { y: 1.7, label: 'Type:' },
-            { y: 1.6, label: 'Description:' },
-            { y: 1.5, label: 'Missing values:' }
-          ]
-        },
         mark: {
           type: 'text',
-          align: 'left',
-          fontWeight: 'bold',
-          yOffset: 100,
-          xOffset: -560
+          radius: 160,
+          fill: 'black',
+          fontWeight: 'bold'
         },
+
         encoding: {
           text: {
-            type: 'nominal',
-            field: 'label'
-          },
-          y: {
-            type: 'quantitative',
-            field: 'y',
-            axis: null
-          },
-          color: {
-            value: 'black'
+            field: 'percentageLabel',
+            type: 'nominal'
           }
         }
       },
+
       {
-        data: {
-          values: [
-            { y: 1.7, value: `${variable.type}` },
-            { y: 1.6, value: `${variable.description}` },
-            { y: 1.5, value: `${variable.percentMissing.toFixed(1)}%` }
-          ]
-        },
         mark: {
           type: 'text',
-          align: 'left',
-          yOffset: 100,
-          xOffset: -470
+          radius: 160,
+          fill: 'black',
+          yOffset: 15
         },
+
         encoding: {
           text: {
-            type: 'nominal',
-            field: 'value'
-          },
-          y: {
-            type: 'quantitative',
-            field: 'y',
-            axis: null
-          },
-          color: {
-            value: 'black'
+            field: 'countLabel',
+            type: 'nominal'
           }
         }
       }
-    ],
-    datasets: {
-      distribution: distributionData
-    }
+    ]
   };
 }
