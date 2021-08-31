@@ -6,20 +6,12 @@
                          (selectAll)="setSelectAllVariables()">
 </agc-table-data-selector>
 
-<div class="data-block" *ngIf="visualizations.length !== 0">
-  <div *ngFor="let vis of visualizations" class="visualization">
-    <agc-lazy-visualization *ngIf="hasSpec(vis); else: summary" dataBindingName="distribution" [spec]="vis.spec"
-                            [autosize]="autosize" [data]="(vis.data | async) ?? []">
-    </agc-lazy-visualization>
+<div class="data-block" *ngIf="selectedVariables.length > 0">
+  <agc-variable-visualization *ngFor="let variable of selectedVariables" class="visualization" [variable]="variable"
+                              [filterSource]="filterSource$" dataBindingName="distribution" [autosize]="autosize">
+  </agc-variable-visualization>
 
-    <ng-template #summary>
-      <agc-dataset-summary [summary]="vis.metadata | async" [title]="vis.variable.name">
-      </agc-dataset-summary>
-    </ng-template>
-  </div>
-
-  <ngx-vega *ngIf="showTimeSlider" class="time-slider" [class.sticky]="visualizations.length > 1"
-            [spec]="timeSliderSpec!" [autosize]="autosize" [options]="{ actions: false }"
-            (viewChange)="attachPeriodSelector($event)">
+  <ngx-vega *ngIf="filterSpec" class="time-slider" [class.active]="filterActive" [class.sticky]="selectedVariables.length > 1" [spec]="filterSpec"
+            [autosize]="autosize" [options]="{ actions: false }" (viewChange)="attachFilterView($event)">
   </ngx-vega>
 </div>

@@ -17,17 +17,22 @@
     margin-top: 2rem;
 
     .visualization {
-      margin-bottom: 2rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
     }
 
     .time-slider {
       margin-top: 2rem;
       width: 100%;
 
+      &:not(.active) {
+        display: none;
+      }
+
       &.sticky {
         position: sticky;
         bottom: 0;
-        z-index: 1001;
+        z-index: 2001;
       }
     }
   }
