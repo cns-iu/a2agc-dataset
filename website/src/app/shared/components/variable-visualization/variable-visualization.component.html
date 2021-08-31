@@ -1,0 +1,16 @@
+<agc-dataset-summary class="summary" [title]="variable.name" [summary]="metadata | async">
+</agc-dataset-summary>
+
+<div *ngIf="!isSummaryOnly" class="visualization-area">
+  <div *ngIf="loading" class="loading-message">
+    Loading visualization...
+  </div>
+
+  <div *ngIf="data.length === 0 && !loading" class="no-data-message">
+    No data available for the selected time period
+  </div>
+
+  <ngx-vega *ngIf="spec" class="visualization" [class.no-data]="data.length === 0" [spec]="spec" [autosize]="autosize"
+            [options]="options" (viewChange)="attachView($event)">
+  </ngx-vega>
+</div>

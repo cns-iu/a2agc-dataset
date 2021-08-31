@@ -1,0 +1,3 @@
+describe('VariableVisualizationComponent', () => {
+  // Add tests
+});
