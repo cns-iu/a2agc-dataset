@@ -1,3 +1,0 @@
-describe('LazyVisualizationComponent', () => {
-  // Add tests
-});
