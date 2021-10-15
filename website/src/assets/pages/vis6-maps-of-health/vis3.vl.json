@@ -4,11 +4,13 @@
     "name": "source",
     "url": "assets/generated/visualization6/data.csv",
     "format": {
-      "type":"csv",
+      "type": "csv",
       "parse": {
-        "PERIOD":"date",
-        "DOD":"date",
-        "RANK": "number"
+        "PERIOD": "date",
+        "DOD": "date",
+        "RANK": "number",
+        "AGE": "number",
+        "ALL_TYPES": "number"
       }
     }
   },
@@ -19,6 +21,16 @@
     },
     {
       "filter": "datum.TIME_BEFORE_DEATH >= 0"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "ALL_TYPES",
+          "as": "NUM_ENCOUNTERS_TOTAL"
+        }
+      ],
+      "groupby": ["CASE_NUMBER"]
     }
   ],
   "hconcat": [
@@ -26,6 +38,18 @@
       "title": " ",
       "width": 175,
       "height": 20,
+      "data": {
+        "name": "processed_source"
+      },
+      "view": {
+        "stroke": null
+      },
+      "mark": {
+        "type": "area",
+        "line": {
+          "size": 0.05
+        }
+      },
       "transform": [
         {
           "fold": [
@@ -45,18 +69,15 @@
               "values":[
                 {"ENCOUNTER_TYPE": "ALL_TYPES", "Encounter Type": "All Types"},
                 {"ENCOUNTER_TYPE": "HEALTH_ENCOUNTERS", "Encounter Type": "Health Encounters"},
-                {"ENCOUNTER_TYPE": "OPIOID_PRESCRIPTIONS", "Encounter Type": "Opiod Prescriptions"},
+                {"ENCOUNTER_TYPE": "OPIOID_PRESCRIPTIONS", "Encounter Type": "Opioid Prescriptions"},
                 {"ENCOUNTER_TYPE": "INCARCERATIONS", "Encounter Type": "Incarcerations"},
                 {"ENCOUNTER_TYPE": "OVERDOSES", "Encounter Type": "Overdoses"}
               ]
             },
             "fields": ["Encounter Type"]
           }
-        },
-        {"filter": {"param": "rank", "empty": true}}
+        }
       ],
-      "view": {"stroke": null},
-      "mark": { "type": "area", "line": {"size": 0.05} },
       "encoding": {
         "row": {"field": "RANK", "type": "nominal", "bin": false, "header": null, "spacing": -20},
         "column": {"field": "Encounter Type", "type": "nominal", "bin": false, "spacing": 5},
@@ -96,7 +117,7 @@
             "domain": [
               "All Types",
               "Health Encounters",
-              "Opiod Prescriptions",
+              "Opioid Prescriptions",
               "Incarcerations",
               "Overdoses"
             ],
@@ -118,57 +139,150 @@
       }
     },
     {
-      "width": 200,
-      "height": 400,
-      "view": {"stroke": null},
-      "mark": "bar",
-      "params": [
+      "vconcat": [
         {
-          "name": "rank",
-          "select": {
-            "type": "interval",
-            "on": {
-              "type": "mousemove",
-              "between": [
-                {"type": "mousedown"},
-                {"type": "mouseup"}
-              ],
-              "debounce": 1000
-            },
-            "encodings": ["y"],
-            "mark": {"fill": "#6ea7ef", "fillOpacity": 0.15}
-          }
-        }
-      ],
-      "transform": [
-        {
-          "aggregate": [{
-            "op": "max",
-            "field": "TIME_BEFORE_DEATH",
-            "as": "TIME_BEFORE_DEATH"
-          }],
-          "groupby": ["RANK"]
-        }
-      ],
-      "encoding": {
-        "y": {"field": "RANK", "axis": null},
-        "x": {
-          "field": "TIME_BEFORE_DEATH", "aggregate": "max",
-          "title": "Years Before Death",
-          "axis": {
-            "orient": "top",
-            "labelExpr": "datum.value / 12",
-            "values": [
-              0, 60, 120
-            ]
+          "width": 200,
+          "height": 400,
+          "view": {
+            "stroke": null
           },
-          "scale": {
-            "domainMin": 0,
-            "range": ["width", 0]
+          "mark": "bar",
+          "params": [
+            {
+              "name": "rank",
+              "select": {
+                "type": "interval",
+                "encodings": [
+                  "y"
+                ],
+                "mark": {
+                  "fill": "#6ea7ef",
+                  "fillOpacity": 0.15
+                }
+              }
+            }
+          ],
+          "transform": [
+            {
+              "aggregate": [
+                {
+                  "op": "max",
+                  "field": "TIME_BEFORE_DEATH",
+                  "as": "TIME_BEFORE_DEATH"
+                }
+              ],
+              "groupby": [
+                "RANK"
+              ]
+            }
+          ],
+          "encoding": {
+            "y": {
+              "field": "RANK",
+              "axis": null
+            },
+            "x": {
+              "field": "TIME_BEFORE_DEATH",
+              "aggregate": "max",
+              "title": "Years Before Death",
+              "axis": {
+                "orient": "top",
+                "labelExpr": "datum.value / 12",
+                "values": [
+                  0,
+                  60,
+                  120
+                ]
+              },
+              "scale": {
+                "domainMin": 0,
+                "range": [
+                  "width",
+                  0
+                ]
+              }
+            },
+            "color": {
+              "value": "#e5dcc5ff"
+            }
           }
         },
-        "color": {"value": "#e5dcc5ff"}
-      }
+        {
+          "mark": "bar",
+          "params": [
+            {
+              "name": "age",
+              "select": {
+                "type": "interval",
+                "encodings": [
+                  "x"
+                ],
+                "mark": {
+                  "fill": "#6ea7ef",
+                  "fillOpacity": 0.15
+                }
+              }
+            }
+          ],
+          "transform": [
+            {
+              "aggregate": [
+                {
+                  "op": "average",
+                  "field": "AGE",
+                  "as": "AGE"
+                }
+              ],
+              "groupby": ["CASE_NUMBER"]
+            }
+          ],
+          "encoding": {
+            "x": {
+              "field": "AGE",
+              "type": "quantitative",
+              "sort": "ascending",
+              "bin": true
+            },
+            "y": {
+              "aggregate": "count"
+            }
+          }
+        },
+        {
+          "mark": "bar",
+          "params": [
+            {
+              "name": "encounters",
+              "select": {
+                "type": "interval",
+                "encodings": [
+                  "x"
+                ],
+                "mark": {
+                  "fill": "#6ea7ef",
+                  "fillOpacity": 0.15
+                }
+              }
+            }
+          ],
+          "transform": [
+            {
+              "aggregate": [
+                {
+                  "op": "sum",
+                  "field": "ALL_TYPES",
+                  "as": "NUM_ENCOUNTERS"
+                }
+              ],
+              "groupby": ["CASE_NUMBER"]
+            }
+          ],
+          "encoding": {
+            "x": {"field": "NUM_ENCOUNTERS", "type": "quantitative", "sort": "ascending", "bin": true},
+            "y": {"aggregate": "count"}
+          }
+        }
+      ]
     }
   ],
   "config": {
