@@ -79,7 +79,7 @@
         }
       ],
       "encoding": {
-        "row": {"field": "RANK", "type": "nominal", "bin": false, "header": null, "spacing": -20},
+        "row": {"field": "FINAL_RANK", "type": "quantitative", "bin": false, "header": null, "spacing": -20},
         "column": {"field": "Encounter Type", "type": "nominal", "bin": false, "spacing": 5},
         "x": {
           "field": "TIME_BEFORE_DEATH",
@@ -134,7 +134,15 @@
           { "field": "CASE_NUMBER", "type": "nominal" },
           { "field": "PERIOD", "type": "temporal", "timeUnit": "yearquarter", "title": "Quarter" },
           { "field": "Encounter Type", "type": "nominal", "title": "Encounter Type" },
-          { "field": "COUNT", "type": "quantitative", "title": "# Days encounter occurred" }
+          { "field": "COUNT", "type": "quantitative", "title": "# Days encounter occurred" },
+          { "field": "TOTAL_HEALTH", "type": "quantitative"},
+          { "field": "HEALTH_RANK", "type": "quantitative"},
+          { "field": "AGE", "type": "quantitative"},
+          { "field": "TOTAL_OVERDOSE", "type": "quantitative"},
+          { "field": "OVERDOSE_RANK", "type": "quantitative"},
+          { "field": "AGE", "type": "quantitative"},
+          { "field": "AGE_RANK", "type": "quantitative"},
+          { "field": "FINAL_RANK", "type": "quantitative"}
         ]
       }
     },
@@ -310,9 +318,6 @@
     "axis": {
       "grid": true,
       "domain": false
-    },
-    "view": {
-      "continuousHeight": 200
     }
   }
 }
