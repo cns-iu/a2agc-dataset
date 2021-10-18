@@ -221,7 +221,7 @@ export class Visualization6DataHandler implements DataHandler {
 
       return {
         ...entry,
-        ...ingest({}),
+        ...ingest({}), // Create a new unique vega tuple id
         FINAL_RANK: rank
       };
     });

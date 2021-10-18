@@ -7,7 +7,7 @@ import {
   Visualization6DataHandler,
 } from '../../../shared/components/visualization-page/shared/visualization-6-data-handler';
 import { VisualizationOneView } from './../../../shared/components/visualization-page/shared/visualization1-data-handler';
-import { VisualizationSixView } from './../../../shared/components/visualization-page/shared/visualization6-data-handler';
+
 
 export interface Visualization {
   title: string;
@@ -19,6 +19,7 @@ export interface Visualization {
   csv: string;
   id: string;
 }
+
 
 export const visualizations: Visualization[] = [
   {
