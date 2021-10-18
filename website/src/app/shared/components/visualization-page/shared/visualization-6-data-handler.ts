@@ -33,6 +33,49 @@ export interface Visualization6DataHandlerOptions {
 }
 
 
+// Used when the resulting data is empty to prevent the visualization view from blowing up
+const fakeEntries: DataEntry[] = [
+  {
+    CASE_NUMBER: '',
+    RANK: 0,
+    AGE: 0,
+    PERIOD: 0,
+    TIME_BEFORE_DEATH: 0,
+
+    ALL_TYPES: 0,
+    HEALTH_ENCOUNTERS: 0,
+    OPIOID_PRESCRIPTIONS: 0,
+    INCARCERATIONS: 0,
+    OVERDOSES: 0,
+    NUM_ENCOUNTERS_TOTAL: 0,
+
+    AGE_RANK: 0,
+    HEALTH_RANK: 0,
+    OVERDOSE_RANK: 0,
+    FINAL_RANK: 0,
+  },
+  {
+    CASE_NUMBER: '',
+    RANK: 0,
+    AGE: 0,
+    PERIOD: 0,
+    TIME_BEFORE_DEATH: 120,
+
+    ALL_TYPES: 0,
+    HEALTH_ENCOUNTERS: 0,
+    OPIOID_PRESCRIPTIONS: 0,
+    INCARCERATIONS: 0,
+    OVERDOSES: 0,
+    NUM_ENCOUNTERS_TOTAL: 0,
+
+    AGE_RANK: 0,
+    HEALTH_RANK: 0,
+    OVERDOSE_RANK: 0,
+    FINAL_RANK: 0,
+  }
+];
+
+
 export class Visualization6DataHandler implements DataHandler {
   static readonly OPTIONS: Visualization6DataHandlerOptions = {};
 
@@ -83,8 +126,8 @@ export class Visualization6DataHandler implements DataHandler {
       this.scheduleUpdateCall();
     });
 
-    view.addSignalListener('encounters', (_name, value: SignalValue<'NUM_ENCOUNTERS', [number, number]>) => {
-      this.numEncounters = value.NUM_ENCOUNTERS;
+    view.addSignalListener('encounters', (_name, value: SignalValue<'NUM_ENCOUNTERS_TOTAL', [number, number]>) => {
+      this.numEncounters = value.NUM_ENCOUNTERS_TOTAL;
       this.scheduleUpdateCall();
     });
 
@@ -131,6 +174,10 @@ export class Visualization6DataHandler implements DataHandler {
     data = this.sortData(data);
     data = this.limitData(data);
     data = this.setRanks(data);
+
+    if (data.length === 0) {
+      data = fakeEntries;
+    }
 
     this.view.data('processed_source', data);
   }
@@ -203,7 +250,7 @@ export class Visualization6DataHandler implements DataHandler {
 
   private setRanks(data: DataEntry[]): DataEntry[] {
     let previousCaseNumber = '';
-    let rank = 1;
+    let rank = -1;
 
     return data.map(entry => {
       if (entry.CASE_NUMBER !== previousCaseNumber) {

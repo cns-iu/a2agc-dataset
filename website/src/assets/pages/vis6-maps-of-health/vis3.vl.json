@@ -261,6 +261,18 @@
           ],
           "transform": [
             {
+              "filter": {
+                "param": "age",
+                "empty": true
+              }
+            },
+            {
+              "filter": {
+                "param": "encounters",
+                "empty": true
+              }
+            },
+            {
               "aggregate": [
                 {
                   "op": "max",
@@ -375,7 +387,7 @@
                 {
                   "op": "sum",
                   "field": "ALL_TYPES",
-                  "as": "NUM_ENCOUNTERS"
+                  "as": "NUM_ENCOUNTERS_TOTAL"
                 }
               ],
               "groupby": [
@@ -385,7 +397,7 @@
           ],
           "encoding": {
             "x": {
-              "field": "NUM_ENCOUNTERS",
+              "field": "NUM_ENCOUNTERS_TOTAL",
               "type": "quantitative",
               "sort": "ascending",
               "bin": true,
