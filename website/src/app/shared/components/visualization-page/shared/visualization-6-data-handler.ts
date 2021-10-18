@@ -141,14 +141,6 @@ export class Visualization6DataHandler implements DataHandler {
       sortRanks[CASE_NUMBER] ??= { AGE_RANK, HEALTH_RANK, OVERDOSE_RANK };
     }
 
-    const reindex = (field: SortField) => Object.values(sortRanks)
-      .sort((a, b) => a[field] - b[field])
-      .forEach((row, index) => (row[field] = index + 1));
-
-    reindex('AGE_RANK');
-    reindex('HEALTH_RANK');
-    reindex('OVERDOSE_RANK');
-
     return sortRanks;
   }
 

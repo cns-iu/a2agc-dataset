@@ -238,44 +238,6 @@
     {
       "vconcat": [
         {
-          "mark": "text",
-          "data": {
-            "values": []
-          },
-          "params": [
-            {
-              "name": "sort",
-              "select": {
-                "type": "point"
-              },
-              "bind": "legend",
-              "value": [
-                {
-                  "LABEL": "Health encounters"
-                }
-              ]
-            }
-          ],
-          "encoding": {
-            "opacity": {
-              "field": "LABEL",
-              "title": "Select Data Variable",
-              "type": "ordinal",
-              "legend": {
-                "orient": "right",
-                "legendX": 0,
-                "legendY": 0,
-                "values": [
-                  "Health encounters",
-                  "Overdoses",
-                  "Age"
-                ],
-                "symbolSize": 0
-              }
-            }
-          }
-        },
-        {
           "width": 200,
           "height": 400,
           "view": {
@@ -453,6 +415,48 @@
           }
         }
       ]
+    },
+    {
+      "mark": "text",
+      "data": {
+        "values": []
+      },
+      "view": {
+        "strokeWidth": 0,
+        "strokeOpacity": 0
+      },
+      "params": [
+        {
+          "name": "sort",
+          "select": {
+            "type": "point"
+          },
+          "bind": "legend",
+          "value": [
+            {
+              "LABEL": "Health encounters"
+            }
+          ]
+        }
+      ],
+      "encoding": {
+        "opacity": {
+          "field": "LABEL",
+          "title": "Select Data Variable",
+          "type": "ordinal",
+          "legend": {
+            "orient": "right",
+            "legendX": 0,
+            "legendY": 0,
+            "values": [
+              "Health encounters",
+              "Overdoses",
+              "Age"
+            ],
+            "symbolSize": 0
+          }
+        }
+      }
     }
   ],
   "config": {
