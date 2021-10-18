@@ -1,7 +1,6 @@
 import { View } from 'vega';
 
-import { DataHandler } from './data-handler';
-
+import { DataHandler, DataHandlerType } from './data-handler';
 
 
 type SignalValue<K extends PropertyKey, T> = Record<K, T | undefined>;
@@ -11,7 +10,7 @@ interface DataEntry {
   CASE_NUMBER: string;
   RANK: number;
   AGE: number;
-  PERIOD: unknown;
+  PERIOD: number;
   TIME_BEFORE_DEATH: number;
   NUM_ENCOUNTERS_TOTAL: number;
 
@@ -23,8 +22,22 @@ interface DataEntry {
   /* eslint-enable @typescript-eslint/naming-convention */
 }
 
+export interface Visualization6DataHandlerOptions {
+  maxCasesShown?: number;
+}
+
 
 export class Visualization6DataHandler implements DataHandler {
+  static readonly OPTIONS: Visualization6DataHandlerOptions = {};
+
+  static withOptions(options: Visualization6DataHandlerOptions): DataHandlerType {
+    return class extends this {
+      static readonly OPTIONS = options;
+    };
+  }
+
+  readonly options = (this.constructor as typeof Visualization6DataHandler).OPTIONS;
+
   private data?: DataEntry[];
   private ranks?: number[];
   private ranksLookup?: Set<number>;
@@ -91,6 +104,8 @@ export class Visualization6DataHandler implements DataHandler {
     data = this.filterByAge(data);
     data = this.filterByEncounters(data);
 
+    data = this.limitData(data);
+
     this.view.data('processed_source', data);
   }
 
@@ -122,5 +137,22 @@ export class Visualization6DataHandler implements DataHandler {
 
     const [min, max] = numEncounters;
     return data.filter(({ NUM_ENCOUNTERS_TOTAL: value }) => min <= value && value <= max);
+  }
+
+  private limitData(data: DataEntry[]): DataEntry[] {
+    const { options: { maxCasesShown = 25 } } = this;
+    const selectedCases = new Set<string>();
+    const result = [];
+
+    for (const entry of data) {
+      if (selectedCases.has(entry.CASE_NUMBER)) {
+        result.push(entry);
+      } else if (selectedCases.size < maxCasesShown) {
+        result.push(entry);
+        selectedCases.add(entry.CASE_NUMBER);
+      }
+    }
+
+    return result;
   }
 }

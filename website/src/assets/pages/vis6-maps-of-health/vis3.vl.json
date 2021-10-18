@@ -241,10 +241,15 @@
               "field": "AGE",
               "type": "quantitative",
               "sort": "ascending",
-              "bin": true
+              "bin": true,
+              "title": "Age"
             },
             "y": {
-              "aggregate": "count"
+              "aggregate": "count",
+              "title": "Number of Persons",
+              "axis": {
+                "orient": "right"
+              }
             }
           }
         },
@@ -278,8 +283,24 @@
             }
           ],
           "encoding": {
-            "x": {"field": "NUM_ENCOUNTERS", "type": "quantitative", "sort": "ascending", "bin": true},
-            "y": {"aggregate": "count"}
+            "x": {
+              "field": "NUM_ENCOUNTERS",
+              "type": "quantitative",
+              "sort": "ascending",
+              "bin": true,
+              "title": "Total Number of Encounters"
+            },
+            "y": {
+              "aggregate": "count",
+              "title": "Number of Persons",
+              "axis": {
+                "orient": "right",
+                "values": [0, 10, 100, 500, 1000, 2000, 5000, 10000, 20000]
+              },
+              "scale": {
+                "type": "symlog"
+              }
+            }
           }
         }
       ]
