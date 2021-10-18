@@ -130,8 +130,6 @@ export class Visualization6DataHandler implements DataHandler {
       this.numEncounters = value.NUM_ENCOUNTERS_TOTAL;
       this.scheduleUpdateCall();
     });
-
-    console.log(view);
   }
 
   finalize(): void {
