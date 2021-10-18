@@ -431,7 +431,7 @@
                 "shape": {
                   "type": "nominal",
                   "field": "HOME_STATE_LABEL",
-                  "title": "Shape (Home State)",
+                  "title": "Shape (State of Residence)",
                   "scale": {"range": {"field": "HOME_STATE$$shape"}},
                   "legend": {"orient": "right", "symbolOffset": 10, "offset": -50}
                 },
@@ -462,7 +462,7 @@
                     "field": "SEX_LABEL"
                   },
                   {
-                    "title": "Home State",
+                    "title": "State of Residence",
                     "field": "HOME_STATE_LABEL"
                   },
                   {
