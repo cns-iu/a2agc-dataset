@@ -21,6 +21,22 @@
       }
     }
   },
+  "datasets": {
+    "sortable": [
+      {
+        "FIELD": "AGE_RANK",
+        "LABEL": "Age"
+      },
+      {
+        "FIELD": "HEALTH_RANK",
+        "LABEL": "Health encounters"
+      },
+      {
+        "FIELD": "OVERDOSE_RANK",
+        "LABEL": "Overdoses"
+      }
+    ]
+  },
   "transform": [
     {
       "calculate": "round(12 * (datum.DOD - datum.PERIOD) / 3.154e+10)",
@@ -40,6 +56,24 @@
       "groupby": [
         "CASE_NUMBER"
       ]
+    }
+  ],
+  "params": [
+    {
+      "name": "sortable__labels",
+      "expr": "pluck(data('sortable'), 'LABEL')"
+    },
+    {
+      "name": "sort_by__label",
+      "expr": "(sort_by__raw.LABEL || [])[0]"
+    },
+    {
+      "name": "sort_by",
+      "expr": "data('sortable')[indexof(sortable__labels, sort_by__label)]"
+    },
+    {
+      "name": "sort_by__field",
+      "expr": "(sort_by || {}).FIELD || 'RANK'"
     }
   ],
   "hconcat": [
@@ -257,6 +291,10 @@
               }
             },
             {
+              "calculate": "datum[sort_by__field]",
+              "as": "FINAL_RANK"
+            },
+            {
               "aggregate": [
                 {
                   "op": "max",
@@ -265,7 +303,8 @@
                 }
               ],
               "groupby": [
-                "RANK"
+                "RANK",
+                "FINAL_RANK"
               ]
             }
           ],
@@ -273,6 +312,9 @@
             "y": {
               "field": "RANK",
               "type": "nominal",
+              "sort": {
+                "field": "FINAL_RANK"
+              },
               "axis": null
             },
             "x": {
@@ -422,7 +464,7 @@
     {
       "mark": "text",
       "data": {
-        "values": []
+        "name": "sortable"
       },
       "view": {
         "strokeWidth": 0,
@@ -430,7 +472,7 @@
       },
       "params": [
         {
-          "name": "sort",
+          "name": "sort_by__raw",
           "select": {
             "type": "point",
             "toggle": false
@@ -452,11 +494,6 @@
             "orient": "right",
             "legendX": 0,
             "legendY": 0,
-            "values": [
-              "Health encounters",
-              "Overdoses",
-              "Age"
-            ],
             "symbolSize": 0
           }
         }

@@ -88,12 +88,6 @@ export class Visualization6DataHandler implements DataHandler {
 
   readonly options = (this.constructor as typeof Visualization6DataHandler).OPTIONS;
 
-  private readonly sortByMap: Record<string, SortField | undefined> = {
-    'Age': 'AGE_RANK',
-    'Health encounters': 'HEALTH_RANK',
-    'Overdoses': 'OVERDOSE_RANK',
-  };
-
   private data?: DataEntry[];
   private sortBy: SortField = 'HEALTH_RANK';
   private sortRanks: Record<string, Record<SortField, number>> = {};
@@ -111,8 +105,8 @@ export class Visualization6DataHandler implements DataHandler {
       this.scheduleUpdateCall();
     });
 
-    view.addSignalListener('sort', (_name, value: SignalValue<'LABEL', string[]>) => {
-      this.sortBy = this.sortByMap[value.LABEL?.[0] ?? ''] ?? 'RANK';
+    view.addSignalListener('sort_by__field', (_name, value: SortField) => {
+      this.sortBy = value;
       this.scheduleUpdateCall();
     });
 
@@ -131,15 +125,13 @@ export class Visualization6DataHandler implements DataHandler {
       this.numEncounters = value.NUM_ENCOUNTERS_TOTAL;
       this.scheduleUpdateCall();
     });
-
-    console.log(view)
   }
 
   finalize(): void {
     this.clearScheduledUpdateCall();
 
     this.data = undefined;
-    this.sortBy = 'RANK';
+    this.sortBy = 'HEALTH_RANK';
     this.sortRanks = {};
     this.ranks = undefined;
     this.ranksLookup = undefined;
