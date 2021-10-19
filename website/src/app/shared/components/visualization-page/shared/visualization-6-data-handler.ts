@@ -6,7 +6,7 @@ import { DataHandler, DataHandlerType } from './data-handler';
 
 type SignalValue<K extends PropertyKey, T> = Record<K, T | undefined>;
 
-type SortField = 'RANK' | 'AGE_RANK' | 'HEALTH_RANK' | 'OVERDOSE_RANK';
+type SortField = 'AGE_RANK' | 'HEALTH_RANK' | 'OVERDOSE_RANK' | 'TIME_FIRST_OD' | 'TIME_FIRST_RX' | 'OD_DIFF' | 'RX_DIFF' | 'INCARCERATIONS_RANK' | 'PRESCRIPTIONS_RANK';
 
 interface DataEntry {
   CASE_NUMBER: string;
@@ -25,7 +25,14 @@ interface DataEntry {
   AGE_RANK: number;
   HEALTH_RANK: number;
   OVERDOSE_RANK: number;
+  INCARCERATIONS_RANK: number;
+  PRESCRIPTIONS_RANK: number;
   FINAL_RANK: number;
+
+  TIME_FIRST_OD: number;
+  TIME_FIRST_RX: number;
+  OD_DIFF: number;
+  RX_DIFF: number;
 }
 
 export interface Visualization6DataHandlerOptions {
@@ -53,7 +60,14 @@ const fakeEntries: DataEntry[] = [
     AGE_RANK: 0,
     HEALTH_RANK: 0,
     OVERDOSE_RANK: 0,
+    INCARCERATIONS_RANK: 0,
+    PRESCRIPTIONS_RANK: 0,
     FINAL_RANK: 0,
+
+    TIME_FIRST_OD: 0,
+    TIME_FIRST_RX: 0,
+    OD_DIFF: 0,
+    RX_DIFF: 0
   },
   {
     CASE_NUMBER: '',
@@ -72,7 +86,14 @@ const fakeEntries: DataEntry[] = [
     AGE_RANK: 0,
     HEALTH_RANK: 0,
     OVERDOSE_RANK: 0,
+    INCARCERATIONS_RANK: 0,
+    PRESCRIPTIONS_RANK: 0,
     FINAL_RANK: 0,
+
+    TIME_FIRST_OD: 0,
+    TIME_FIRST_RX: 0,
+    OD_DIFF: 0,
+    RX_DIFF: 0
   }
 ];
 
@@ -177,8 +198,8 @@ export class Visualization6DataHandler implements DataHandler {
 
   private compileSortRanks(data: DataEntry[]): Record<string, Record<SortField, number>> {
     const sortRanks: Record<string, Record<SortField, number>> = {};
-    for (const { CASE_NUMBER, RANK, AGE_RANK, HEALTH_RANK, OVERDOSE_RANK } of data) {
-      sortRanks[CASE_NUMBER] ??= { RANK, AGE_RANK, HEALTH_RANK, OVERDOSE_RANK };
+    for (const { CASE_NUMBER, AGE_RANK, HEALTH_RANK, OVERDOSE_RANK, TIME_FIRST_OD, TIME_FIRST_RX, OD_DIFF, RX_DIFF, INCARCERATIONS_RANK, PRESCRIPTIONS_RANK } of data) {
+      sortRanks[CASE_NUMBER] ??= { AGE_RANK, HEALTH_RANK, OVERDOSE_RANK, TIME_FIRST_OD, TIME_FIRST_RX, OD_DIFF, RX_DIFF, INCARCERATIONS_RANK, PRESCRIPTIONS_RANK };
     }
 
     return sortRanks;

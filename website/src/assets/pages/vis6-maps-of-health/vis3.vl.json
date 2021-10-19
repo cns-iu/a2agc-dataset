@@ -17,7 +17,13 @@
         "OPIOID_PRESCRIPTIONS": "number",
         "INCARCERATIONS": "number",
         "OVERDOSES": "number",
-        "OVERDOSE_RANK": "number"
+        "OVERDOSE_RANK": "number",
+        "TIME_FIRST_OD": "date",
+        "TIME_FIRST_RX": "date",
+        "OD_DIFF": "number",
+        "RX_DIFF": "number",
+        "INCARCERATIONS_RANK": "number",
+        "PRESCRIPTIONS_RANK": "number"
       }
     }
   },
@@ -32,8 +38,32 @@
         "LABEL": "Health encounters"
       },
       {
+        "FIELD": "INCARCERATIONS_RANK",
+        "LABEL": "Incarcerations"
+      },
+      {
+        "FIELD": "PRESCRIPTIONS_RANK",
+        "LABEL": "Opioid prescriptions"
+      },
+      {
         "FIELD": "OVERDOSE_RANK",
         "LABEL": "Overdoses"
+      },
+      {
+        "FIELD": "TIME_FIRST_OD",
+        "LABEL": "Time of 1st overdose"
+      },
+      {
+        "FIELD": "TIME_FIRST_RX",
+        "LABEL": "Time of 1st prescription"
+      },
+      {
+        "FIELD": "OD_DIFF",
+        "LABEL": "1st overdose to death"
+      },
+      {
+        "FIELD": "RX_DIFF",
+        "LABEL": "1st prescription to death"
       }
     ]
   },
@@ -249,6 +279,16 @@
             "field": "TOTAL_OVERDOSE",
             "type": "quantitative",
             "title": "Total # of Overdoses"
+          },
+          {
+            "field": "TOTAL_INCARCERATIONS",
+            "type": "quantitative",
+            "title": "Total # of Incarcerations"
+          },
+          {
+            "field": "TOTAL_PRESCRIPTIONS",
+            "type": "quantitative",
+            "title": "Total # of Prescriptions"
           }
         ]
       }
