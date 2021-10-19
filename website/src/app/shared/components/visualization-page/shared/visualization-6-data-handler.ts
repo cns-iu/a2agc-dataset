@@ -6,7 +6,7 @@ import { DataHandler, DataHandlerType } from './data-handler';
 
 type SignalValue<K extends PropertyKey, T> = Record<K, T | undefined>;
 
-type SortField = 'AGE_RANK' | 'HEALTH_RANK' | 'OVERDOSE_RANK';
+type SortField = 'RANK' | 'AGE_RANK' | 'HEALTH_RANK' | 'OVERDOSE_RANK';
 
 interface DataEntry {
   CASE_NUMBER: string;
@@ -29,6 +29,7 @@ interface DataEntry {
 }
 
 export interface Visualization6DataHandlerOptions {
+  debounceTime?: number;
   maxCasesShown?: number;
 }
 
@@ -87,14 +88,14 @@ export class Visualization6DataHandler implements DataHandler {
 
   readonly options = (this.constructor as typeof Visualization6DataHandler).OPTIONS;
 
-  private readonly sortByMap: Record<string, SortField> = {
+  private readonly sortByMap: Record<string, SortField | undefined> = {
     'Age': 'AGE_RANK',
     'Health encounters': 'HEALTH_RANK',
     'Overdoses': 'OVERDOSE_RANK',
   };
 
   private data?: DataEntry[];
-  private sortBy?: SortField;
+  private sortBy: SortField = 'HEALTH_RANK';
   private sortRanks: Record<string, Record<SortField, number>> = {};
   private ranks?: number[];
   private ranksLookup?: Set<number>;
@@ -111,7 +112,7 @@ export class Visualization6DataHandler implements DataHandler {
     });
 
     view.addSignalListener('sort', (_name, value: SignalValue<'LABEL', string[]>) => {
-      this.sortBy = this.sortByMap[value.LABEL?.[0] ?? ''];
+      this.sortBy = this.sortByMap[value.LABEL?.[0] ?? ''] ?? 'RANK';
       this.scheduleUpdateCall();
     });
 
@@ -130,13 +131,15 @@ export class Visualization6DataHandler implements DataHandler {
       this.numEncounters = value.NUM_ENCOUNTERS_TOTAL;
       this.scheduleUpdateCall();
     });
+
+    console.log(view)
   }
 
   finalize(): void {
     this.clearScheduledUpdateCall();
 
     this.data = undefined;
-    this.sortBy = undefined;
+    this.sortBy = 'RANK';
     this.sortRanks = {};
     this.ranks = undefined;
     this.ranksLookup = undefined;
@@ -152,7 +155,7 @@ export class Visualization6DataHandler implements DataHandler {
       this.updateData();
       this.view.resize();
       await this.view.runAsync();
-    }, 1000);
+    }, this.options.debounceTime ?? 500);
   }
 
   private clearScheduledUpdateCall(): void {
@@ -182,8 +185,8 @@ export class Visualization6DataHandler implements DataHandler {
 
   private compileSortRanks(data: DataEntry[]): Record<string, Record<SortField, number>> {
     const sortRanks: Record<string, Record<SortField, number>> = {};
-    for (const { CASE_NUMBER, AGE_RANK, HEALTH_RANK, OVERDOSE_RANK } of data) {
-      sortRanks[CASE_NUMBER] ??= { AGE_RANK, HEALTH_RANK, OVERDOSE_RANK };
+    for (const { CASE_NUMBER, RANK, AGE_RANK, HEALTH_RANK, OVERDOSE_RANK } of data) {
+      sortRanks[CASE_NUMBER] ??= { RANK, AGE_RANK, HEALTH_RANK, OVERDOSE_RANK };
     }
 
     return sortRanks;
@@ -221,16 +224,13 @@ export class Visualization6DataHandler implements DataHandler {
 
   private sortData(data: DataEntry[]): DataEntry[] {
     const { sortBy, sortRanks } = this;
-    if (sortBy) {
-      const getRank = (entry: DataEntry) => sortRanks[entry.CASE_NUMBER][sortBy];
-      data.sort((a, b) => getRank(a) - getRank(b));
-    }
+    const getRank = (entry: DataEntry) => sortRanks[entry.CASE_NUMBER][sortBy];
 
-    return data;
+    return data.sort((a, b) => getRank(a) - getRank(b));
   }
 
   private limitData(data: DataEntry[]): DataEntry[] {
-    const { options: { maxCasesShown = 25 } } = this;
+    const { options: { maxCasesShown = 43 } } = this;
     const selectedCases = new Set<string>();
     const result = [];
 

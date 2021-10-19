@@ -182,7 +182,13 @@
         "tooltip": [
           {
             "field": "CASE_NUMBER",
-            "type": "nominal"
+            "type": "nominal",
+            "title": "Case Number"
+          },
+          {
+            "field": "AGE",
+            "type": "quantitative",
+            "title": "Age at Death"
           },
           {
             "field": "PERIOD",
@@ -193,44 +199,22 @@
           {
             "field": "Encounter Type",
             "type": "nominal",
-            "title": "Encounter Type"
+            "title": "Event"
           },
           {
             "field": "COUNT",
             "type": "quantitative",
-            "title": "# Days encounter occurred"
+            "title": "# Days event occurred"
           },
           {
             "field": "TOTAL_HEALTH",
-            "type": "quantitative"
-          },
-          {
-            "field": "HEALTH_RANK",
-            "type": "quantitative"
-          },
-          {
-            "field": "AGE",
-            "type": "quantitative"
+            "type": "quantitative",
+            "title": "Total # of Health Events"
           },
           {
             "field": "TOTAL_OVERDOSE",
-            "type": "quantitative"
-          },
-          {
-            "field": "OVERDOSE_RANK",
-            "type": "quantitative"
-          },
-          {
-            "field": "AGE",
-            "type": "quantitative"
-          },
-          {
-            "field": "AGE_RANK",
-            "type": "quantitative"
-          },
-          {
-            "field": "FINAL_RANK",
-            "type": "quantitative"
+            "type": "quantitative",
+            "title": "Total # of Overdoses"
           }
         ]
       }
@@ -288,11 +272,12 @@
           "encoding": {
             "y": {
               "field": "RANK",
+              "type": "nominal",
               "axis": null
             },
             "x": {
               "field": "TIME_BEFORE_DEATH",
-              "aggregate": "max",
+              "type": "quantitative",
               "title": "Years Before Death",
               "axis": {
                 "orient": "top",
@@ -361,6 +346,9 @@
               "axis": {
                 "orient": "right"
               }
+            },
+            "color": {
+              "value": "#6ea7ef"
             }
           }
         },
@@ -423,6 +411,9 @@
               "scale": {
                 "type": "symlog"
               }
+            },
+            "color": {
+              "value": "#6ea7ef"
             }
           }
         }
@@ -441,7 +432,8 @@
         {
           "name": "sort",
           "select": {
-            "type": "point"
+            "type": "point",
+            "toggle": false
           },
           "bind": "legend",
           "value": [
