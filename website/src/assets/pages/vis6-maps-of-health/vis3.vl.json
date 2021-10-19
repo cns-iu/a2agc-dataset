@@ -21,6 +21,22 @@
       }
     }
   },
+  "datasets": {
+    "sortable": [
+      {
+        "FIELD": "AGE_RANK",
+        "LABEL": "Age"
+      },
+      {
+        "FIELD": "HEALTH_RANK",
+        "LABEL": "Health encounters"
+      },
+      {
+        "FIELD": "OVERDOSE_RANK",
+        "LABEL": "Overdoses"
+      }
+    ]
+  },
   "transform": [
     {
       "calculate": "round(12 * (datum.DOD - datum.PERIOD) / 3.154e+10)",
@@ -40,6 +56,24 @@
       "groupby": [
         "CASE_NUMBER"
       ]
+    }
+  ],
+  "params": [
+    {
+      "name": "sortable__labels",
+      "expr": "pluck(data('sortable'), 'LABEL')"
+    },
+    {
+      "name": "sort_by__label",
+      "expr": "(sort_by__raw.LABEL || [])[0]"
+    },
+    {
+      "name": "sort_by",
+      "expr": "data('sortable')[indexof(sortable__labels, sort_by__label)]"
+    },
+    {
+      "name": "sort_by__field",
+      "expr": "(sort_by || {}).FIELD || 'RANK'"
     }
   ],
   "hconcat": [
@@ -182,7 +216,13 @@
         "tooltip": [
           {
             "field": "CASE_NUMBER",
-            "type": "nominal"
+            "type": "nominal",
+            "title": "Case Number"
+          },
+          {
+            "field": "AGE",
+            "type": "quantitative",
+            "title": "Age at Death"
           },
           {
             "field": "PERIOD",
@@ -193,44 +233,22 @@
           {
             "field": "Encounter Type",
             "type": "nominal",
-            "title": "Encounter Type"
+            "title": "Event"
           },
           {
             "field": "COUNT",
             "type": "quantitative",
-            "title": "# Days encounter occurred"
+            "title": "# Days event occurred"
           },
           {
             "field": "TOTAL_HEALTH",
-            "type": "quantitative"
-          },
-          {
-            "field": "HEALTH_RANK",
-            "type": "quantitative"
-          },
-          {
-            "field": "AGE",
-            "type": "quantitative"
+            "type": "quantitative",
+            "title": "Total # of Health Events"
           },
           {
             "field": "TOTAL_OVERDOSE",
-            "type": "quantitative"
-          },
-          {
-            "field": "OVERDOSE_RANK",
-            "type": "quantitative"
-          },
-          {
-            "field": "AGE",
-            "type": "quantitative"
-          },
-          {
-            "field": "AGE_RANK",
-            "type": "quantitative"
-          },
-          {
-            "field": "FINAL_RANK",
-            "type": "quantitative"
+            "type": "quantitative",
+            "title": "Total # of Overdoses"
           }
         ]
       }
@@ -261,6 +279,22 @@
           ],
           "transform": [
             {
+              "filter": {
+                "param": "age",
+                "empty": true
+              }
+            },
+            {
+              "filter": {
+                "param": "encounters",
+                "empty": true
+              }
+            },
+            {
+              "calculate": "datum[sort_by__field]",
+              "as": "FINAL_RANK"
+            },
+            {
               "aggregate": [
                 {
                   "op": "max",
@@ -269,18 +303,23 @@
                 }
               ],
               "groupby": [
-                "RANK"
+                "RANK",
+                "FINAL_RANK"
               ]
             }
           ],
           "encoding": {
             "y": {
               "field": "RANK",
+              "type": "nominal",
+              "sort": {
+                "field": "FINAL_RANK"
+              },
               "axis": null
             },
             "x": {
               "field": "TIME_BEFORE_DEATH",
-              "aggregate": "max",
+              "type": "quantitative",
               "title": "Years Before Death",
               "axis": {
                 "orient": "top",
@@ -349,6 +388,9 @@
               "axis": {
                 "orient": "right"
               }
+            },
+            "color": {
+              "value": "#6ea7ef"
             }
           }
         },
@@ -375,7 +417,7 @@
                 {
                   "op": "sum",
                   "field": "ALL_TYPES",
-                  "as": "NUM_ENCOUNTERS"
+                  "as": "NUM_ENCOUNTERS_TOTAL"
                 }
               ],
               "groupby": [
@@ -385,7 +427,7 @@
           ],
           "encoding": {
             "x": {
-              "field": "NUM_ENCOUNTERS",
+              "field": "NUM_ENCOUNTERS_TOTAL",
               "type": "quantitative",
               "sort": "ascending",
               "bin": true,
@@ -411,6 +453,9 @@
               "scale": {
                 "type": "symlog"
               }
+            },
+            "color": {
+              "value": "#6ea7ef"
             }
           }
         }
@@ -419,7 +464,7 @@
     {
       "mark": "text",
       "data": {
-        "values": []
+        "name": "sortable"
       },
       "view": {
         "strokeWidth": 0,
@@ -427,9 +472,10 @@
       },
       "params": [
         {
-          "name": "sort",
+          "name": "sort_by__raw",
           "select": {
-            "type": "point"
+            "type": "point",
+            "toggle": false
           },
           "bind": "legend",
           "value": [
@@ -448,11 +494,6 @@
             "orient": "right",
             "legendX": 0,
             "legendY": 0,
-            "values": [
-              "Health encounters",
-              "Overdoses",
-              "Age"
-            ],
             "symbolSize": 0
           }
         }

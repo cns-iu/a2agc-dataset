@@ -188,7 +188,7 @@
                   "input": "select",
                   "options": [null, "circle", "triangle"],
                   "labels": ["Any", "Indiana", "Not Indiana"],
-                  "name": "Home State"
+                  "name": "State of Residence"
                 }
               }
             },

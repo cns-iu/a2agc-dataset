@@ -282,7 +282,7 @@
             <column name="HomeZip" comments="Home zip"/>
             <column name="HomeCity" comments="Home city"/>
             <column name="HomeCounty" comments="Home county"/>
-            <column name="HomeState" comments="Home state"/>
+            <column name="HomeState" comments="State of Residence"/>
             <column name="ChiefComplaint_TEXT" comments="Main complaint"/>
             <column name="SecondaryComplaintsAll_TEXT" comments="Secondary complaint"/>
             <column name="FirstMOI_TEXT" comments="First medical officer incident description"/>
