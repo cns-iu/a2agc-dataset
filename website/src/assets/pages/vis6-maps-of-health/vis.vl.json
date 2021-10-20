@@ -29,11 +29,11 @@
       },
       {
         "FIELD": "HEALTH_RANK",
-        "LABEL": "Health encounters"
+        "LABEL": "# Health encounters"
       },
       {
         "FIELD": "OVERDOSE_RANK",
-        "LABEL": "Overdoses"
+        "LABEL": "# Overdoses"
       }
     ]
   },
@@ -493,7 +493,7 @@
       "encoding": {
         "opacity": {
           "field": "LABEL",
-          "title": "Select Data Variable",
+          "title": "Sort By",
           "type": "ordinal",
           "legend": {
             "orient": "right",
