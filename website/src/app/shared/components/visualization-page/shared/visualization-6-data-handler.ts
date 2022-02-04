@@ -21,6 +21,7 @@ interface DataEntry {
   INCARCERATIONS: number;
   OVERDOSES: number;
   NUM_ENCOUNTERS_TOTAL: number;
+  NUM_INCARCERATIONS_TOTAL: number;
 
   AGE_RANK: number;
   HEALTH_RANK: number;
@@ -56,6 +57,7 @@ const fakeEntries: DataEntry[] = [
     INCARCERATIONS: 0,
     OVERDOSES: 0,
     NUM_ENCOUNTERS_TOTAL: 0,
+    NUM_INCARCERATIONS_TOTAL: 0,
 
     AGE_RANK: 0,
     HEALTH_RANK: 0,
@@ -82,6 +84,7 @@ const fakeEntries: DataEntry[] = [
     INCARCERATIONS: 0,
     OVERDOSES: 0,
     NUM_ENCOUNTERS_TOTAL: 0,
+    NUM_INCARCERATIONS_TOTAL: 0,
 
     AGE_RANK: 0,
     HEALTH_RANK: 0,
@@ -116,6 +119,7 @@ export class Visualization6DataHandler implements DataHandler {
   private ranksLookup?: Set<number>;
   private age?: [number, number];
   private numEncounters?: [number, number];
+  private numIncarcerations?: [number, number];
 
   private scheduledUpdateCall?: ReturnType<typeof setTimeout>;
 
@@ -144,6 +148,11 @@ export class Visualization6DataHandler implements DataHandler {
 
     view.addSignalListener('encounters', (_name, value: SignalValue<'NUM_ENCOUNTERS_TOTAL', [number, number]>) => {
       this.numEncounters = value.NUM_ENCOUNTERS_TOTAL;
+      this.scheduleUpdateCall();
+    });
+
+    view.addSignalListener('incarcerations', (_name, value: SignalValue<'NUM_INCARCERATIONS_TOTAL', [number, number]>) => {
+      this.numIncarcerations = value.NUM_INCARCERATIONS_TOTAL;
       this.scheduleUpdateCall();
     });
   }
@@ -184,6 +193,7 @@ export class Visualization6DataHandler implements DataHandler {
     data = this.filterByRank(data);
     data = this.filterByAge(data);
     data = this.filterByEncounters(data);
+    data = this.filterByIncarcerations(data);
 
     data = this.sortData(data);
     data = this.limitData(data);
@@ -235,6 +245,16 @@ export class Visualization6DataHandler implements DataHandler {
     return data.filter(({ NUM_ENCOUNTERS_TOTAL: value }) => min <= value && value <= max);
   }
 
+  private filterByIncarcerations(data: DataEntry[]): DataEntry[] {
+    const { numIncarcerations } = this;
+    if (numIncarcerations === undefined) {
+      return data;
+    }
+
+    const [min, max] = numIncarcerations;
+    return data.filter(({ NUM_INCARCERATIONS_TOTAL: value }) => min <= value && value <= max);
+  }
+
   private sortData(data: DataEntry[]): DataEntry[] {
     const { sortBy, sortRanks } = this;
     const getRank = (entry: DataEntry) => sortRanks[entry.CASE_NUMBER][sortBy];
@@ -243,7 +263,7 @@ export class Visualization6DataHandler implements DataHandler {
   }
 
   private limitData(data: DataEntry[]): DataEntry[] {
-    const { options: { maxCasesShown = 43 } } = this;
+    const { options: { maxCasesShown = 54 } } = this;
     const selectedCases = new Set<string>();
     const result = [];
 
