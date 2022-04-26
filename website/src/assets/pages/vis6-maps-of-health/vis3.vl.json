@@ -324,6 +324,10 @@
             "field": "RX_DIFF_VALUE",
             "type": "quantitative",
             "title": "Days from 1st prescription to death"
+          },
+          {
+            "field": "HEALTH_ENCOUNTERS",
+            "type": "quantitative"
           }
         ]
       }
@@ -602,42 +606,46 @@
       ]
     },
     {
-      "mark": "text",
-      "data": {
-        "name": "sortable"
-      },
-      "view": {
-        "strokeWidth": 0,
-        "strokeOpacity": 0
-      },
-      "params": [
+      "vconcat": [
         {
-          "name": "sort_by__raw",
-          "select": {
-            "type": "point",
-            "toggle": false
+          "mark": "text",
+          "data": {
+            "name": "sortable"
           },
-          "bind": "legend",
-          "value": [
+          "view": {
+            "strokeWidth": 0,
+            "strokeOpacity": 0
+          },
+          "params": [
             {
-              "LABEL": "Health encounters"
+              "name": "sort_by__raw",
+              "select": {
+                "type": "point",
+                "toggle": false
+              },
+              "bind": "legend",
+              "value": [
+                {
+                  "LABEL": "Health encounters"
+                }
+              ]
             }
-          ]
-        }
-      ],
-      "encoding": {
-        "opacity": {
-          "field": "LABEL",
-          "title": "Sort By",
-          "type": "ordinal",
-          "legend": {
-            "orient": "right",
-            "legendX": 0,
-            "legendY": 0,
-            "symbolSize": 0
+          ],
+          "encoding": {
+            "opacity": {
+              "field": "LABEL",
+              "title": "Sort By",
+              "type": "ordinal",
+              "legend": {
+                "orient": "right",
+                "legendX": 0,
+                "legendY": 0,
+                "symbolSize": 0
+              }
+            }
           }
         }
-      }
+      ]
     }
   ],
   "config": {
