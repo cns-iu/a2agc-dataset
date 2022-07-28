@@ -67,7 +67,7 @@ function ensureAuth(req, res, next) {
     const user = req.oidc.user.email;
     const validUser = user && USERS.indexOf(user) !== -1;
     if (!validUser) {
-      res.status(403).send('You, ${user}, are not authorized to view this content.');
+      res.status(403).send(`You, ${user}, are not authorized to view this content.`);
     } else {
       return next();
     }
