@@ -17,6 +17,6 @@
     "express-session": "^1.16.2",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
-    "passport-iucas": "^0.1.0"
+    "passport-iucas": "0.1.0"
   }
 }
