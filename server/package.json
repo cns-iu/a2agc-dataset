@@ -13,9 +13,10 @@
   "dependencies": {
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "express-openid-connect": "^2.8.0",
     "express-session": "^1.16.2",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
-    "passport-iucas": "0.0.1"
+    "passport-iucas": "^0.1.0"
   }
 }
