@@ -25,12 +25,15 @@ const SESSION_SECRET = process.env.SESSION_SECRET || 'cow-abunga d00d';
 const BASE_URL = process.env.BASE_URL || '';
 
 const auth0Config = {
-  authRequired: true,
+  authRequired: false,
   auth0Logout: true,
   secret: process.env.AUTH0_SECRET,
   baseURL: process.env.BASE_URL,
   clientID: process.env.AUTH0_CLIENT_ID,
-  issuerBaseURL: process.env.AUTH0_ISSUER_URL
+  issuerBaseURL: process.env.AUTH0_ISSUER_URL,
+  routes: {
+    postLogoutRedirect: '/client/a2agc/'
+  }
 }
 
 // Override remote-user login token
@@ -72,9 +75,13 @@ function ensureAuth(req, res, next) {
       return next();
     }
   } else {
-    res.redirect(BASE_URL + '/login');
+    res.redirect(BASE_URL + '/login-home');
   }
 }
+
+app.get('/login-home', (req, res) => {
+  res.oidc.login({ returnTo: '/client/a2agc/' });
+});
 
 // Host the protected site directory, allowing only authorized users to view
 app.use('/', ensureAuth, express.static(abspath(PROTECTED_DIR)));
