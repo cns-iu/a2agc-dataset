@@ -1,7 +1,74 @@
 DROP TABLE IF EXISTS tox_reports;
+DROP TABLE IF EXISTS tox_reports_selected;
 DROP TABLE IF EXISTS tox_reports1;
 DROP TABLE IF EXISTS tox_reports2;
 DROP TABLE IF EXISTS tox_reports3;
+
+CREATE TABLE tox_reports_selected (
+  "ACCT_NUM" CHARACTER(5) CHECK(length(ACCT_NUM) = 5),
+  "Fentanyl" BOOLEAN CHECK(Fentanyl IN (NULL, 0, 1)),
+  "BENZODIAZEPINES" BOOLEAN CHECK(BENZODIAZEPINES IN (NULL, 0, 1)),
+  "Methamphetamine" BOOLEAN CHECK(Methamphetamine IN (NULL, 0, 1)),
+  "SEDATIVE_HYPNOTICS" BOOLEAN CHECK(SEDATIVE_HYPNOTICS IN (NULL, 0, 1)),
+  "Hydromorphone" BOOLEAN CHECK(Hydromorphone IN (NULL, 0, 1)),
+  "Oxymorphone" BOOLEAN CHECK(Oxymorphone IN (NULL, 0, 1)),
+  "Oxycodone" BOOLEAN CHECK(Oxycodone IN (NULL, 0, 1)),
+  "ANTIDEPRESSANTS" BOOLEAN CHECK(ANTIDEPRESSANTS IN (NULL, 0, 1)),
+  "__Date_of_Birth_" DATE,
+  "GENDER" CHARACTER CHECK(GENDER IN(NULL, 'M', 'F')),
+  "DOD" DATE
+);
+INSERT INTO tox_reports_selected
+  SELECT
+    ACCT_NUM,
+    CASE Fentanyl
+      WHEN 'Negative' THEN 0
+      WHEN 'POSITIVE' THEN 1
+      ELSE NULL
+    END,
+    CASE BENZODIAZEPINES
+      WHEN 'Negative' THEN 0
+      WHEN 'POSITIVE' THEN 1
+      ELSE NULL
+    END,
+    CASE Methamphetamine
+      WHEN 'Negative' THEN 0
+      WHEN 'POSITIVE' THEN 1
+      ELSE NULL
+    END,
+    CASE SEDATIVE_HYPNOTICS
+      WHEN 'Negative' THEN 0
+      WHEN 'POSITIVE' THEN 1
+      ELSE NULL
+    END,
+    CASE Hydromorphone
+      WHEN 'Negative' THEN 0
+      WHEN 'POSITIVE' THEN 1
+      ELSE NULL
+    END,
+    CASE Oxymorphone
+      WHEN 'Negative' THEN 0
+      WHEN 'POSITIVE' THEN 1
+      ELSE NULL
+    END,
+    CASE Oxycodone
+      WHEN 'Negative' THEN 0
+      WHEN 'POSITIVE' THEN 1
+      ELSE NULL
+    END,
+    CASE ANTIDEPRESSANTS
+      WHEN 'Negative' THEN 0
+      WHEN 'POSITIVE' THEN 1
+      ELSE NULL
+    END,
+    CAST('__Date_of_Birth_' as DATE),
+    CAST('DOD' as DATE),
+    CASE GENDER
+      WHEN 'M' THEN 'M'
+      WHEN 'F' THEN 'F'
+      ELSE NULL
+    END
+FROM tox_reports_raw;
 
 CREATE TABLE tox_reports1 AS SELECT
   "ACCT_NUM",
@@ -18,7 +85,7 @@ CREATE TABLE tox_reports1 AS SELECT
   "VOLATILES",
   "Hydroxyzine",
   "Oxycodone",
-  "Methanol".
+  "Methanol",
   "ANTIDIABETICS",
   "Cotinine",
   "ANTIFUNGALS",
@@ -206,7 +273,6 @@ CREATE TABLE tox_reports1 AS SELECT
   "Cocaine",
   "Cocaethylene"
 FROM tox_reports_raw;
-
 
 CREATE TABLE tox_reports2 AS SELECT
   "ACCT_NUM",
@@ -582,6 +648,7 @@ CREATE TABLE tox_reports3 AS SELECT
   "Coroner"
 FROM tox_reports_raw;
 
+CREATE INDEX tox_reports_selected_fk ON tox_reports_selected("ACCT_NUM");
 CREATE INDEX tox_reports1_fk ON tox_reports1("ACCT_NUM");
 CREATE INDEX tox_reports2_fk ON tox_reports2("ACCT_NUM");
 CREATE INDEX tox_reports3_fk ON tox_reports3("ACCT_NUM");
