@@ -20,7 +20,8 @@ TABLE_DATE_COLUMNS = {
     'medications': 'PHYS_TIME',
     'ems_incidents': 'PCRDateTime',
     'incarcerations': 'BOOKING_DATE',
-    'encounters': 'ADMIT_TIME'
+    'encounters': 'ADMIT_TIME',
+    'tox_reports': 'DOD'
 }
 
 # Node queries
