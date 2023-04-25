@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS tox_reports2;
 DROP TABLE IF EXISTS tox_reports3;
 
 CREATE TABLE tox_reports (
-  "ACCT_NUM" CHARACTER(5) CHECK(length(acct_num) = 5),
+  "SPECIMEN_NUM" CHARACTER(8) CHECK(length(specimen_num) = 8),
   "FENTANYL" BOOLEAN CHECK(fentanyl IN (NULL, 0, 1)),
   "BENZODIAZEPINES" BOOLEAN CHECK(benzodiazepines IN (NULL, 0, 1)),
   "METHAMPHETAMINE" BOOLEAN CHECK(methamphetamine IN (NULL, 0, 1)),
@@ -13,14 +13,14 @@ CREATE TABLE tox_reports (
   "OXYMORPHONE" BOOLEAN CHECK(oxymorphone IN (NULL, 0, 1)),
   "OXYCODONE" BOOLEAN CHECK(oxycodone IN (NULL, 0, 1)),
   "ANTIDEPRESSANTS" BOOLEAN CHECK(antidepressants IN (NULL, 0, 1)),
-  "DOD" DATE CHECK(length(dod) = 10),
-  "DOB" DATE CHECK(length(dob) = 10 OR dob IS NULL),
-  "AGE" INT CHECK(typeof(age) = 'integer' OR age IS NULL),
-  "GENDER" CHARACTER CHECK(gender IN (NULL, 'M', 'F'))
+  "GENDER" CHARACTER NOT NULL CHECK(gender IN ('N/A', 'M', 'F')),
+  "DOD" DATE CHECK(typeof(dod) = 'text' AND length(dod) = 10),
+  "DOB" DATE CHECK(typeof(dob) = 'text' AND length(dob) = 10),
+  "AGE" INT NOT NULL CHECK(typeof(age) = 'integer')
 );
 INSERT INTO tox_reports
   SELECT
-    acct_num,
+    specimen_num,
     CASE fentanyl
       WHEN 'Negative' THEN 0
       WHEN 'POSITIVE' THEN 1
@@ -61,18 +61,20 @@ INSERT INTO tox_reports
       WHEN 'POSITIVE' THEN 1
       ELSE NULL
     END,
-    date(dod) as dod,
-    date(substr(__Date_of_Birth_, 7, 4) || '-' || substr(__Date_of_Birth_, 4, 2) || '-' || substr(__Date_of_Birth_, 1, 2)) AS dob,
-    CAST((JULIANDAY(date(dod)) - JULIANDAY(date(substr(__Date_of_Birth_, 7, 4) || '-' || substr(__Date_of_Birth_, 4, 2) || '-' || substr(__Date_of_Birth_, 1, 2))))/365 as INT) AS age,
     CASE gender
       WHEN 'M' THEN 'M'
       WHEN 'F' THEN 'F'
+      WHEN 'NOT' THEN 'N/A'
       ELSE NULL
-    END
-FROM tox_reports_raw;
+    END,
+    date(dod) as dod,
+    date(substr(__Date_of_Birth_, 7, 4) || '-' || substr(__Date_of_Birth_, 4, 2) || '-' || substr(__Date_of_Birth_, 1, 2)) AS dob,
+    CAST((JULIANDAY(date(dod)) - JULIANDAY(date(substr(__Date_of_Birth_, 7, 4) || '-' || substr(__Date_of_Birth_, 4, 2) || '-' || substr(__Date_of_Birth_, 1, 2))))/365 as INT) AS age
+FROM tox_reports_raw
+WHERE age != '';
 
 CREATE TABLE tox_reports1 AS SELECT
-  "ACCT_NUM",
+  "SPECIMEN_NUM",
   "REQ_FC_NUM",
   "_NAME_",
   "Norfentanyl",
@@ -276,7 +278,7 @@ CREATE TABLE tox_reports1 AS SELECT
 FROM tox_reports_raw;
 
 CREATE TABLE tox_reports2 AS SELECT
-  "ACCT_NUM",
+  "SPECIMEN_NUM",
   "Doxylamine",
   "_6_Acetylmorphine",
   "DESIGNER_OPIOIDS_PANEL",
@@ -480,7 +482,7 @@ CREATE TABLE tox_reports2 AS SELECT
 FROM tox_reports_raw;
 
 CREATE TABLE tox_reports3 AS SELECT
-  "ACCT_NUM",
+  "SPECIMEN_NUM",
   "ZOLPIDEM__Ambien_",
   "Glyburide__DiaBeta__",
   "Nalbuphine",
@@ -649,7 +651,7 @@ CREATE TABLE tox_reports3 AS SELECT
   "Coroner"
 FROM tox_reports_raw;
 
-CREATE INDEX tox_reports_fk ON tox_reports("ACCT_NUM");
-CREATE INDEX tox_reports1_fk ON tox_reports1("ACCT_NUM");
-CREATE INDEX tox_reports2_fk ON tox_reports2("ACCT_NUM");
-CREATE INDEX tox_reports3_fk ON tox_reports3("ACCT_NUM");
+CREATE INDEX tox_reports_fk ON tox_reports("SPECIMEN_NUM");
+CREATE INDEX tox_reports1_fk ON tox_reports1("SPECIMEN_NUM");
+CREATE INDEX tox_reports2_fk ON tox_reports2("SPECIMEN_NUM");
+CREATE INDEX tox_reports3_fk ON tox_reports3("SPECIMEN_NUM");
