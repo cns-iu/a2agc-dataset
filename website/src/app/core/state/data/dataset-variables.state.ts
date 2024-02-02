@@ -1,7 +1,7 @@
 import { createEntityCollections, EntityCollections } from '@angular-ru/common/entity';
 import { Injectable } from '@angular/core';
-import { Computed, StateRepository } from '@ngxs-labs/data/decorators';
-import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
+import { Computed, StateRepository } from '@angular-ru/ngxs/decorators';
+import { NgxsDataEntityCollectionsRepository } from '@angular-ru/ngxs/repositories';
 import { State } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, pluck } from 'rxjs/operators';

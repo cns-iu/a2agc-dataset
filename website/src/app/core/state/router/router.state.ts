@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { StateRepository } from '@ngxs-labs/data/decorators';
-import { NgxsImmutableDataRepository } from '@ngxs-labs/data/repositories';
+import { StateRepository } from '@angular-ru/ngxs/decorators';
+import { NgxsImmutableDataRepository } from '@angular-ru/ngxs/repositories';
 import { RouterNavigation } from '@ngxs/router-plugin';
 import { Actions, ofActionCompleted, State } from '@ngxs/store';
 import { Subject } from 'rxjs';

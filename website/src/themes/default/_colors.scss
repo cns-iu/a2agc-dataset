@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 $primary: mat.define-palette(map-merge(mat.$blue-palette, (
   500: #5a6089,

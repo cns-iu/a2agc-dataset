@@ -1,5 +1,5 @@
 import { NgModule, Type } from '@angular/core';
-import { NgxsDataPluginModule } from '@ngxs-labs/data';
+import { NgxsDataPluginModule } from '@angular-ru/ngxs';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
