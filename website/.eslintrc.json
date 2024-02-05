@@ -22,7 +22,6 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
-        // Eslint rules
         "arrow-body-style": "error",
         "curly": [
           "error",
@@ -62,9 +61,6 @@
         "no-whitespace-before-property": "error",
         "prefer-object-spread": "warn",
         "require-atomic-updates": "error",
-
-
-        // Disabled eslint rules superseded by @typescript-eslint rules or the TS compiler itself
         "brace-style": "off",
         "func-call-spacing": "off",
         "indent": "off",
@@ -80,9 +76,6 @@
         "quotes": "off",
         "semi": "off",
         "space-before-function-paren": "off",
-
-
-        // @typescript-eslint rules
         "@typescript-eslint/array-type": "error",
         "@typescript-eslint/ban-tslint-comment": "warn",
         "@typescript-eslint/brace-style": [
@@ -125,19 +118,14 @@
             "default": [
               "static-field",
               "static-method",
-
               "public-decorated-field",
               "public-instance-field",
               "public-abstract-field",
-
               "signature",
-
               "protected-field",
               "private-field",
               "field",
-
               "constructor",
-
               "method"
             ],
             "interfaces": [
@@ -152,33 +140,52 @@
           "error",
           {
             "selector": "default",
-            "format": ["camelCase"]
+            "format": [
+              "camelCase"
+            ]
           },
-
           {
             "selector": "classProperty",
-            "modifiers": ["readonly"],
-            "format": ["camelCase", "UPPER_CASE"]
+            "modifiers": [
+              "readonly"
+            ],
+            "format": [
+              "camelCase",
+              "UPPER_CASE"
+            ]
           },
           {
             "selector": "memberLike",
-            "modifiers": ["private"],
-            "format": ["camelCase"],
+            "modifiers": [
+              "private"
+            ],
+            "format": [
+              "camelCase"
+            ],
             "leadingUnderscore": "allow"
           },
           {
             "selector": "parameter",
-            "modifiers": ["unused"],
-            "format": ["camelCase"],
+            "modifiers": [
+              "unused"
+            ],
+            "format": [
+              "camelCase"
+            ],
             "leadingUnderscore": "require"
           },
           {
             "selector": "typeLike",
-            "format": ["PascalCase"]
+            "format": [
+              "PascalCase"
+            ]
           },
           {
             "selector": "variable",
-            "format": ["camelCase", "UPPER_CASE"]
+            "format": [
+              "camelCase",
+              "UPPER_CASE"
+            ]
           }
         ],
         "@typescript-eslint/no-duplicate-imports": "error",
@@ -237,18 +244,12 @@
         ],
         "@typescript-eslint/switch-exhaustiveness-check": "error",
         "@typescript-eslint/type-annotation-spacing": "error",
-
-
-        // @angular-eslint rules
         "@angular-eslint/no-queries-metadata-property": "error",
         "@angular-eslint/prefer-on-push-component-change-detection": "warn",
         "@angular-eslint/prefer-output-readonly": "warn",
         "@angular-eslint/relative-url-prefix": "error",
         "@angular-eslint/use-component-selector": "error",
         "@angular-eslint/use-component-view-encapsulation": "error",
-
-
-        // Per repo @angular-eslint rules
         "@angular-eslint/component-selector": [
           "error",
           {

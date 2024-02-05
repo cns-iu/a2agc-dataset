@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { pluck, take } from 'rxjs/operators';
 import { Visualization } from 'src/app/core/state/visualizations/visualizations';
@@ -8,7 +8,7 @@ import { VisualizationsState } from '../../core/state/visualizations/visualizati
 
 
 @Injectable({ providedIn: 'root' })
-export class VisualizationDataResolver implements Resolve<Visualization> {
+export class VisualizationDataResolver {
   constructor(private readonly service: VisualizationsState) { }
 
   resolve(route: ActivatedRouteSnapshot): Observable<Visualization> {

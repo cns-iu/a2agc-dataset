@@ -1,4 +1,4 @@
-import { createEntityCollections, EntityCollections } from '@angular-ru/common/entity';
+import { createEntityCollections, EntityCollections } from '@angular-ru/cdk/entity';
 import { Injectable } from '@angular/core';
 import { StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@angular-ru/ngxs/repositories';
