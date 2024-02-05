@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
