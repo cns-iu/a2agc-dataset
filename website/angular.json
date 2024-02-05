@@ -85,8 +85,7 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-          },
+          "options": {},
           "configurations": {
             "production": {
               "browserTarget": "a2agc:build:production"
@@ -148,9 +147,10 @@
       }
     }
   },
-  "defaultProject": "a2agc",
   "cli": {
     "analytics": "8b28c82a-f200-444d-ba3d-8a7bdbfbaf4a",
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
