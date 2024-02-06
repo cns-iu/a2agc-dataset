@@ -5,7 +5,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 import { MarkdownModule } from 'ngx-markdown';
-import { NgxVegaModule } from 'ngx-vega';
+import { VegaComponent } from 'ngx-vega';
 
 import { HelpModalModule } from '../help-modal/help-modal.module';
 import { HelpTourModalModule } from '../help-tour-modal/help-tour-modal.module';
@@ -21,7 +21,7 @@ import { VisualizationPageComponent } from './visualization-page.component';
     MatIconModule,
 
     MarkdownModule.forChild(),
-    NgxVegaModule,
+    VegaComponent,
     HelpModalModule,
     HelpTourModalModule,
     MatProgressSpinnerModule

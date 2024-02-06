@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NgxVegaModule } from 'ngx-vega';
+import { VegaComponent } from 'ngx-vega';
 
 import { DatasetSummaryModule } from '../dataset-summary/dataset-summary.module';
 import { VariableVisualizationComponent } from './variable-visualization.component';
@@ -10,7 +10,7 @@ import { VariableVisualizationComponent } from './variable-visualization.compone
   imports: [
     CommonModule,
 
-    NgxVegaModule,
+    VegaComponent,
 
     DatasetSummaryModule
   ],

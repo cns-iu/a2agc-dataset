@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { NgxVegaModule } from 'ngx-vega';
+import { VegaComponent } from 'ngx-vega';
 
 import { DatasetSummaryModule } from '../../shared/components/dataset-summary/dataset-summary.module';
 import { TableDataSelectorModule } from '../../shared/components/table-data-selector/table-data-selector.module';
@@ -16,7 +16,7 @@ import { DataDistributionsComponent } from './data-distributions.component';
 
     MatButtonModule,
 
-    NgxVegaModule,
+    VegaComponent,
 
     SharedModule,
     DatasetSummaryModule,

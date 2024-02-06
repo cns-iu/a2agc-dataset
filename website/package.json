@@ -31,7 +31,7 @@
     "@ngxs/store": "^3.8.2",
     "css-element-queries": "^1.2.3",
     "ngx-markdown": "^16.0.0",
-    "ngx-vega": "^0.52.0",
+    "ngx-vega": "^1.0.0",
     "papaparse": "^5.4.1",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
