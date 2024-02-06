@@ -1,3 +1,0 @@
-describe('PageFooterComponent', () => {
-  // Add tests
-});

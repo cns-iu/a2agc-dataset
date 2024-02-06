@@ -1,3 +1,0 @@
-describe('DataSchemaBrowserComponent', () => {
-  // Add tests
-});
