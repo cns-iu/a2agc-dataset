@@ -88,10 +88,10 @@
           "options": {},
           "configurations": {
             "production": {
-              "browserTarget": "a2agc:build:production"
+              "buildTarget": "a2agc:build:production"
             },
             "development": {
-              "browserTarget": "a2agc:build:development"
+              "buildTarget": "a2agc:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -99,7 +99,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "a2agc:build"
+            "buildTarget": "a2agc:build"
           }
         },
         "test": {
