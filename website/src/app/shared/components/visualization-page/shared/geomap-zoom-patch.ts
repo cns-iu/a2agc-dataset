@@ -46,7 +46,7 @@ export function addGeoZoom(spec: Spec, opts: GeoZoomOptions): void {
     { name: 'ty', update: 'height / 2' },
     {
       name: 'scale',
-      value: opts.initialZoom != null ? opts.initialZoom : opts.zoomLevels[0],
+      value: opts.initialZoom ?? opts.zoomLevels[0],
       on: [{
         events: { type: 'wheel', consume: true, filter: 'event.shiftKey' },
         update: [
