@@ -47,7 +47,7 @@ SELECT -- Data Variables
     WHEN r.N_PRESCRIPTIONS > 0 THEN 'True'
     ELSE 'False'
   END AS 'ANY_PRESCRIPTIONS',
-  ---- Any Opiod Prescription in last year
+  ---- Any Opioid Prescription in last year
   CASE
     WHEN r.HYDROMORPHONE_1YEAR THEN 'True'
     WHEN r.MORPHINE_1YEAR THEN 'True'

@@ -157,7 +157,7 @@
                 },
                 {
                   "ENCOUNTER_TYPE": "OPIOID_PRESCRIPTIONS",
-                  "Encounter Type": "Opiod Prescriptions"
+                  "Encounter Type": "Opioid Prescriptions"
                 },
                 {
                   "ENCOUNTER_TYPE": "INCARCERATIONS",
@@ -249,7 +249,7 @@
             "domain": [
               "All Types",
               "Health Encounters",
-              "Opiod Prescriptions",
+              "Opioid Prescriptions",
               "Incarcerations",
               "Overdoses"
             ],
