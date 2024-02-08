@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, HostBinding, NgZone, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSidenavContainer } from '@angular/material/sidenav';
 
 import { buildInfo } from './build-info';
