@@ -1,39 +1,39 @@
-name: 'Netlify Preview Deploy'
+name: Netlify Preview Deploy
 
 on:
   pull_request:
     types: ['opened', 'edited', 'synchronize']
 
+concurrency:
+  group: preview-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: 'Deploy'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
 
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: npm ci for website
-        run: npm ci
-        working-directory: website
-      - run: npm run build -- --output-hashing=none --base-href=/
-        working-directory: website
+          fetch-depth: 0
 
-      - uses: jsmrcaga/action-netlify-deploy@master
+      - name: Prepare Deploy
+        uses: ./.github/actions/prepare-deploy
         with:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          main-branch-name: develop
+          app-configuration: preview
+
+      - name: Publish
+        id: deploy
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=deploy --filter=ftu-ui
+        env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          install_command: false
-          build_command: false
-          build_directory: website/dist/a2agc
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+      - name: Create Deploy Comment
+        uses: ./.github/actions/deploy-comment
+        with:
+          deploy-url: ${{steps.deploy.outputs.NETLIFY_URL}}
