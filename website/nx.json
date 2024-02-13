@@ -35,7 +35,7 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx-cloud",
+      "runner": "@nrwl/nx-cloud",
       "options": {
         "cacheableOperations": [
           "build",
@@ -57,7 +57,7 @@
   "namedInputs": {
     "sharedGlobals": [],
     "default": [
-      "{projectRoot}/website/**/*",
+      "{projectRoot}/website",
       "sharedGlobals"
     ],
     "production": [
