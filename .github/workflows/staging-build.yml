@@ -11,9 +11,6 @@ jobs:
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./website
 
     steps:
       - uses: actions/checkout@v4
