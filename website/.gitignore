@@ -52,3 +52,5 @@ Thumbs.db
 
 # Proxy Configuration
 proxy.config.json
+
+.nx/cache
