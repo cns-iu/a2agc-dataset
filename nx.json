@@ -1,0 +1,89 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "affected": {
+    "defaultBase": "main"
+  },
+  "generators": {
+    "@nx/angular:application": {
+      "e2eTestRunner": "cypress",
+      "linter": "eslint",
+      "style": "scss",
+      "unitTestRunner": "jest"
+    }
+  },
+  "namedInputs": {
+    "sharedGlobals": [],
+    "default": ["{projectRoot}/website", "sharedGlobals"],
+    "production": [
+      "default",
+      "!{projectRoot}/apps/website/tsconfig.spec.json",
+      "!{projectRoot}/apps/website/**/*.spec.[jt]s",
+      "!{projectRoot}/apps/website/karma.conf.js",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/apps/website/eslint.config.js"
+    ]
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
+    },
+    {
+      "plugin": "@nx/cypress/plugin",
+      "options": {
+        "targetName": "e2e",
+        "componentTestingTargetName": "component-test"
+      }
+    }
+  ],
+  "nxCloudAccessToken": "YTQ0M2Y3ODAtYzM5NC00ZjY4LTkyZjEtZjA2Y2M4NGM2N2JhfHJlYWQtd3JpdGU=",
+  "targetDefaults": {
+    "@angular-devkit/build-angular:browser": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
+    },
+    "build": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "test": {
+      "cache": true,
+      "inputs": ["default", "^production", "{workspaceRoot}/karma.conf.js"]
+    },
+    "lint": {
+      "cache": true,
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+    },
+    "e2e": {
+      "inputs": ["default", "^production"]
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "build-storybook",
+          "compodoc",
+          "compodoc-json",
+          "test-doc-coverage"
+        ],
+        "accessToken": "NWM3NTZiNjktMDcyMS00ZmQ3LWFlNzYtZDZkZmY0OTVjYzU3fHJlYWQtd3JpdGU="
+      }
+    }
+  }
+}

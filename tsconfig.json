@@ -9,7 +9,6 @@
     "strict": true,
     "skipLibCheck": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -24,11 +23,11 @@
     ],
     "paths": {
       "ngx-vega": [
-        "dist/ngx-vega/ngx-vega",
-        "dist/ngx-vega"
+        "./dist/ngx-vega/ngx-vega",
+        "./dist/ngx-vega"
       ],
       "vega-lite": [
-        "node_modules/vega-lite/build/vega-lite"
+        "./node_modules/vega-lite/build/vega-lite"
       ]
     }
   },
