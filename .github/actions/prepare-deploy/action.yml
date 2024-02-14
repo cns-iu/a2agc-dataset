@@ -24,10 +24,6 @@ inputs:
     description: Whether to build code documentation
     required: false
     default: 'true'
-  build-storybook:
-    description: Whether to build storybook
-    required: false
-    default: 'true'
 
 runs:
   using: composite
@@ -48,28 +44,17 @@ runs:
       shell: bash
       run: npx nx ${{ inputs.nx-command }} --targets=compodoc --configuration=ci
 
-    - name: Build storybook
-      if: ${{ inputs.build-storybook == 'true' }}
-      shell: bash
-      run: |
-        # Run one at a time due to https://github.com/nrwl/nx/issues/6842
-        # Will hopefully be fixed by backport of https://github.com/storybookjs/storybook/pull/19307
-        npx nx ${{ inputs.nx-command }} --targets=build-storybook --configuration=ci --parallel=false
-      env:
-        STORYBOOK_DISABLE_TELEMETRY: '1'
-
     - name: Collect artifacts
       id: collect
       shell: bash
-      run: ${{ github.action_path }}/collect_artifacts.sh ${{ inputs.deploy-directory }} dist/{apps,compodoc,storybook}
+      run: ${{ github.action_path }}/collect_artifacts.sh ${{ inputs.deploy-directory }} dist/{apps,compodoc}
 
     - name: Generate index file
-      uses: cuchi/jinja2-action@v1.2.0
+      uses: cuchi/jinja2-action@v1.2.2
       with:
         template: ${{ github.action_path }}/index.html.j2
         output_file: ${{ inputs.deploy-directory }}/index.html
         strict: true
         variables: |
           apps=${{ steps.collect.outputs.apps }}
-          storybook=${{ inputs.build-storybook == 'true' && steps.collect.outputs.storybook || '' }}
           compodoc=${{ inputs.build-compodoc == 'true' && steps.collect.outputs.compodoc || '' }}
