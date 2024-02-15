@@ -27,10 +27,9 @@ jobs:
       - name: npm ci for a2agc
         run: npm ci
       - run: npm run build -- --output-hashing=none --base-href=/
-      - uses: jsmrcaga/action-netlify-deploy@master
+      - uses: netlify/actions/cli@master
         with:
+          args: deploy --dir=deploy --filter=a2agc
+        env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          install_command: false
-          build_command: false
-          build_directory: dist/a2agc
