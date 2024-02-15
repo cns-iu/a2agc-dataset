@@ -28,15 +28,13 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: npm ci for website
+      - name: npm ci for a2agc
         run: npm ci
-        working-directory: website
       - run: npm run build -- --output-hashing=none --base-href=/
-        working-directory: website
 
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: website/dist/a2agc
+          publish_dir: dist/a2agc
           publish_branch: staging
           commit_message: "Staging deploy -- ${{ github.event.head_commit.message }}"
