@@ -5,17 +5,17 @@ inputs:
   node-version:
     description: Node.js version
     required: false
-    default: '20'
+    default: '16'
 
 runs:
   using: composite
   steps:
     - name: Use Node.js ${{ inputs.node-version }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.node-version }}
     - name: Cache .npm
-      uses: actions/cache@v4
+      uses: actions/cache@v3
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -23,7 +23,7 @@ runs:
           ${{ runner.os }}-node-
     - name: Cache node_modules
       id: modules_cache
-      uses: actions/cache@v4
+      uses: actions/cache@v3
       with:
         path: ./node_modules
         key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}

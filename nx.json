@@ -3,24 +3,16 @@
   "affected": {
     "defaultBase": "main"
   },
-  "generators": {
-    "@nx/angular:application": {
-      "e2eTestRunner": "cypress",
-      "linter": "eslint",
-      "style": "scss",
-      "unitTestRunner": "jest"
-    }
-  },
   "namedInputs": {
     "sharedGlobals": [],
-    "default": ["{projectRoot}/website", "sharedGlobals"],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
-      "!{projectRoot}/apps/website/tsconfig.spec.json",
-      "!{projectRoot}/apps/website/**/*.spec.[jt]s",
-      "!{projectRoot}/apps/website/karma.conf.js",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/**/*.spec.[jt]s",
+      "!{projectRoot}/karma.conf.js",
       "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/apps/website/eslint.config.js"
+      "!{projectRoot}/eslint.config.js"
     ]
   },
   "plugins": [
@@ -44,7 +36,6 @@
       }
     }
   ],
-  "nxCloudAccessToken": "YTQ0M2Y3ODAtYzM5NC00ZjY4LTkyZjEtZjA2Y2M4NGM2N2JhfHJlYWQtd3JpdGU=",
   "targetDefaults": {
     "@angular-devkit/build-angular:browser": {
       "cache": true,
@@ -67,5 +58,25 @@
     "e2e": {
       "inputs": ["default", "^production"]
     }
-  }
+  },
+  "generators": {
+    "@nx/angular:application": {
+      "e2eTestRunner": "cypress",
+      "linter": "eslint",
+      "style": "scss",
+      "unitTestRunner": "jest"
+    },
+    "@nx/angular:library": {
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nx/angular:component": {
+      "style": "scss",
+      "changeDetection": "OnPush",
+      "displayBlock": true,
+      "export": true,
+      "standalone": true
+    }
+  },
+  "nxCloudAccessToken": "NWM3NTZiNjktMDcyMS00ZmQ3LWFlNzYtZDZkZmY0OTVjYzU3fHJlYWQtd3JpdGU="
 }
