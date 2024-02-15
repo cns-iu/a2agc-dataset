@@ -41,17 +41,16 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+.nx/cache
+container.sif
 
 # System Files
 .DS_Store
 Thumbs.db
 
 # Generated assets
-*/assets/generated
-*/assets/schema
+**/assets/generated
+**/assets/schema
 
 # Proxy Configuration
 proxy.config.json
-
-
-.nx/cache
