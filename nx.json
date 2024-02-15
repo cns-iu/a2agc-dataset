@@ -50,6 +50,5 @@
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/eslint.config.js"
     ]
-  },
-  "nxCloudAccessToken": "YTYzNTg0NzYtNTkyYi00NmJjLTgzZTEtZDYyMDc2OGJiYjBmfHJlYWQtd3JpdGU="
+  }
 }
