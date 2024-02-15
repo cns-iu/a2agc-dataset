@@ -1,6 +1,12 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { ComponentRef, Inject, Injectable, InjectionToken, OnDestroy, Optional } from '@angular/core';
-
+import {
+  ComponentRef,
+  Inject,
+  Injectable,
+  InjectionToken,
+  OnDestroy,
+  Optional,
+} from '@angular/core';
 
 export interface ThemeOptions {
   theme?: string;
@@ -9,9 +15,8 @@ export interface ThemeOptions {
 
 export const THEME_OPTIONS = new InjectionToken<ThemeOptions>('Theme options');
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService implements OnDestroy {
   readonly defaultTheme: string;
@@ -29,8 +34,9 @@ export class ThemeService implements OnDestroy {
   private readonly elements: HTMLElement[] = [];
   private currentTheme: string;
 
-  constructor(@Inject(THEME_OPTIONS) options: ThemeOptions,
-    @Optional() overlay: OverlayContainer | null,
+  constructor(
+    @Inject(THEME_OPTIONS) options: ThemeOptions,
+    @Optional() overlay: OverlayContainer | null
   ) {
     this.defaultTheme = options.default ?? '';
     this.currentTheme = options.theme ?? this.defaultTheme;
@@ -70,7 +76,11 @@ export class ThemeService implements OnDestroy {
     }
   }
 
-  private switchTheme(elements: HTMLElement[], newTheme: string, oldTheme: string): void {
+  private switchTheme(
+    elements: HTMLElement[],
+    newTheme: string,
+    oldTheme: string
+  ): void {
     this.addClass(elements, 'color-transitions-disabled');
     this.removeClass(elements, oldTheme);
     this.addClass(elements, newTheme);

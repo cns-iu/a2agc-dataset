@@ -7,25 +7,27 @@ import { map } from 'rxjs/operators';
 import { DatasetVariable } from '../../models/dataset.model';
 import { DistributionDataEntry } from '../../models/distribution.model';
 
-
 export type TransformHandlerFn = (value: string) => unknown;
-export type TransformHandlers = Record<string | number, TransformHandlerFn | undefined>;
-
+export type TransformHandlers = Record<
+  string | number,
+  TransformHandlerFn | undefined
+>;
 
 function castDate(value: string): Date | undefined {
   const date = new Date(value);
   return Number.isNaN(+date) ? undefined : date;
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DistributionDataLoaderService {
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
   load(variable: DatasetVariable): Observable<DistributionDataEntry[]> {
-    const { distribution: { url } } = variable;
+    const {
+      distribution: { url },
+    } = variable;
     const handlers = this.getTransformHandlers(variable);
     const config: ParseConfig = {
       header: true,
@@ -35,18 +37,20 @@ export class DistributionDataLoaderService {
       transform: (value, field) => {
         const handler = handlers[field];
         return handler ? handler(value) : value;
-      }
+      },
     };
 
     return this.http.get(url, { responseType: 'text' }).pipe(
-      map(text => parse<DistributionDataEntry>(text, config)),
-      map(result => this.aggregateResult(variable, result.data))
+      map((text) => parse<DistributionDataEntry>(text, config)),
+      map((result) => this.aggregateResult(variable, result.data))
     );
   }
 
-  protected getDynamicTypingConfig(variable: DatasetVariable): ParseConfig['dynamicTyping'] {
+  protected getDynamicTypingConfig(
+    variable: DatasetVariable
+  ): ParseConfig['dynamicTyping'] {
     return {
-      value: this.getValueTransform(variable) === undefined
+      value: this.getValueTransform(variable) === undefined,
     };
   }
 
@@ -54,7 +58,7 @@ export class DistributionDataLoaderService {
     return {
       period: castDate,
       value: this.getValueTransform(variable),
-      count: Number
+      count: Number,
     };
   }
 
@@ -64,17 +68,21 @@ export class DistributionDataLoaderService {
   ): DistributionDataEntry[] {
     switch (variable.type) {
       case 'DATE':
-        return this.aggregateByYear(result as DistributionDataEntry<Date | undefined>[]);
+        return this.aggregateByYear(
+          result as DistributionDataEntry<Date | undefined>[]
+        );
 
       default:
         return result;
     }
   }
 
-  private getValueTransform(variable: DatasetVariable): TransformHandlerFn | undefined {
+  private getValueTransform(
+    variable: DatasetVariable
+  ): TransformHandlerFn | undefined {
     switch (variable.type) {
       case 'BOOLEAN':
-        return value => value === '0' ? 'False' : 'True';
+        return (value) => (value === '0' ? 'False' : 'True');
 
       case 'DATE':
         return castDate;
@@ -97,11 +105,13 @@ export class DistributionDataLoaderService {
       k1 === undefined ? 1 : k2 === undefined ? -1 : k1 - k2
     );
 
-    const result = sortedYears.map<DistributionDataEntry<Date | string>>(year => {
-      const period = year !== undefined ? new Date(year, 0) : undefined;
-      const value = period ?? '<date unavailable>';
-      return { period, value, count: byYear.get(year)! };
-    });
+    const result = sortedYears.map<DistributionDataEntry<Date | string>>(
+      (year) => {
+        const period = year !== undefined ? new Date(year, 0) : undefined;
+        const value = period ?? '<date unavailable>';
+        return { period, value, count: byYear.get(year)! };
+      }
+    );
 
     return result;
   }

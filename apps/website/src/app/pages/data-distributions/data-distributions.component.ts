@@ -1,28 +1,51 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+} from '@angular/core';
 import { Autosize } from 'ngx-vega';
-import { fromEventPattern, Observable, ObservableInput, ReplaySubject, Subscription, using } from 'rxjs';
-import { filter, map, shareReplay, switchAll, switchMap, take } from 'rxjs/operators';
+import {
+  fromEventPattern,
+  Observable,
+  ObservableInput,
+  ReplaySubject,
+  Subscription,
+  using,
+} from 'rxjs';
+import {
+  filter,
+  map,
+  shareReplay,
+  switchAll,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { View } from 'vega';
 import { VisualizationSpec } from 'vega-embed';
 
 import { DATA_CONFIG } from '../../../configs/config';
 import { Dataset, DatasetVariable } from '../../core/models/dataset.model';
+import { DistributionDataLoaderService } from '../../core/services/distribution-data-loader/distribution-data-loader.service';
 import {
-  DistributionDataLoaderService
-} from '../../core/services/distribution-data-loader/distribution-data-loader.service';
-import { DatasetVariableGroup, DatasetVariablesState } from '../../core/state/data/dataset-variables.state';
+  DatasetVariableGroup,
+  DatasetVariablesState,
+} from '../../core/state/data/dataset-variables.state';
 import { DatasetsState } from '../../core/state/data/datasets.state';
 import { TimeFilter } from '../../shared/components/variable-visualization/data-manager.service';
 import { ChartFactoryService } from '../../shared/vega-charts/chart-factory.service';
-import { SpecVisualizationEntry, VisualizationEntry, VisualizationsManagerService } from './services/visualizations-manager.service';
-
+import {
+  SpecVisualizationEntry,
+  VisualizationEntry,
+  VisualizationsManagerService,
+} from './services/visualizations-manager.service';
 
 @Component({
   selector: 'agc-data-distributions',
   templateUrl: './data-distributions.component.html',
   styleUrls: ['./data-distributions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [VisualizationsManagerService]
+  providers: [VisualizationsManagerService],
 })
 export class DataDistributionsComponent {
   /** HTML class name */
@@ -41,10 +64,16 @@ export class DataDistributionsComponent {
   filterSpec?: VisualizationSpec;
   filterSource$: Observable<TimeFilter>;
   filterActive = false;
-  private readonly filterSourceObservables$ = new ReplaySubject<ObservableInput<TimeFilter>>(1);
+  private readonly filterSourceObservables$ = new ReplaySubject<
+    ObservableInput<TimeFilter>
+  >(1);
 
-  private readonly variableObservables$ = new ReplaySubject<ObservableInput<DatasetVariable[]>>(1);
-  private readonly subVariableObservables$ = new ReplaySubject<ObservableInput<DatasetVariable[]>>(1);
+  private readonly variableObservables$ = new ReplaySubject<
+    ObservableInput<DatasetVariable[]>
+  >(1);
+  private readonly subVariableObservables$ = new ReplaySubject<
+    ObservableInput<DatasetVariable[]>
+  >(1);
 
   constructor(
     datasetsState: DatasetsState,
@@ -62,7 +91,10 @@ export class DataDistributionsComponent {
     this.filterSource$ = this.createFilterSource();
   }
 
-  hasSpec(this: void, entry: VisualizationEntry): entry is SpecVisualizationEntry {
+  hasSpec(
+    this: void,
+    entry: VisualizationEntry
+  ): entry is SpecVisualizationEntry {
     return 'spec' in entry && entry.spec !== undefined;
   }
 
@@ -72,9 +104,16 @@ export class DataDistributionsComponent {
       this.selectedVariables = [];
       this.filterActive = false;
 
-      const { variablesState, variableObservables$, subVariableObservables$ } = this;
-      const variables$ = variablesState.getVariables(dataset, DatasetVariableGroup.nonSub);
-      const subVariables$ = variablesState.getVariables(dataset, DatasetVariableGroup.sub);
+      const { variablesState, variableObservables$, subVariableObservables$ } =
+        this;
+      const variables$ = variablesState.getVariables(
+        dataset,
+        DatasetVariableGroup.nonSub
+      );
+      const subVariables$ = variablesState.getVariables(
+        dataset,
+        DatasetVariableGroup.sub
+      );
 
       variableObservables$.next(variables$);
       subVariableObservables$.next(subVariables$);
@@ -83,7 +122,8 @@ export class DataDistributionsComponent {
 
   setSelectedVariable(variable: DatasetVariable): void {
     const { selectedDataset, selectedVariables } = this;
-    const alreadySelected = selectedVariables.length === 1 && selectedVariables[0] === variable;
+    const alreadySelected =
+      selectedVariables.length === 1 && selectedVariables[0] === variable;
     if (selectedDataset && !alreadySelected) {
       this.selectedVariables = [variable];
       this.filterActive = false;
@@ -94,7 +134,7 @@ export class DataDistributionsComponent {
     const { selectedDataset } = this;
     if (selectedDataset) {
       const variables = this.variablesState.entitiesArray.filter(
-        variable => variable.dataset === selectedDataset.name
+        (variable) => variable.dataset === selectedDataset.name
       );
 
       this.selectedVariables = variables;
@@ -104,8 +144,8 @@ export class DataDistributionsComponent {
 
   attachFilterView(view: View): void {
     const events$ = fromEventPattern<[string, { period: TimeFilter }]>(
-      handler => view.addSignalListener('period', handler),
-      handler => view.removeSignalListener('period', handler)
+      (handler) => view.addSignalListener('period', handler),
+      (handler) => view.removeSignalListener('period', handler)
     );
     const source$ = events$.pipe(map(([_name, { period }]) => period));
 
@@ -117,12 +157,12 @@ export class DataDistributionsComponent {
     const vid = variablesState.selectId(...DATA_CONFIG.timeSliderSource);
     const variable$ = variablesState.getVariable(vid);
     const data$ = variable$.pipe(
-      filter(variable => !!variable),
-      switchMap(variable => loader.load(variable!)),
+      filter((variable) => !!variable),
+      switchMap((variable) => loader.load(variable!)),
       take(1)
     );
 
-    data$.subscribe(data => {
+    data$.subscribe((data) => {
       this.filterSpec = chartFactory.createTimeSlider(data);
       cdr.markForCheck();
     });
@@ -130,15 +170,18 @@ export class DataDistributionsComponent {
 
   private createFilterSource(): Observable<TimeFilter> {
     const { filterSourceObservables$, cdr } = this;
-    const sources$ = using(() => {
-      this.filterActive = true;
-      cdr.markForCheck();
-
-      return new Subscription(() => {
-        this.filterActive = false;
+    const sources$ = using(
+      () => {
+        this.filterActive = true;
         cdr.markForCheck();
-      });
-    }, () => filterSourceObservables$);
+
+        return new Subscription(() => {
+          this.filterActive = false;
+          cdr.markForCheck();
+        });
+      },
+      () => filterSourceObservables$
+    );
 
     return sources$.pipe(shareReplay(1), switchAll());
   }

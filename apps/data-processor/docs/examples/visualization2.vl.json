@@ -9,14 +9,26 @@
   },
 
   "encoding": {
-    "y": {"field": "Touchpoint A", "type": "ordinal", "sort": ["Rx", "Rx + OD", "OD", "∅"], "title": null, "axis": {"labelFontSize": 15}},
-    "x": {"field": "Touchpoint B", "type": "ordinal", "sort": ["∅", "Jail", "Jail + Health", "Health"], "title": null, "axis": {"labelAngle": 0, "labelFontSize": 15}}
+    "y": {
+      "field": "Touchpoint A",
+      "type": "ordinal",
+      "sort": ["Rx", "Rx + OD", "OD", "∅"],
+      "title": null,
+      "axis": { "labelFontSize": 15 }
+    },
+    "x": {
+      "field": "Touchpoint B",
+      "type": "ordinal",
+      "sort": ["∅", "Jail", "Jail + Health", "Health"],
+      "title": null,
+      "axis": { "labelAngle": 0, "labelFontSize": 15 }
+    }
   },
 
   "layer": [
     {
-      "selection": {"highlight": {"type": "single"}},
-      "mark": {"type": "rect", "strokeWidth": 2},
+      "selection": { "highlight": { "type": "single" } },
+      "mark": { "type": "rect", "strokeWidth": 2 },
       "encoding": {
         "tooltip": [
           {
@@ -38,14 +50,14 @@
         "fill": {
           "field": "Deaths",
           "type": "quantitative",
-          "scale": {"type": "sqrt", "scheme": "lightmulti"}
+          "scale": { "type": "sqrt", "scheme": "lightmulti" }
         }
       }
     },
     {
       "mark": "text",
       "encoding": {
-        "text": {"field": "Set", "type": "ordinal"}
+        "text": { "field": "Set", "type": "ordinal" }
       }
     },
     {
@@ -54,25 +66,31 @@
         "fontSize": 0
       },
       "encoding": {
-        "text": {"field": " ", "type": "ordinal"},
+        "text": { "field": " ", "type": "ordinal" },
         "fill": {
           "field": " ",
           "type": "ordinal",
           "legend": {
-            "values": ["Rx: Opioid Prescription", "OD: Overdose", "Jail: Incarceration", "Health: Health Data", "∅: No Touchpoints"],
+            "values": [
+              "Rx: Opioid Prescription",
+              "OD: Overdose",
+              "Jail: Incarceration",
+              "Health: Health Data",
+              "∅: No Touchpoints"
+            ],
             "symbolOffset": -15
           }
         }
       }
     }
   ],
-  
+
   "config": {
     "scale": {
       "bandPaddingInner": 0,
       "bandPaddingOuter": 0
     },
-    "view": {"step": 40},
+    "view": { "step": 40 },
     "axis": {
       "domain": false
     }

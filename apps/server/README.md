@@ -5,7 +5,7 @@ viewable only by a specified set of IU users.
 
 ## Pre-requisites
 
-* NodeJS 8+
+- NodeJS 8+
 
 ## Installation
 
@@ -18,5 +18,5 @@ Either run `npm start` or `./server.js`. The server normally checks for a `.env`
 
 ## See also
 
-* <https://github.com/soichih/passport-iucas>
-* <https://github.iu.edu/UITS-IMS/CasIntegrationExamples/blob/master/nodejs-express-passport.js>
+- <https://github.com/soichih/passport-iucas>
+- <https://github.iu.edu/UITS-IMS/CasIntegrationExamples/blob/master/nodejs-express-passport.js>

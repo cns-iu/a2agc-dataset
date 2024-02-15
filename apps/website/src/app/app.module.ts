@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -24,17 +23,17 @@ import { SharedModule } from './shared/shared.module';
       markedOptions: {
         provide: MARKED_OPTIONS,
         useValue: {
-          gfm: true
-        }
-      }
+          gfm: true,
+        },
+      },
     }),
 
     AppRoutingModule,
     CoreModule,
-    SharedModule
+    SharedModule,
   ],
   declarations: [AppComponent],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

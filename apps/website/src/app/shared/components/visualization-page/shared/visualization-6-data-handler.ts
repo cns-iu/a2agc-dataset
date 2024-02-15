@@ -3,10 +3,18 @@ import { View, ingest } from 'vega';
 
 import { DataHandler, DataHandlerType } from './data-handler';
 
-
 type SignalValue<K extends PropertyKey, T> = Record<K, T | undefined>;
 
-type SortField = 'AGE_RANK' | 'HEALTH_RANK' | 'OVERDOSE_RANK' | 'TIME_FIRST_OD' | 'TIME_FIRST_RX' | 'OD_DIFF' | 'RX_DIFF' | 'INCARCERATIONS_RANK' | 'PRESCRIPTIONS_RANK';
+type SortField =
+  | 'AGE_RANK'
+  | 'HEALTH_RANK'
+  | 'OVERDOSE_RANK'
+  | 'TIME_FIRST_OD'
+  | 'TIME_FIRST_RX'
+  | 'OD_DIFF'
+  | 'RX_DIFF'
+  | 'INCARCERATIONS_RANK'
+  | 'PRESCRIPTIONS_RANK';
 
 interface DataEntry {
   CASE_NUMBER: string;
@@ -41,7 +49,6 @@ export interface Visualization6DataHandlerOptions {
   maxCasesShown?: number;
 }
 
-
 // Used when the resulting data is empty to prevent the visualization view from blowing up
 const fakeEntries: DataEntry[] = [
   {
@@ -69,7 +76,7 @@ const fakeEntries: DataEntry[] = [
     TIME_FIRST_OD: 0,
     TIME_FIRST_RX: 0,
     OD_DIFF: 0,
-    RX_DIFF: 0
+    RX_DIFF: 0,
   },
   {
     CASE_NUMBER: '',
@@ -96,21 +103,23 @@ const fakeEntries: DataEntry[] = [
     TIME_FIRST_OD: 0,
     TIME_FIRST_RX: 0,
     OD_DIFF: 0,
-    RX_DIFF: 0
-  }
+    RX_DIFF: 0,
+  },
 ];
-
 
 export class Visualization6DataHandler implements DataHandler {
   static readonly OPTIONS: Visualization6DataHandlerOptions = {};
 
-  static withOptions(options: Visualization6DataHandlerOptions): DataHandlerType {
+  static withOptions(
+    options: Visualization6DataHandlerOptions
+  ): DataHandlerType {
     return class extends this {
       static override readonly OPTIONS = options;
     };
   }
 
-  readonly options = (this.constructor as typeof Visualization6DataHandler).OPTIONS;
+  readonly options = (this.constructor as typeof Visualization6DataHandler)
+    .OPTIONS;
 
   private data?: DataEntry[];
   private sortBy: SortField = 'HEALTH_RANK';
@@ -135,26 +144,41 @@ export class Visualization6DataHandler implements DataHandler {
       this.scheduleUpdateCall();
     });
 
-    view.addSignalListener('rank', (_name, value: SignalValue<'RANK', number[]>) => {
-      this.ranks = value.RANK;
-      this.ranksLookup = undefined;
-      this.scheduleUpdateCall();
-    });
+    view.addSignalListener(
+      'rank',
+      (_name, value: SignalValue<'RANK', number[]>) => {
+        this.ranks = value.RANK;
+        this.ranksLookup = undefined;
+        this.scheduleUpdateCall();
+      }
+    );
 
-    view.addSignalListener('age', (_name, value: SignalValue<'AGE', [number, number]>) => {
-      this.age = value.AGE;
-      this.scheduleUpdateCall();
-    });
+    view.addSignalListener(
+      'age',
+      (_name, value: SignalValue<'AGE', [number, number]>) => {
+        this.age = value.AGE;
+        this.scheduleUpdateCall();
+      }
+    );
 
-    view.addSignalListener('encounters', (_name, value: SignalValue<'NUM_ENCOUNTERS_TOTAL', [number, number]>) => {
-      this.numEncounters = value.NUM_ENCOUNTERS_TOTAL;
-      this.scheduleUpdateCall();
-    });
+    view.addSignalListener(
+      'encounters',
+      (_name, value: SignalValue<'NUM_ENCOUNTERS_TOTAL', [number, number]>) => {
+        this.numEncounters = value.NUM_ENCOUNTERS_TOTAL;
+        this.scheduleUpdateCall();
+      }
+    );
 
-    view.addSignalListener('incarcerations', (_name, value: SignalValue<'NUM_INCARCERATIONS_TOTAL', [number, number]>) => {
-      this.numIncarcerations = value.NUM_INCARCERATIONS_TOTAL;
-      this.scheduleUpdateCall();
-    });
+    view.addSignalListener(
+      'incarcerations',
+      (
+        _name,
+        value: SignalValue<'NUM_INCARCERATIONS_TOTAL', [number, number]>
+      ) => {
+        this.numIncarcerations = value.NUM_INCARCERATIONS_TOTAL;
+        this.scheduleUpdateCall();
+      }
+    );
   }
 
   finalize(): void {
@@ -206,10 +230,33 @@ export class Visualization6DataHandler implements DataHandler {
     this.view.data('processed_source', data);
   }
 
-  private compileSortRanks(data: DataEntry[]): Record<string, Record<SortField, number>> {
+  private compileSortRanks(
+    data: DataEntry[]
+  ): Record<string, Record<SortField, number>> {
     const sortRanks: Record<string, Record<SortField, number>> = {};
-    for (const { CASE_NUMBER, AGE_RANK, HEALTH_RANK, OVERDOSE_RANK, TIME_FIRST_OD, TIME_FIRST_RX, OD_DIFF, RX_DIFF, INCARCERATIONS_RANK, PRESCRIPTIONS_RANK } of data) {
-      sortRanks[CASE_NUMBER] ??= { AGE_RANK, HEALTH_RANK, OVERDOSE_RANK, TIME_FIRST_OD, TIME_FIRST_RX, OD_DIFF, RX_DIFF, INCARCERATIONS_RANK, PRESCRIPTIONS_RANK };
+    for (const {
+      CASE_NUMBER,
+      AGE_RANK,
+      HEALTH_RANK,
+      OVERDOSE_RANK,
+      TIME_FIRST_OD,
+      TIME_FIRST_RX,
+      OD_DIFF,
+      RX_DIFF,
+      INCARCERATIONS_RANK,
+      PRESCRIPTIONS_RANK,
+    } of data) {
+      sortRanks[CASE_NUMBER] ??= {
+        AGE_RANK,
+        HEALTH_RANK,
+        OVERDOSE_RANK,
+        TIME_FIRST_OD,
+        TIME_FIRST_RX,
+        OD_DIFF,
+        RX_DIFF,
+        INCARCERATIONS_RANK,
+        PRESCRIPTIONS_RANK,
+      };
     }
 
     return sortRanks;
@@ -242,7 +289,9 @@ export class Visualization6DataHandler implements DataHandler {
     }
 
     const [min, max] = numEncounters;
-    return data.filter(({ NUM_ENCOUNTERS_TOTAL: value }) => min <= value && value <= max);
+    return data.filter(
+      ({ NUM_ENCOUNTERS_TOTAL: value }) => min <= value && value <= max
+    );
   }
 
   private filterByIncarcerations(data: DataEntry[]): DataEntry[] {
@@ -252,7 +301,9 @@ export class Visualization6DataHandler implements DataHandler {
     }
 
     const [min, max] = numIncarcerations;
-    return data.filter(({ NUM_INCARCERATIONS_TOTAL: value }) => min <= value && value <= max);
+    return data.filter(
+      ({ NUM_INCARCERATIONS_TOTAL: value }) => min <= value && value <= max
+    );
   }
 
   private sortData(data: DataEntry[]): DataEntry[] {
@@ -263,7 +314,9 @@ export class Visualization6DataHandler implements DataHandler {
   }
 
   private limitData(data: DataEntry[]): DataEntry[] {
-    const { options: { maxCasesShown = 54 } } = this;
+    const {
+      options: { maxCasesShown = 54 },
+    } = this;
     const selectedCases = new Set<string>();
     const result = [];
 
@@ -283,7 +336,7 @@ export class Visualization6DataHandler implements DataHandler {
     let previousCaseNumber = '';
     let rank = -1;
 
-    return data.map(entry => {
+    return data.map((entry) => {
       if (entry.CASE_NUMBER !== previousCaseNumber) {
         previousCaseNumber = entry.CASE_NUMBER;
         rank += 1;
@@ -292,7 +345,7 @@ export class Visualization6DataHandler implements DataHandler {
       return {
         ...entry,
         ...ingest({}), // Create a new unique vega tuple id
-        FINAL_RANK: rank
+        FINAL_RANK: rank,
       };
     });
   }

@@ -3,7 +3,6 @@ import { VisualizationSpec } from 'vega-embed';
 import { DatasetVariable } from '../../core/models/dataset.model';
 import { DistributionDataEntry } from '../../core/models/distribution.model';
 
-
 type LayerSpec = Extract<VisualizationSpec, { layer: unknown[] }>;
 type AxisEncoding = NonNullable<NonNullable<LayerSpec['encoding']>['x']>;
 
@@ -14,13 +13,15 @@ export interface BarChartExtraOptions {
   flipAxes?: boolean;
 }
 
-
 export function createHorizBarSpec(
   variable: DatasetVariable,
   distributionData: DistributionDataEntry[] = [],
   options: BarChartExtraOptions = {}
 ): VisualizationSpec {
-  return createBarSpec(variable, distributionData, { ...options, flipAxes: true });
+  return createBarSpec(variable, distributionData, {
+    ...options,
+    flipAxes: true,
+  });
 }
 
 export function createBarSpec(
@@ -34,17 +35,17 @@ export function createBarSpec(
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
     autosize: {
-      resize: true
+      resize: true,
     },
     width: 'container',
 
     view: {
-      strokeOpacity: 0
+      strokeOpacity: 0,
     },
 
     data: {
       name: 'distribution',
-      values: distributionData
+      values: distributionData,
     },
 
     transform: [
@@ -53,24 +54,25 @@ export function createBarSpec(
           {
             op: 'sum',
             field: 'count',
-            as: 'total'
-          }
+            as: 'total',
+          },
         ],
-        groupby: ['value']
+        groupby: ['value'],
       },
       {
-        calculate: 'isDate(datum.value) ? timeFormat(datum.value, "%Y") : toString(datum.value)',
-        as: 'label'
+        calculate:
+          'isDate(datum.value) ? timeFormat(datum.value, "%Y") : toString(datum.value)',
+        as: 'label',
       },
       {
         calculate: 'format(datum.total, ",")',
-        as: 'totalLabel'
-      }
+        as: 'totalLabel',
+      },
     ],
 
     encoding: {
       x: !flipAxes ? getXEncoding(xLabel, 0) : getYEncoding(xLabel),
-      y: !flipAxes ? getYEncoding(yLabel) : getXEncoding(yLabel)
+      y: !flipAxes ? getYEncoding(yLabel) : getXEncoding(yLabel),
     },
 
     layer: [
@@ -81,8 +83,8 @@ export function createBarSpec(
           color: '#77ACF0',
           strokeWidth: 1,
           stroke: 'white',
-          orient: flipAxes ? 'horizontal' : 'vertical'
-        }
+          orient: flipAxes ? 'horizontal' : 'vertical',
+        },
       },
       {
         mark: {
@@ -90,17 +92,17 @@ export function createBarSpec(
           align: flipAxes ? 'left' : 'center',
           baseline: 'middle',
           dx: flipAxes ? 3 : 0,
-          dy: flipAxes ? 0 : -10
+          dy: flipAxes ? 0 : -10,
         },
 
         encoding: {
           text: {
             field: 'totalLabel',
-            type: 'nominal'
-          }
-        }
-      }
-    ]
+            type: 'nominal',
+          },
+        },
+      },
+    ],
   };
 }
 
@@ -123,8 +125,8 @@ function getXEncoding(label?: string, labelAngle?: number): AxisEncoding {
       domainColor: '#757575',
 
       grid: false,
-      tickColor: '#757575'
-    }
+      tickColor: '#757575',
+    },
   };
 }
 
@@ -145,7 +147,7 @@ function getYEncoding(label?: string): AxisEncoding {
       domainColor: '#757575',
 
       gridColor: '#e0e0e0',
-      tickColor: '#757575'
-    }
+      tickColor: '#757575',
+    },
   };
 }

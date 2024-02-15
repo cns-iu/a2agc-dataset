@@ -5,16 +5,9 @@ import { VegaComponent } from 'ngx-vega';
 import { DatasetSummaryModule } from '../dataset-summary/dataset-summary.module';
 import { VariableVisualizationComponent } from './variable-visualization.component';
 
-
 @NgModule({
-  imports: [
-    CommonModule,
-
-    VegaComponent,
-
-    DatasetSummaryModule
-  ],
+  imports: [CommonModule, VegaComponent, DatasetSummaryModule],
   declarations: [VariableVisualizationComponent],
-  exports: [VariableVisualizationComponent]
+  exports: [VariableVisualizationComponent],
 })
-export class VariableVisualizationModule { }
+export class VariableVisualizationModule {}

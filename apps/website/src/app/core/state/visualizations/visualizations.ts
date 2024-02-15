@@ -3,11 +3,8 @@ import { Spec } from 'vega';
 
 import { DataHandlerView } from '../../../shared/components/visualization-page/shared/data-handler-view';
 import { createGeoZoomPatch } from '../../../shared/components/visualization-page/shared/geomap-zoom-patch';
-import {
-  Visualization6DataHandler,
-} from '../../../shared/components/visualization-page/shared/visualization-6-data-handler';
+import { Visualization6DataHandler } from '../../../shared/components/visualization-page/shared/visualization-6-data-handler';
 import { VisualizationOneView } from '../../../shared/components/visualization-page/shared/visualization1-data-handler';
-
 
 export interface Visualization {
   title: string;
@@ -20,7 +17,6 @@ export interface Visualization {
   id: string;
 }
 
-
 export const visualizations: Visualization[] = [
   {
     id: 'vis1-geomap-of-opioid-deaths',
@@ -28,7 +24,8 @@ export const visualizations: Visualization[] = [
     description: 'Marion County by Place of Injury (2010-2018)',
     spec: 'assets/pages/vis1-geomap-of-opioid-deaths/vis.vl.json',
     options: {
-      renderer: 'canvas', actions: true,
+      renderer: 'canvas',
+      actions: true,
       patch: (spec: Spec): Spec => {
         spec = createGeoZoomPatch({
           center: [87.44305475, 38.76622477],
@@ -41,11 +38,11 @@ export const visualizations: Visualization[] = [
         spec.height = 941;
         return spec;
       },
-      viewClass: VisualizationOneView
+      viewClass: VisualizationOneView,
     },
     content: 'assets/pages/vis1-geomap-of-opioid-deaths/README.md',
     sql: 'assets/pages/vis1-geomap-of-opioid-deaths/data.sql',
-    csv: 'assets/generated/vis-geomap-opioid-deaths.csv'
+    csv: 'assets/generated/vis-geomap-opioid-deaths.csv',
   },
   {
     id: 'vis2-age-and-gender',
@@ -55,7 +52,7 @@ export const visualizations: Visualization[] = [
     options: {},
     content: 'assets/pages/vis2-age-and-gender/README.md',
     sql: 'assets/pages/vis2-age-and-gender/data.sql',
-    csv: 'assets/generated/vis2-data/death-counts.csv'
+    csv: 'assets/generated/vis2-data/death-counts.csv',
   },
   {
     id: 'vis3-heatmap-of-accidental-overdoses',
@@ -65,7 +62,7 @@ export const visualizations: Visualization[] = [
     options: {},
     content: 'assets/pages/vis3-heatmap-of-accidental-overdoses/README.md',
     sql: 'assets/pages/vis4-combined-visualization/data.sql',
-    csv: 'assets/generated/visualization4/data.csv'
+    csv: 'assets/generated/visualization4/data.csv',
   },
   {
     id: 'vis4-combined-visualization',
@@ -75,17 +72,18 @@ export const visualizations: Visualization[] = [
     options: {},
     content: 'assets/pages/vis4-combined-visualization/README.md',
     sql: 'assets/pages/vis4-combined-visualization/data.sql',
-    csv: 'assets/generated/visualization4/data.csv'
+    csv: 'assets/generated/visualization4/data.csv',
   },
   {
     id: 'vis5-opioid-trajectories',
     title: 'Opioid Death Datasets',
-    description: 'Marion County by History of Opioid Prescription, Previous Overdose, Incarceration, Health Data (2010-2018)',
+    description:
+      'Marion County by History of Opioid Prescription, Previous Overdose, Incarceration, Health Data (2010-2018)',
     spec: 'assets/pages/vis5-opioid-trajectories/vis.vl.json',
     options: {},
     content: 'assets/pages/vis5-opioid-trajectories/README.md',
     sql: 'assets/pages/vis5-opioid-trajectories/data.sql',
-    csv: 'assets/generated/visualization5/data.csv'
+    csv: 'assets/generated/visualization5/data.csv',
   },
   {
     id: 'vis6-maps-of-health',
@@ -96,13 +94,11 @@ export const visualizations: Visualization[] = [
       renderer: 'canvas',
       actions: true,
       width: 1268,
-      viewClass: DataHandlerView.withDataHandlers([
-        Visualization6DataHandler
-      ])
+      viewClass: DataHandlerView.withDataHandlers([Visualization6DataHandler]),
     },
     content: 'assets/pages/vis6-maps-of-health/README.md',
     sql: 'assets/pages/vis6-maps-of-health/data.sql',
-    csv: 'assets/generated/visualization6/data.csv'
+    csv: 'assets/generated/visualization6/data.csv',
   },
   {
     id: 'vis6-maps-of-health-v2',
@@ -113,13 +109,11 @@ export const visualizations: Visualization[] = [
       renderer: 'canvas',
       actions: true,
       width: 1268,
-      viewClass: DataHandlerView.withDataHandlers([
-        Visualization6DataHandler
-      ])
+      viewClass: DataHandlerView.withDataHandlers([Visualization6DataHandler]),
     },
     content: 'assets/pages/vis6-maps-of-health/README.md',
     sql: 'assets/pages/vis6-maps-of-health/data.sql',
-    csv: 'assets/generated/visualization6/data.csv'
+    csv: 'assets/generated/visualization6/data.csv',
   },
   {
     id: 'vis6-maps-of-health-v3',
@@ -130,12 +124,10 @@ export const visualizations: Visualization[] = [
       renderer: 'canvas',
       actions: true,
       width: 1268,
-      viewClass: DataHandlerView.withDataHandlers([
-        Visualization6DataHandler
-      ])
+      viewClass: DataHandlerView.withDataHandlers([Visualization6DataHandler]),
     },
     content: 'assets/pages/vis6-maps-of-health/README.md',
     sql: 'assets/pages/vis6-maps-of-health/data.sql',
-    csv: 'assets/generated/visualization6/data.csv'
-  }
+    csv: 'assets/generated/visualization6/data.csv',
+  },
 ];

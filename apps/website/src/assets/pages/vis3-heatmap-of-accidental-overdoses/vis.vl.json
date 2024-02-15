@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "padding": {"top": 50},
+  "padding": { "top": 50 },
   "data": {
     "url": "assets/generated/visualization4/data.csv"
   },
@@ -35,10 +35,7 @@
           "op": "distinct"
         }
       ],
-      "groupby": [
-        "AGE_GROUP",
-        "YEAR"
-      ]
+      "groupby": ["AGE_GROUP", "YEAR"]
     },
     {
       "calculate": "datum.OVERDOSE_DUMMY == 1 || datum.OVERDOSE_CC_MOI == 1",
@@ -59,28 +56,28 @@
             "text": "Data Variable",
             "dx": 15
           },
-          "data": {"values": [
-            {"idx": 0, "SUBSTANCE_NAME": "All Substances"},
-            {"idx": 1, "SUBSTANCE_NAME": "Heroin"},
-            {"idx": 2, "SUBSTANCE_NAME": "Cocaine"},
-            {"idx": 3, "SUBSTANCE_NAME": "Fentanyl"},
-            {"idx": 4, "SUBSTANCE_NAME": "Prescription Opioid"},
-            {"idx": 5, "SUBSTANCE_NAME": "Any Opioid"},
-            {"idx": 6, "SUBSTANCE_NAME": "Methamphetamine"},
-            {"idx": 7, "SUBSTANCE_NAME": "Benzodiazepine"}
-          ]},
+          "data": {
+            "values": [
+              { "idx": 0, "SUBSTANCE_NAME": "All Substances" },
+              { "idx": 1, "SUBSTANCE_NAME": "Heroin" },
+              { "idx": 2, "SUBSTANCE_NAME": "Cocaine" },
+              { "idx": 3, "SUBSTANCE_NAME": "Fentanyl" },
+              { "idx": 4, "SUBSTANCE_NAME": "Prescription Opioid" },
+              { "idx": 5, "SUBSTANCE_NAME": "Any Opioid" },
+              { "idx": 6, "SUBSTANCE_NAME": "Methamphetamine" },
+              { "idx": 7, "SUBSTANCE_NAME": "Benzodiazepine" }
+            ]
+          },
           "mark": {
             "align": "left",
             "type": "text"
           },
-					"params": [
+          "params": [
             {
               "name": "substance_selection",
               "select": {
                 "type": "point",
-                "fields": [
-                  "SUBSTANCE_NAME"
-                ]
+                "fields": ["SUBSTANCE_NAME"]
               },
               "value": [
                 {
@@ -120,10 +117,12 @@
           "title": {
             "text": "Filter by"
           },
-          "data": {"values": [
-            {"idx": 0, "HAD_PREVIOUS_OVERDOSE": "Had Previous Overdose"},
-            {"idx": 1, "HAD_PREVIOUS_OVERDOSE": "No Previous Overdose"}
-          ]},
+          "data": {
+            "values": [
+              { "idx": 0, "HAD_PREVIOUS_OVERDOSE": "Had Previous Overdose" },
+              { "idx": 1, "HAD_PREVIOUS_OVERDOSE": "No Previous Overdose" }
+            ]
+          },
           "mark": {
             "align": "left",
             "type": "text"
@@ -133,9 +132,7 @@
               "name": "filter_selection",
               "select": {
                 "type": "point",
-                "fields": [
-                  "HAD_PREVIOUS_OVERDOSE"
-                ]
+                "fields": ["HAD_PREVIOUS_OVERDOSE"]
               }
             }
           ],
@@ -193,18 +190,14 @@
                       "name": "deaths_binned",
                       "select": {
                         "type": "point",
-                        "fields": [
-                          "deaths_binned"
-                        ]
+                        "fields": ["deaths_binned"]
                       }
                     },
                     {
                       "name": "label",
                       "select": {
                         "type": "point",
-                        "fields": [
-                          "label"
-                        ]
+                        "fields": ["label"]
                       }
                     }
                   ],
@@ -366,10 +359,7 @@
                     "op": "distinct"
                   }
                 ],
-                "groupby": [
-                  "AGE_GROUP",
-                  "YEAR"
-                ]
+                "groupby": ["AGE_GROUP", "YEAR"]
               },
               {
                 "as": "deaths_max69",
@@ -384,10 +374,7 @@
                   "anchor": 0,
                   "maxbins": 7,
                   "step": 10,
-                  "extent": [
-                    0,
-                    69
-                  ]
+                  "extent": [0, 69]
                 },
                 "field": "deaths_max69",
                 "as": "deaths_binned"
@@ -483,10 +470,7 @@
                     "op": "distinct"
                   }
                 ],
-                "groupby": [
-                  "AGE_GROUP",
-                  "YEAR"
-                ]
+                "groupby": ["AGE_GROUP", "YEAR"]
               },
               {
                 "as": "deaths_max69",
@@ -501,10 +485,7 @@
                   "anchor": 0,
                   "maxbins": 7,
                   "step": 10,
-                  "extent": [
-                    0,
-                    69
-                  ]
+                  "extent": [0, 69]
                 },
                 "field": "deaths_max69",
                 "as": "deaths_binned"
@@ -600,10 +581,7 @@
                     "op": "distinct"
                   }
                 ],
-                "groupby": [
-                  "AGE_GROUP",
-                  "YEAR"
-                ]
+                "groupby": ["AGE_GROUP", "YEAR"]
               },
               {
                 "as": "deaths_max69",
@@ -618,10 +596,7 @@
                   "anchor": 0,
                   "maxbins": 7,
                   "step": 10,
-                  "extent": [
-                    0,
-                    69
-                  ]
+                  "extent": [0, 69]
                 },
                 "field": "deaths_max69",
                 "as": "deaths_binned"

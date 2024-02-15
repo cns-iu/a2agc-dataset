@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
   "padding": 0,
   "config": {
-    "view": {"strokeOpacity": 0}
+    "view": { "strokeOpacity": 0 }
   },
 
   "data": {
@@ -20,7 +20,7 @@
       "width": 800,
       "height": 600,
       "transform": [
-        {"filter": { "selection": "period" }},
+        { "filter": { "selection": "period" } },
         {
           "calculate": "if(datum['Touchpoint A'] == 1 || datum['Touchpoint A'] == 2, 'OD = Overdose', 0)",
           "as": "OD"
@@ -41,29 +41,29 @@
           "calculate": "if(datum['Touchpoint A'] == 0 && datum['Touchpoint B'] == 0, '∅ = No Touchpoints', 0)",
           "as": "∅"
         },
-            {
-              "filter": { "selection": "Rx" }
-            },
-            {
-              "filter": { "selection": "OD" }
-            },
-            {
-              "filter": { "selection": "Jail" }
-            },
-            {
-              "filter": { "selection": "Health" }
-            },
-            {
-              "filter": { "selection": "Empty" }
-            }
+        {
+          "filter": { "selection": "Rx" }
+        },
+        {
+          "filter": { "selection": "OD" }
+        },
+        {
+          "filter": { "selection": "Jail" }
+        },
+        {
+          "filter": { "selection": "Health" }
+        },
+        {
+          "filter": { "selection": "Empty" }
+        }
       ],
       "encoding": {
         "y": {
-          "field": "Touchpoint A", 
+          "field": "Touchpoint A",
           "type": "quantitative",
-          "title": null, 
+          "title": null,
           "scale": {
-            "domain": [-0.5,3.5]
+            "domain": [-0.5, 3.5]
           },
           "axis": {
             "grid": false,
@@ -77,7 +77,7 @@
           "type": "quantitative",
           "title": null,
           "scale": {
-            "domain": [-0.5,3.5]
+            "domain": [-0.5, 3.5]
           },
           "axis": {
             "grid": false,
@@ -91,10 +91,11 @@
         {
           "transform": [
             {
-              "aggregate": [{"op": "sum", "field": "True", "as": "sum"}], "groupby": ["Touchpoint A", "Touchpoint B"]
+              "aggregate": [{ "op": "sum", "field": "True", "as": "sum" }],
+              "groupby": ["Touchpoint A", "Touchpoint B"]
             }
           ],
-          "mark": {"type": "circle", "yOffset": 10},
+          "mark": { "type": "circle", "yOffset": 10 },
           "encoding": {
             "tooltip": [
               {
@@ -111,14 +112,14 @@
             "size": {
               "field": "sum",
               "type": "quantitative",
-              "scale": {"range": [0, 6000]},
+              "scale": { "range": [0, 6000] },
               "legend": null
             },
             "color": {
               "field": "sum",
               "type": "quantitative",
               "scale": {
-                "type": "sqrt", 
+                "type": "sqrt",
                 "scheme": "blues"
               }
             }
@@ -127,17 +128,19 @@
         {
           "transform": [
             {
-              "aggregate": [{
-              "op": "max",
-              "field": "Set",
-              "as": "label"
-              }],
+              "aggregate": [
+                {
+                  "op": "max",
+                  "field": "Set",
+                  "as": "label"
+                }
+              ],
               "groupby": ["Touchpoint A", "Touchpoint B"]
             }
           ],
-          "mark": {"type": "text", "dy": -65, "fontSize": 16},
+          "mark": { "type": "text", "dy": -65, "fontSize": 16 },
           "encoding": {
-            "text": {"field": "label", "type": "nominal"}
+            "text": { "field": "label", "type": "nominal" }
           }
         },
 
@@ -147,7 +150,7 @@
             "fontSize": 0
           },
           "selection": {
-            "OD": {"type": "multi", "bind": "legend", "fields": ["OD"]}
+            "OD": { "type": "multi", "bind": "legend", "fields": ["OD"] }
           },
 
           "encoding": {
@@ -173,7 +176,7 @@
             "fontSize": 0
           },
           "selection": {
-            "Rx": {"type": "multi", "bind": "legend", "fields": ["Rx"]}
+            "Rx": { "type": "multi", "bind": "legend", "fields": ["Rx"] }
           },
 
           "encoding": {
@@ -198,7 +201,7 @@
             "fontSize": 0
           },
           "selection": {
-            "Jail": {"type": "multi", "bind": "legend", "fields": ["Jail"]}
+            "Jail": { "type": "multi", "bind": "legend", "fields": ["Jail"] }
           },
 
           "encoding": {
@@ -223,7 +226,7 @@
             "fontSize": 0
           },
           "selection": {
-            "Empty": {"type": "multi", "bind": "legend", "fields": ["∅"]}
+            "Empty": { "type": "multi", "bind": "legend", "fields": ["∅"] }
           },
 
           "encoding": {
@@ -250,7 +253,11 @@
             "fontSize": 0
           },
           "selection": {
-            "Health": {"type": "multi", "bind": "legend", "fields": ["Health"]}
+            "Health": {
+              "type": "multi",
+              "bind": "legend",
+              "fields": ["Health"]
+            }
           },
 
           "encoding": {
@@ -271,7 +278,7 @@
         },
 
         {
-          "mark": {"type": "text", "fontSize": 0},
+          "mark": { "type": "text", "fontSize": 0 },
           "encoding": {
             "color": {
               "title": "# Deaths",
@@ -295,17 +302,24 @@
         {
           "transform": [
             {
-              "aggregate": [{
-              "op": "sum",
-              "field": "True",
-              "as": "sum"
-              }],
+              "aggregate": [
+                {
+                  "op": "sum",
+                  "field": "True",
+                  "as": "sum"
+                }
+              ],
               "groupby": ["Touchpoint A", "Touchpoint B"]
             }
           ],
-          "mark": {"type": "text", "dy": -45, "fontStyle": "bold", "fontSize": 16},
+          "mark": {
+            "type": "text",
+            "dy": -45,
+            "fontStyle": "bold",
+            "fontSize": 16
+          },
           "encoding": {
-            "text": {"field": "sum", "type": "quantitative"}
+            "text": { "field": "sum", "type": "quantitative" }
           }
         }
       ]
@@ -331,10 +345,10 @@
           },
           "selection": {
             "period": {
-              "type": "interval", 
+              "type": "interval",
               "encodings": ["x"],
               "on": "[mousedown, window:mouseup] > window:mousemove{150, 300}",
-              "mark": {"fill": "#6ea7ef", "fillOpacity": 0.15}
+              "mark": { "fill": "#6ea7ef", "fillOpacity": 0.15 }
             }
           },
           "encoding": {
@@ -350,11 +364,25 @@
                 "labelFlush": false,
                 "labelExpr": "[timeFormat(datum.value, '%m') == '01' ? timeFormat(datum.value, '%Y') : '']",
                 "gridDash": {
-                  "condition": {"test": {"field": "value", "timeUnit": "month", "equal": 7}, "value": [2,2]},
+                  "condition": {
+                    "test": {
+                      "field": "value",
+                      "timeUnit": "month",
+                      "equal": 7
+                    },
+                    "value": [2, 2]
+                  },
                   "value": []
                 },
                 "gridColor": {
-                  "condition": {"test": {"field": "value", "timeUnit": "month", "equal": 1}, "value": "#BDBDBD"},
+                  "condition": {
+                    "test": {
+                      "field": "value",
+                      "timeUnit": "month",
+                      "equal": 1
+                    },
+                    "value": "#BDBDBD"
+                  },
                   "value": "#e0e0e0"
                 }
               }
@@ -370,15 +398,24 @@
                 "tickColor": "#757575",
                 "domainColor": "#757575",
                 "gridOpacity": {
-                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "condition": {
+                    "test": { "field": "index", "equal": 1 },
+                    "value": 0
+                  },
                   "value": 1
                 },
                 "tickOpacity": {
-                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "condition": {
+                    "test": { "field": "index", "equal": 1 },
+                    "value": 0
+                  },
                   "value": 1
                 },
                 "labelFontSize": {
-                  "condition": {"test": {"field": "index", "equal": 1}, "value": 0},
+                  "condition": {
+                    "test": { "field": "index", "equal": 1 },
+                    "value": 0
+                  },
                   "value": 10
                 }
               }

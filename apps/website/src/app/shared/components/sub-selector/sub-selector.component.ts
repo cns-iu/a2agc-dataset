@@ -1,13 +1,20 @@
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
 } from '@angular/core';
-
 
 @Component({
   selector: 'agc-sub-selector',
   templateUrl: './sub-selector.component.html',
   styleUrls: ['./sub-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubSelectorComponent implements OnInit, OnChanges {
   @HostBinding('class') readonly clsName = 'agc-sub-selector';
@@ -21,7 +28,9 @@ export class SubSelectorComponent implements OnInit, OnChanges {
 
   showMenu = false;
   subOptionFilter = 'A';
-  readonly LETTERS: string[] = [...Array(26)].map((_val, i) => String.fromCharCode(i + 65));
+  readonly LETTERS: string[] = [...Array(26)].map((_val, i) =>
+    String.fromCharCode(i + 65)
+  );
 
   ngOnInit(): void {
     if (this.subOptions.length > 0) {
@@ -73,7 +82,10 @@ export class SubSelectorComponent implements OnInit, OnChanges {
       return this.subOptions;
     }
 
-    return this.subOptions.filter(option => option.charAt(0).toLowerCase() === this.subOptionFilter.toLowerCase());
+    return this.subOptions.filter(
+      (option) =>
+        option.charAt(0).toLowerCase() === this.subOptionFilter.toLowerCase()
+    );
   }
 
   validSubOption(subOption: string): boolean {
@@ -81,7 +93,9 @@ export class SubSelectorComponent implements OnInit, OnChanges {
       return false;
     }
 
-    const firstLetters = this.subOptions.map(option => option.charAt(0).toLowerCase());
+    const firstLetters = this.subOptions.map((option) =>
+      option.charAt(0).toLowerCase()
+    );
     if (firstLetters.indexOf(subOption.toLowerCase()) < 0) {
       return false;
     }

@@ -1,18 +1,35 @@
 <div class="selections-container">
   <mat-form-field>
     <mat-label id="datasetLabel">Dataset</mat-label>
-    <mat-select (selectionChange)="setDataset(datasets[$event.value])" aria-label="datasetLabel">
-      <mat-option *ngFor="let dataset of datasets; let i = index" [value]="i">{{dataset.name}}</mat-option>
+    <mat-select
+      (selectionChange)="setDataset(datasets[$event.value])"
+      aria-label="datasetLabel"
+    >
+      <mat-option *ngFor="let dataset of datasets; let i = index" [value]="i">{{
+        dataset.name
+      }}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <agc-sub-selector label="Data Variable" [options]="variableNames" [subLabel]="subLabel"
-                    [subOptions]="subVariableNames" [selection]="selectedVariable?.name ?? ''"
-                    (selectionChange)="setVariableFromName($event)">
+  <agc-sub-selector
+    label="Data Variable"
+    [options]="variableNames"
+    [subLabel]="subLabel"
+    [subOptions]="subVariableNames"
+    [selection]="selectedVariable?.name ?? ''"
+    (selectionChange)="setVariableFromName($event)"
+  >
   </agc-sub-selector>
 
-  <button mat-raised-button class="all" [disabled]="selectedDataset === undefined" (click)="selectAll.emit()">
+  <button
+    mat-raised-button
+    class="all"
+    [disabled]="selectedDataset === undefined"
+    (click)="selectAll.emit()"
+  >
     Select All Variables
   </button>
 </div>
-<div class="description" *ngIf="selectedDataset?.description">{{ selectedDataset!.description }}</div>
+<div class="description" *ngIf="selectedDataset?.description">
+  {{ selectedDataset!.description }}
+</div>

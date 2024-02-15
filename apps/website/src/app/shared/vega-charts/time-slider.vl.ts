@@ -2,8 +2,9 @@ import { VisualizationSpec } from 'vega-embed';
 
 import { DistributionDataEntry } from '../../core/models/distribution.model';
 
-
-export function createTimeSpec(distributionData: DistributionDataEntry[] = []): VisualizationSpec {
+export function createTimeSpec(
+  distributionData: DistributionDataEntry[] = []
+): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
 
@@ -13,16 +14,16 @@ export function createTimeSpec(distributionData: DistributionDataEntry[] = []): 
     title: {
       text: 'Select Date Range to Update Datasets',
       align: 'left',
-      anchor: 'start'
+      anchor: 'start',
     },
 
     view: {
-      strokeOpacity: 0
+      strokeOpacity: 0,
     },
 
     data: {
       name: 'distribution',
-      values: distributionData
+      values: distributionData,
     },
 
     mark: 'line',
@@ -35,15 +36,15 @@ export function createTimeSpec(distributionData: DistributionDataEntry[] = []): 
           encodings: ['x'],
           mark: {
             fill: '#6ea7ef',
-            fillOpacity: 0.15
-          }
-        }
-      }
+            fillOpacity: 0.15,
+          },
+        },
+      },
     ],
 
     encoding: {
       color: {
-        value: '#6ea7ef'
+        value: '#6ea7ef',
       },
 
       x: {
@@ -60,7 +61,8 @@ export function createTimeSpec(distributionData: DistributionDataEntry[] = []): 
           tickColor: '#757575',
           domainColor: '#757575',
 
-          labelExpr: '[month(datum.value) === 0 ? timeFormat(datum.value, "%Y") : ""]',
+          labelExpr:
+            '[month(datum.value) === 0 ? timeFormat(datum.value, "%Y") : ""]',
           labelFlush: false,
 
           gridDash: {
@@ -68,24 +70,24 @@ export function createTimeSpec(distributionData: DistributionDataEntry[] = []): 
               test: {
                 field: 'value',
                 timeUnit: 'month',
-                equal: 7
+                equal: 7,
               },
-              value: [2, 2]
+              value: [2, 2],
             },
-            value: []
+            value: [],
           },
           gridColor: {
             condition: {
               test: {
                 field: 'value',
                 timeUnit: 'month',
-                equal: 1
+                equal: 1,
               },
-              value: '#bdbdbd'
+              value: '#bdbdbd',
             },
-            value: '#e0e0e0'
-          }
-        }
+            value: '#e0e0e0',
+          },
+        },
       },
 
       y: {
@@ -103,11 +105,11 @@ export function createTimeSpec(distributionData: DistributionDataEntry[] = []): 
             condition: {
               test: {
                 field: 'index',
-                equal: 1
+                equal: 1,
               },
-              value: 0
+              value: 0,
             },
-            value: 10
+            value: 10,
           },
 
           gridColor: '#e0e0e0',
@@ -115,11 +117,11 @@ export function createTimeSpec(distributionData: DistributionDataEntry[] = []): 
             condition: {
               test: {
                 field: 'index',
-                equal: 1
+                equal: 1,
               },
-              value: 0
+              value: 0,
             },
-            value: 1
+            value: 1,
           },
 
           tickColor: '#757575',
@@ -127,14 +129,14 @@ export function createTimeSpec(distributionData: DistributionDataEntry[] = []): 
             condition: {
               test: {
                 field: 'index',
-                equal: 1
+                equal: 1,
               },
-              value: 0
+              value: 0,
             },
-            value: 1
-          }
-        }
-      }
-    }
+            value: 1,
+          },
+        },
+      },
+    },
   };
 }

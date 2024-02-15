@@ -1,6 +1,5 @@
 import { Spec } from 'vega';
 
-
 /**
  * Geographical zoom configuration.
  *
@@ -23,7 +22,7 @@ export const INDIANA_ZOOM_CONFIG: GeoZoomOptions = {
 export const USA_ZOOM_CONFIG: GeoZoomOptions = {
   center: [96, 39],
   zoomLevels: [10, 250000],
-  initialZoom: 600
+  initialZoom: 600,
 };
 
 /**
@@ -47,72 +46,89 @@ export function addGeoZoom(spec: Spec, opts: GeoZoomOptions): void {
     {
       name: 'scale',
       value: opts.initialZoom ?? opts.zoomLevels[0],
-      on: [{
-        events: { type: 'wheel', consume: true, filter: 'event.shiftKey' },
-        update: [
-          'clamp(scale * pow(1.0015, -event.deltaY * pow(48, event.deltaMode)), ',
-          opts.zoomLevels[0],
-          ', ',
-          opts.zoomLevels[1],
-          ')'
-        ].join('')
-      }]
+      on: [
+        {
+          events: { type: 'wheel', consume: true, filter: 'event.shiftKey' },
+          update: [
+            'clamp(scale * pow(1.0015, -event.deltaY * pow(48, event.deltaMode)), ',
+            opts.zoomLevels[0],
+            ', ',
+            opts.zoomLevels[1],
+            ')',
+          ].join(''),
+        },
+      ],
     },
     {
       name: 'angles',
       value: [0, 0],
-      on: [{
-        events: 'mousedown',
-        update: '[rotateX, centerY]'
-      }]
+      on: [
+        {
+          events: 'mousedown',
+          update: '[rotateX, centerY]',
+        },
+      ],
     },
     {
       name: 'cloned',
       value: null,
-      on: [{
-        events: 'mousedown',
-        update: 'copy(\'' + projection.name + '\')'
-      }]
+      on: [
+        {
+          events: 'mousedown',
+          update: "copy('" + projection.name + "')",
+        },
+      ],
     },
     {
       name: 'start',
       value: null,
-      on: [{
-        events: 'mousedown',
-        update: 'invert(cloned, xy())'
-      }]
+      on: [
+        {
+          events: 'mousedown',
+          update: 'invert(cloned, xy())',
+        },
+      ],
     },
     {
       name: 'drag',
       value: null,
-      on: [{
-        events: '[mousedown[event.shiftKey], window:mouseup] > window:mousemove',
-        update: 'invert(cloned, xy())'
-      }]
+      on: [
+        {
+          events:
+            '[mousedown[event.shiftKey], window:mouseup] > window:mousemove',
+          update: 'invert(cloned, xy())',
+        },
+      ],
     },
     {
       name: 'delta',
       value: null,
-      on: [{
-        events: { signal: 'drag' },
-        update: '[drag[0] - start[0], start[1] - drag[1]]'
-      }]
+      on: [
+        {
+          events: { signal: 'drag' },
+          update: '[drag[0] - start[0], start[1] - drag[1]]',
+        },
+      ],
     },
     {
       name: 'rotateX',
       value: opts.center[0],
-      on: [{
-        events: { signal: 'delta' },
-        update: 'angles[0] + delta[0]'
-      }]
+      on: [
+        {
+          events: { signal: 'delta' },
+          update: 'angles[0] + delta[0]',
+        },
+      ],
     },
     {
       name: 'centerY',
       value: opts.center[1],
-      on: [{
-        events: { signal: 'delta' },
-        update: 'clamp(angles[1] + delta[1], -60, 60)'
-      }]
+      on: [
+        {
+          events: { signal: 'delta' },
+          update: 'clamp(angles[1] + delta[1], -60, 60)',
+        },
+      ],
     }
   );
 
@@ -120,7 +136,7 @@ export function addGeoZoom(spec: Spec, opts: GeoZoomOptions): void {
     scale: { signal: 'scale' },
     rotate: [{ signal: 'rotateX' }, 0, 0],
     center: [0, { signal: 'centerY' }],
-    translate: [{ signal: 'tx' }, { signal: 'ty' }]
+    translate: [{ signal: 'tx' }, { signal: 'ty' }],
   });
   delete projection.size;
 }

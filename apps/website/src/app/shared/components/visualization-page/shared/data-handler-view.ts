@@ -1,15 +1,17 @@
 import { Runtime, View, ViewOptions } from 'vega';
 import { DataHandler, DataHandlerType } from './data-handler';
 
-
 export class DataHandlerView extends View {
   static readonly HANDLER_TYPES: DataHandlerType[] = [];
 
-  static withDataHandlers(handlerTypes: DataHandlerType[]): typeof DataHandlerView {
+  static withDataHandlers(
+    handlerTypes: DataHandlerType[]
+  ): typeof DataHandlerView {
     const superHandlerTypes = this.HANDLER_TYPES;
 
     return class extends this {
-      static override readonly HANDLER_TYPES = superHandlerTypes.concat(handlerTypes);
+      static override readonly HANDLER_TYPES =
+        superHandlerTypes.concat(handlerTypes);
     };
   }
 
@@ -20,11 +22,11 @@ export class DataHandlerView extends View {
 
     const constructor = this.constructor as typeof DataHandlerView;
     const handlerTypes = constructor.HANDLER_TYPES;
-    this.handlers = handlerTypes.map(type => new type(this));
+    this.handlers = handlerTypes.map((type) => new type(this));
   }
 
   override finalize(): this {
-    this.handlers.forEach(handler => handler.finalize?.());
+    this.handlers.forEach((handler) => handler.finalize?.());
     return super.finalize();
   }
 }

@@ -5,31 +5,54 @@
     <div *ngIf="title" class="title">{{ title }}</div>
     <div *ngIf="description" class="description">{{ description }}</div>
 
-    <div class="loading-message" [class.smooth-hide]="!loadingVegaVisualization">
+    <div
+      class="loading-message"
+      [class.smooth-hide]="!loadingVegaVisualization"
+    >
       <mat-spinner></mat-spinner>
     </div>
 
     <div class="visualization">
-      <ngx-vega *ngIf="spec" [spec]="spec" [options]="options" [autosize]="{ width: true, height: false }"
-                (viewLoading)="loadingVegaVisualization = $event"></ngx-vega>
-      <button mat-icon-button class="help" color="accent" disableRipple (click)="launchHelpDialog()">
+      <ngx-vega
+        *ngIf="spec"
+        [spec]="spec"
+        [options]="options"
+        [autosize]="{ width: true, height: false }"
+        (viewLoading)="loadingVegaVisualization = $event"
+      ></ngx-vega>
+      <button
+        mat-icon-button
+        class="help"
+        color="accent"
+        disableRipple
+        (click)="launchHelpDialog()"
+      >
         <span class="qmark" title="Help">?</span>
       </button>
     </div>
 
-    <mat-expansion-panel ngClass="info" [class.smooth-show]="!loadingVegaVisualization">
+    <mat-expansion-panel
+      ngClass="info"
+      [class.smooth-show]="!loadingVegaVisualization"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon ngClass="storage-icon" svgIcon="menu:data-storage"></mat-icon> DATA &amp; GRAPHIC VARIABLE
-          EXTRACTION
-          INFORMATION
+          <mat-icon
+            ngClass="storage-icon"
+            svgIcon="menu:data-storage"
+          ></mat-icon>
+          DATA &amp; GRAPHIC VARIABLE EXTRACTION INFORMATION
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <markdown *ngIf="content" [src]="content"></markdown>
 
       <mat-accordion multi>
-        <mat-expansion-panel *ngIf="sql" #sqlPanel (closed)="enableSpinner('sql')">
+        <mat-expansion-panel
+          *ngIf="sql"
+          #sqlPanel
+          (closed)="enableSpinner('sql')"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title>
               Data Extraction Source Code (SQL)
@@ -37,30 +60,62 @@
           </mat-expansion-panel-header>
 
           <div class="file-download-area">
-            <a [href]="sql" class="file-download" target="_blank" rel="noreferrer noopener">
+            <a
+              [href]="sql"
+              class="file-download"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
               <mat-icon>cloud_download</mat-icon>
             </a>
           </div>
-          <mat-spinner class="spinner" [class.smooth-hide]="!spinners.sql"></mat-spinner>
-          <markdown (load)="disableSpinner('sql')" *ngIf="sql && sqlPanel.expanded" lineNumbers [src]="sql"></markdown>
+          <mat-spinner
+            class="spinner"
+            [class.smooth-hide]="!spinners.sql"
+          ></mat-spinner>
+          <markdown
+            (load)="disableSpinner('sql')"
+            *ngIf="sql && sqlPanel.expanded"
+            lineNumbers
+            [src]="sql"
+          ></markdown>
         </mat-expansion-panel>
-        <mat-expansion-panel *ngIf="csv" #csvPanel (closed)="enableSpinner('csv')">
+        <mat-expansion-panel
+          *ngIf="csv"
+          #csvPanel
+          (closed)="enableSpinner('csv')"
+        >
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Extracted Data (CSV)
-            </mat-panel-title>
+            <mat-panel-title> Extracted Data (CSV) </mat-panel-title>
           </mat-expansion-panel-header>
 
           <div class="file-download-area">
-            <a [href]="csv" class="file-download" target="_blank" rel="noreferrer noopener">
+            <a
+              [href]="csv"
+              class="file-download"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
               <mat-icon>cloud_download</mat-icon>
             </a>
           </div>
-          <mat-spinner class="spinner" [class.smooth-hide]="!spinners.csv"></mat-spinner>
-          <markdown (load)="disableSpinner('csv')" class="csvContent" *ngIf="csv && csvPanel.expanded" lineNumbers
-            [src]="csv"></markdown>
+          <mat-spinner
+            class="spinner"
+            [class.smooth-hide]="!spinners.csv"
+          ></mat-spinner>
+          <markdown
+            (load)="disableSpinner('csv')"
+            class="csvContent"
+            *ngIf="csv && csvPanel.expanded"
+            lineNumbers
+            [src]="csv"
+          ></markdown>
         </mat-expansion-panel>
-        <mat-expansion-panel *ngIf="spec" #specPanel (closed)="enableSpinner('spec')">
+        <mat-expansion-panel
+          *ngIf="spec"
+          #specPanel
+          (closed)="enableSpinner('spec')"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title>
               Visualization Source Code (Vega Lite Spec)
@@ -68,12 +123,25 @@
           </mat-expansion-panel-header>
 
           <div class="file-download-area">
-            <a class="file-download" [href]="specString" target="_blank" rel="noreferrer noopener">
+            <a
+              class="file-download"
+              [href]="specString"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
               <mat-icon>cloud_download</mat-icon>
             </a>
           </div>
-          <mat-spinner class="spinner" [class.smooth-hide]="!spinners.spec"></mat-spinner>
-          <markdown (load)="disableSpinner('spec')" *ngIf="spec && specPanel.expanded" lineNumbers [src]="specString"></markdown>
+          <mat-spinner
+            class="spinner"
+            [class.smooth-hide]="!spinners.spec"
+          ></mat-spinner>
+          <markdown
+            (load)="disableSpinner('spec')"
+            *ngIf="spec && specPanel.expanded"
+            lineNumbers
+            [src]="specString"
+          ></markdown>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-expansion-panel>

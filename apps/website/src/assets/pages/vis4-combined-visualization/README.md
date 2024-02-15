@@ -2,10 +2,10 @@
 
 Data can be filtered based on the following:
 
-* Year range
-* Age group
-* Substance
-* Sex
+- Year range
+- Age group
+- Substance
+- Sex
 
 Click and drag within the line graph to select a specific time frame, filtering the data by time intervals. Use the mouse wheel to increase or decrease the length of the interval. You may also slide the selected interval left or right along the data axis.
 

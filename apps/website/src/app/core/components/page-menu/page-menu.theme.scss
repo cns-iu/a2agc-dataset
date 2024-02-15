@@ -18,14 +18,14 @@
 
     .header {
       background-color: mat.get-color-from-palette($primary, 700);
-      color: mat.get-color-from-palette($primary, "700-contrast");
+      color: mat.get-color-from-palette($primary, '700-contrast');
     }
 
     .pages {
       background-color: mat.get-color-from-palette($accent, A100);
 
       .link {
-        color: mat.get-color-from-palette($accent, "100-contrast");
+        color: mat.get-color-from-palette($accent, '100-contrast');
 
         &.active > div {
           background-color: mat.get-color-from-palette($accent, 300);

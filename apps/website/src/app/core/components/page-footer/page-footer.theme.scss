@@ -11,7 +11,7 @@
 
       .contact,
       .privacy {
-        color: mat.get-color-from-palette($primary, "800-contrast");
+        color: mat.get-color-from-palette($primary, '800-contrast');
 
         &:hover {
           color: mat.get-color-from-palette($primary);

@@ -1,12 +1,17 @@
 @use '@angular/material' as mat;
 
-$primary: mat.define-palette(map-merge(mat.$blue-palette, (
-  500: #5a6089,
-  600: #2a4d87,
-  700: #363a52,
-  800: #212121,
-  900: #000000
-)));
+$primary: mat.define-palette(
+  map-merge(
+    mat.$blue-palette,
+    (
+      500: #5a6089,
+      600: #2a4d87,
+      700: #363a52,
+      800: #212121,
+      900: #000000,
+    )
+  )
+);
 
 $accent: mat.define-palette(mat.$gray-palette);
 $warn: mat.define-palette(mat.$red-palette);
@@ -14,5 +19,5 @@ $warn: mat.define-palette(mat.$red-palette);
 $color: (
   primary: $primary,
   accent: $accent,
-  warn: $warn
+  warn: $warn,
 );

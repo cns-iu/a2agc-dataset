@@ -1,6 +1,5 @@
 @use '@angular/material' as mat;
 
-
 @mixin color($config-or-theme) {
   $config: mat.get-color-config($config-or-theme);
   $primary: map-get($config, primary);
@@ -46,7 +45,8 @@
   .agc-root {
     // Markdown styling
     markdown {
-      strong, table th {
+      strong,
+      table th {
         @include mat.typography-level($config, subheading-2);
         font-weight: bold;
       }

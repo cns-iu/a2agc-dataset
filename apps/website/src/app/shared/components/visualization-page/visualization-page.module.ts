@@ -11,7 +11,6 @@ import { HelpModalModule } from '../help-modal/help-modal.module';
 import { HelpTourModalModule } from '../help-tour-modal/help-tour-modal.module';
 import { VisualizationPageComponent } from './visualization-page.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -24,9 +23,9 @@ import { VisualizationPageComponent } from './visualization-page.component';
     VegaComponent,
     HelpModalModule,
     HelpTourModalModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   declarations: [VisualizationPageComponent],
-  exports: [VisualizationPageComponent]
+  exports: [VisualizationPageComponent],
 })
-export class VisualizationPageModule { }
+export class VisualizationPageModule {}

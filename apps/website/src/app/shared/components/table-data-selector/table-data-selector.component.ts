@@ -1,13 +1,19 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { Dataset, DatasetVariable } from '../../../core/models/dataset.model';
-
 
 @Component({
   selector: 'agc-table-data-selector',
   templateUrl: './table-data-selector.component.html',
   styleUrls: ['./table-data-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableDataSelectorComponent {
   @HostBinding('class') readonly clsName = 'agc-table-data-selector';
@@ -25,11 +31,11 @@ export class TableDataSelectorComponent {
   selectedVariable: DatasetVariable | undefined;
 
   get variableNames(): string[] {
-    return this.variables.map(v => v.name);
+    return this.variables.map((v) => v.name);
   }
 
   get subVariableNames(): string[] {
-    return this.subVariables.map(v => v.name);
+    return this.subVariables.map((v) => v.name);
   }
 
   setDataset(dataset: Dataset | undefined): void {
@@ -42,8 +48,9 @@ export class TableDataSelectorComponent {
 
   setVariableFromName(name: string): void {
     if (this.selectedDataset !== undefined) {
-      const variable = this.variables.find(v => v.name === name) ??
-        this.subVariables.find(v => v.name === name);
+      const variable =
+        this.variables.find((v) => v.name === name) ??
+        this.subVariables.find((v) => v.name === name);
 
       if (variable?.dataset === this.selectedDataset.name) {
         this.selectedVariable = variable;

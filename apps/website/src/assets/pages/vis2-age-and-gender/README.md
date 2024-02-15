@@ -2,8 +2,8 @@
 
 Data can be filtered based on the following:
 
-* Sex
-* Year
+- Sex
+- Year
 
 The sex and year filters allow for multiple selections. Press **shift** for multiple selections. Click on an empty space in the visualization to clear selections.
 

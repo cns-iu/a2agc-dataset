@@ -1,17 +1,36 @@
 <div class="header">Data Distributions</div>
 
-<agc-table-data-selector [subLabel]="(subLabel$ | async) ?? ''" [datasets]="(datasets$ | async) ?? []"
-                         [variables]="(variables$ | async) ?? []" [subVariables]="(subVariables$ | async) ?? []"
-                         (datasetChange)="setSelectedDataset($event)" (dataVariableChange)="setSelectedVariable($event)"
-                         (selectAll)="setSelectAllVariables()">
+<agc-table-data-selector
+  [subLabel]="(subLabel$ | async) ?? ''"
+  [datasets]="(datasets$ | async) ?? []"
+  [variables]="(variables$ | async) ?? []"
+  [subVariables]="(subVariables$ | async) ?? []"
+  (datasetChange)="setSelectedDataset($event)"
+  (dataVariableChange)="setSelectedVariable($event)"
+  (selectAll)="setSelectAllVariables()"
+>
 </agc-table-data-selector>
 
 <div class="data-block" *ngIf="selectedVariables.length > 0">
-  <agc-variable-visualization *ngFor="let variable of selectedVariables" class="visualization" [variable]="variable"
-                              [filterSource]="filterSource$" dataBindingName="distribution" [autosize]="autosize">
+  <agc-variable-visualization
+    *ngFor="let variable of selectedVariables"
+    class="visualization"
+    [variable]="variable"
+    [filterSource]="filterSource$"
+    dataBindingName="distribution"
+    [autosize]="autosize"
+  >
   </agc-variable-visualization>
 
-  <ngx-vega *ngIf="filterSpec" class="time-slider" [class.active]="filterActive" [class.sticky]="selectedVariables.length > 1" [spec]="filterSpec"
-            [autosize]="autosize" [options]="{ actions: false }" (viewChange)="attachFilterView($event)">
+  <ngx-vega
+    *ngIf="filterSpec"
+    class="time-slider"
+    [class.active]="filterActive"
+    [class.sticky]="selectedVariables.length > 1"
+    [spec]="filterSpec"
+    [autosize]="autosize"
+    [options]="{ actions: false }"
+    (viewChange)="attachFilterView($event)"
+  >
   </ngx-vega>
 </div>

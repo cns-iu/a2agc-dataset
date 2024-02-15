@@ -4,16 +4,9 @@ import { TableDataSelectorComponent } from './table-data-selector.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SubSelectorModule } from '../sub-selector/sub-selector.module';
 
-
 @NgModule({
-  declarations: [
-    TableDataSelectorComponent
-  ],
-  imports: [
-    CommonModule,
-    MatSelectModule,
-    SubSelectorModule
-  ],
-  exports: [ TableDataSelectorComponent ]
+  declarations: [TableDataSelectorComponent],
+  imports: [CommonModule, MatSelectModule, SubSelectorModule],
+  exports: [TableDataSelectorComponent],
 })
-export class TableDataSelectorModule { }
+export class TableDataSelectorModule {}

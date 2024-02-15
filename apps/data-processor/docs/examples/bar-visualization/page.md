@@ -1,5 +1,6 @@
 # Age group and gender of accidental drug overdose deaths and population in Marion County 2010-2018
----------------------------------------------------------------------------------------------------
+
+---
 
 This example visualization shows a bar graph of opioid deaths broken down by gender and age group compared to the census data of Marion County, Indiana.
 
@@ -10,7 +11,7 @@ This example visualization shows a bar graph of opioid deaths broken down by gen
 
 #### Legend
 
-- Gray bars represent the percentage of opioid deaths in the corresponding age group.  
+- Gray bars represent the percentage of opioid deaths in the corresponding age group.
 - Outlined bars represent the percentage of the population in the corresponding age group according to the census data.
 
 ## Data and Graphic Variable Extraction

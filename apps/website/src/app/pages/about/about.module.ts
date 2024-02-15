@@ -6,7 +6,6 @@ import { MarkdownModule } from 'ngx-markdown';
 import { AboutRoutingModule } from './about-routing.module';
 import { AboutComponent } from './about.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -15,8 +14,8 @@ import { AboutComponent } from './about.component';
 
     MarkdownModule,
 
-    AboutRoutingModule
+    AboutRoutingModule,
   ],
-  declarations: [AboutComponent]
+  declarations: [AboutComponent],
 })
-export class AboutModule { }
+export class AboutModule {}

@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Computed, DataAction, StateRepository } from '@angular-ru/ngxs/decorators';
+import {
+  Computed,
+  DataAction,
+  StateRepository,
+} from '@angular-ru/ngxs/decorators';
 import { NgxsImmutableDataRepository } from '@angular-ru/ngxs/repositories';
 import { State } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -15,8 +19,8 @@ const LOCAL_STORAGE_HELP_MODAL_KEY = 'HELP_POPUP_SHOWN';
 @State<PageStateModel>({
   name: 'page',
   defaults: {
-    hasShownHelpModal: false
-  }
+    hasShownHelpModal: false,
+  },
 })
 @Injectable()
 export class PageState extends NgxsImmutableDataRepository<PageStateModel> {
@@ -27,13 +31,18 @@ export class PageState extends NgxsImmutableDataRepository<PageStateModel> {
 
   override ngxsOnInit(): void {
     super.ngxsOnInit();
-    const hasShownHelpModal = localStorage.getItem(LOCAL_STORAGE_HELP_MODAL_KEY)?.toLowerCase() === 'true';
+    const hasShownHelpModal =
+      localStorage.getItem(LOCAL_STORAGE_HELP_MODAL_KEY)?.toLowerCase() ===
+      'true';
     this.patchState({ hasShownHelpModal });
   }
 
   @DataAction()
   setHasShownHelpModal(hasShownHelpModal: boolean): void {
-    localStorage.setItem(LOCAL_STORAGE_HELP_MODAL_KEY, hasShownHelpModal.toString());
+    localStorage.setItem(
+      LOCAL_STORAGE_HELP_MODAL_KEY,
+      hasShownHelpModal.toString()
+    );
     this.ctx.patchState({ hasShownHelpModal });
   }
 }

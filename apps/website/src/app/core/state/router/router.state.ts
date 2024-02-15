@@ -7,24 +7,26 @@ import { Actions, ofActionCompleted, State } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 
-
 @StateRepository()
 @State({
-  name: 'routerFacade'
+  name: 'routerFacade',
 })
 @Injectable()
-export class RouterState extends NgxsImmutableDataRepository<never> implements OnDestroy {
+export class RouterState
+  extends NgxsImmutableDataRepository<never>
+  implements OnDestroy
+{
   readonly destroy$ = new Subject<void>();
 
   readonly navigationStart$ = this.router.events.pipe(
     filter((ev): ev is NavigationStart => ev instanceof NavigationStart),
-    map(ev => ev.url),
+    map((ev) => ev.url),
     takeUntil(this.destroy$)
   );
 
   readonly navigationEnd$ = this.actions$.pipe(
     ofActionCompleted(RouterNavigation),
-    map(ev => (ev.action as RouterNavigation).event.url),
+    map((ev) => (ev.action as RouterNavigation).event.url),
     takeUntil(this.destroy$)
   );
 

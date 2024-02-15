@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Options, Spec } from 'ngx-vega';
 
@@ -6,12 +12,11 @@ import { PageState } from '../../../core/state/page/page.state';
 import { HelpModalComponent } from '../help-modal/help-modal.component';
 import { HelpTourModalComponent } from '../help-tour-modal/help-tour-modal.component';
 
-
 @Component({
   selector: 'agc-visualization-page',
   templateUrl: './visualization-page.component.html',
   styleUrls: ['./visualization-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualizationPageComponent implements OnInit {
   @HostBinding('class') readonly clsName = 'agc-visualization-page';
@@ -20,7 +25,11 @@ export class VisualizationPageComponent implements OnInit {
   @Input() title?: string;
   @Input() description?: string;
   @Input() spec?: Spec;
-  @Input() options: Options = { renderer: 'canvas', actions: true, width: 1268 };
+  @Input() options: Options = {
+    renderer: 'canvas',
+    actions: true,
+    width: 1268,
+  };
   @Input() content?: string;
   @Input() sql?: string;
   @Input() csv?: string;
@@ -29,7 +38,7 @@ export class VisualizationPageComponent implements OnInit {
   spinners = {
     sql: true,
     csv: true,
-    spec: true
+    spec: true,
   };
   loadingVegaVisualization = true;
 
@@ -37,16 +46,13 @@ export class VisualizationPageComponent implements OnInit {
     return this.spec as string;
   }
 
-  constructor(
-    private readonly dialog: MatDialog,
-    readonly page: PageState
-  ) { }
+  constructor(private readonly dialog: MatDialog, readonly page: PageState) {}
 
   ngOnInit(): void {
     if (!this.page.snapshot.hasShownHelpModal) {
       this.dialog.open(HelpTourModalComponent, {
         width: '50rem',
-        data: {}
+        data: {},
       });
       this.page.setHasShownHelpModal(true);
     }
@@ -55,21 +61,21 @@ export class VisualizationPageComponent implements OnInit {
   disableSpinner(key: string): void {
     this.spinners = {
       ...this.spinners,
-      [key]: false
+      [key]: false,
     };
   }
 
   enableSpinner(key: string): void {
     this.spinners = {
       ...this.spinners,
-      [key]: true
+      [key]: true,
     };
   }
 
   launchHelpDialog(): void {
     this.dialog.open(HelpModalComponent, {
       width: '60rem',
-      data: {}
+      data: {},
     });
   }
 }

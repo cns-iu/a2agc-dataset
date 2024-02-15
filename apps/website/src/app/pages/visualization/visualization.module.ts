@@ -5,13 +5,8 @@ import { VisualizationRoutingModule } from './visualization-routing.module';
 import { VisualizationComponent } from './visualization.component';
 import { VisualizationPageModule } from '../../shared/components/visualization-page/visualization-page.module';
 
-
 @NgModule({
   declarations: [VisualizationComponent],
-  imports: [
-    CommonModule,
-    VisualizationRoutingModule,
-    VisualizationPageModule
-  ]
+  imports: [CommonModule, VisualizationRoutingModule, VisualizationPageModule],
 })
-export class VisualizationModule { }
+export class VisualizationModule {}

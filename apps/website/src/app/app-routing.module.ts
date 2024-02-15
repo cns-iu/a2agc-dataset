@@ -8,7 +8,6 @@ import { DataSchemaBrowserModule } from './pages/data-schema-browser/data-schema
 import { VisualizationModule } from './pages/visualization/visualization.module';
 import { DataDistributionsModule } from './pages/data-distributions/data-distributions.module';
 
-
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'about' },
   { path: 'about', loadChildren: () => AboutModule },
@@ -16,11 +15,11 @@ const routes: Routes = [
   { path: 'data-er-diagram', loadChildren: () => DataErDiagramModule },
   { path: 'data-schema-browser', loadChildren: () => DataSchemaBrowserModule },
   { path: 'visualization/:id', loadChildren: () => VisualizationModule },
-  { path: 'data-distributions', loadChildren: () => DataDistributionsModule }
+  { path: 'data-distributions', loadChildren: () => DataDistributionsModule },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

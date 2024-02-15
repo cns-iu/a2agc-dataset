@@ -5,13 +5,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ChangeLogRoutingModule } from './change-log-routing.module';
 import { ChangeLogComponent } from './change-log.component';
 
-
 @NgModule({
   declarations: [ChangeLogComponent],
-  imports: [
-    CommonModule,
-    ChangeLogRoutingModule,
-    MarkdownModule.forChild()
-  ]
+  imports: [CommonModule, ChangeLogRoutingModule, MarkdownModule.forChild()],
 })
-export class ChangeLogModule { }
+export class ChangeLogModule {}

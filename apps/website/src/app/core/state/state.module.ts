@@ -13,7 +13,6 @@ import { PageState } from './page/page.state';
 import { RouterState } from './router/router.state';
 import { VisualizationsState } from './visualizations/visualizations.state';
 
-
 const ROOT_STATES: Type<unknown>[] = [
   RouterState,
   PageState,
@@ -21,7 +20,7 @@ const ROOT_STATES: Type<unknown>[] = [
 
   DataState,
   DatasetsState,
-  DatasetVariablesState
+  DatasetVariablesState,
 ];
 
 @NgModule({
@@ -35,15 +34,15 @@ const ROOT_STATES: Type<unknown>[] = [
     // LAST. NgxsLoggerPluginModule
     NgxsDataPluginModule.forRoot(),
     NgxsModule.forRoot(ROOT_STATES, {
-      developmentMode: !environment.production
+      developmentMode: !environment.production,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: []
+      key: [],
     }),
     NgxsRouterPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({
-      disabled: environment.production
+      disabled: environment.production,
     }),
-  ]
+  ],
 })
-export class StateModule { }
+export class StateModule {}

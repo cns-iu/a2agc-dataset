@@ -1,12 +1,29 @@
 <div class="resources">
-  <button mat-button class="contact" disableRipple (click)="contactClick.emit()">Contact Us</button>
-  <button mat-button class="privacy" disableRipple (click)="privacyClick.emit()">Privacy Policy</button>
+  <button
+    mat-button
+    class="contact"
+    disableRipple
+    (click)="contactClick.emit()"
+  >
+    Contact Us
+  </button>
+  <button
+    mat-button
+    class="privacy"
+    disableRipple
+    (click)="privacyClick.emit()"
+  >
+    Privacy Policy
+  </button>
   <div class="filler"></div>
   <span class="build-date">
-    This site was last updated on {{ buildDate | date:'MM/dd/yyyy, h:mm a' }}
+    This site was last updated on {{ buildDate | date : 'MM/dd/yyyy, h:mm a' }}
   </span>
 </div>
 
 <div class="copyright">
-  <span>Copyright &#169; 2020 Indiana University, Regenstrief Institute - All rights reserved.</span>
+  <span
+    >Copyright &#169; 2020 Indiana University, Regenstrief Institute - All
+    rights reserved.</span
+  >
 </div>

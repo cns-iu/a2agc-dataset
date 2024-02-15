@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, ObservableInput, of, ReplaySubject } from 'rxjs';
+import {
+  combineLatest,
+  Observable,
+  ObservableInput,
+  of,
+  ReplaySubject,
+} from 'rxjs';
 import { map, startWith, switchAll, throttleTime } from 'rxjs/operators';
 import { VisualizationSpec } from 'vega-embed';
 
-import { DatasetMetaEntry, DatasetVariable } from '../../../core/models/dataset.model';
-import { DistributionDataEntry } from '../../../core/models/distribution.model';
 import {
-  DistributionDataLoaderService,
-} from '../../../core/services/distribution-data-loader/distribution-data-loader.service';
+  DatasetMetaEntry,
+  DatasetVariable,
+} from '../../../core/models/dataset.model';
+import { DistributionDataEntry } from '../../../core/models/distribution.model';
+import { DistributionDataLoaderService } from '../../../core/services/distribution-data-loader/distribution-data-loader.service';
 import { DatasetVariablesState } from '../../../core/state/data/dataset-variables.state';
 import { ChartFactoryService } from '../../../shared/vega-charts/chart-factory.service';
-
 
 export interface BaseVisualizationEntry {
   variable: DatasetVariable;
@@ -23,25 +29,28 @@ export interface SpecVisualizationEntry extends BaseVisualizationEntry {
 }
 
 export type DataFilter = [number, number] | undefined;
-export type VisualizationEntry = BaseVisualizationEntry | SpecVisualizationEntry;
-
+export type VisualizationEntry =
+  | BaseVisualizationEntry
+  | SpecVisualizationEntry;
 
 @Injectable()
 export class VisualizationsManagerService {
   visualizations: VisualizationEntry[] = [];
 
-  private readonly filterSources$ = new ReplaySubject<ObservableInput<DataFilter>>(1);
+  private readonly filterSources$ = new ReplaySubject<
+    ObservableInput<DataFilter>
+  >(1);
 
   constructor(
     private readonly chartFactory: ChartFactoryService,
     private readonly dataLoader: DistributionDataLoaderService,
-    private readonly variableStore: DatasetVariablesState,
+    private readonly variableStore: DatasetVariablesState
   ) {
     this.filterSources$.next(of(undefined));
   }
 
   setVariables(variables: DatasetVariable[]): void {
-    this.visualizations = variables.map(variable => {
+    this.visualizations = variables.map((variable) => {
       const key = this.variableStore.selectId(variable);
       const metadata = this.variableStore.getMetadata(key);
       const spec = this.chartFactory.createChart(variable);
@@ -55,14 +64,19 @@ export class VisualizationsManagerService {
     this.filterSources$.next(source$);
   }
 
-  private createDataSource(variable: DatasetVariable): Observable<DistributionDataEntry[]> {
+  private createDataSource(
+    variable: DatasetVariable
+  ): Observable<DistributionDataEntry[]> {
     const filter$ = this.filterSources$.pipe(switchAll(), startWith(undefined));
     const data$ = this.dataLoader.load(variable);
     const latest$ = combineLatest([data$, filter$]).pipe(throttleTime(100));
     return latest$.pipe(map(([data, filter]) => this.filterData(data, filter)));
   }
 
-  private filterData(data: DistributionDataEntry[], filter: DataFilter): DistributionDataEntry[] {
+  private filterData(
+    data: DistributionDataEntry[],
+    filter: DataFilter
+  ): DistributionDataEntry[] {
     if (filter === undefined) {
       return data;
     }

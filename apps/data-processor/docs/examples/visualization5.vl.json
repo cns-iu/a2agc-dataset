@@ -6,9 +6,9 @@
     "anchor": "middle",
     "fontSize": 24
   },
-  "config": {"view": {"stroke": "transparent"}},
-  "padding": {"left": 65, "right": 10, "bottom": 10, "top": 10},
-  "autosize": {"type": "pad", "resize": true},
+  "config": { "view": { "stroke": "transparent" } },
+  "padding": { "left": 65, "right": 10, "bottom": 10, "top": 10 },
+  "autosize": { "type": "pad", "resize": true },
   "data": {
     "url": "../data/vis-geomap-opioid-deaths.csv",
     "format": {
@@ -27,7 +27,7 @@
       "from": {
         "key": "DATA_VARIABLE",
         "fields": ["LEGEND_ORDER", "LABEL"],
-        "data": {"url": "../data/vis5-data-variables.csv"}
+        "data": { "url": "../data/vis5-data-variables.csv" }
       }
     }
   ],
@@ -73,23 +73,23 @@
           "data": {
             "name": "counties",
             "url": "../data/indiana.topojson",
-            "format": {"type": "topojson", "feature": "counties"}
+            "format": { "type": "topojson", "feature": "counties" }
           },
           "transform": [],
-          "projection": {"type": "mercator"},
-          "mark": {"type": "geoshape", "fill": "white", "stroke": "darkgray"}
+          "projection": { "type": "mercator" },
+          "mark": { "type": "geoshape", "fill": "white", "stroke": "darkgray" }
         },
         {
           "width": 550,
           "height": 600,
           "transform": [
-            {"filter": {"selection": "data_variable_selection"}},
-            {"filter": {"selection": "period"}},
-            {"filter": {"selection": "out_of_state_filter"}},
-            {"filter": {"selection": "gender_select"}}
+            { "filter": { "selection": "data_variable_selection" } },
+            { "filter": { "selection": "period" } },
+            { "filter": { "selection": "out_of_state_filter" } },
+            { "filter": { "selection": "gender_select" } }
           ],
-          "projection": {"type": "mercator"},
-          "mark": {"type": "point"},
+          "projection": { "type": "mercator" },
+          "mark": { "type": "point" },
           "selection": {
             "filter_selection": {
               "type": "multi",
@@ -98,8 +98,8 @@
             }
           },
           "encoding": {
-            "longitude": {"type": "quantitative", "field": "LONGITUDE"},
-            "latitude": {"type": "quantitative", "field": "LATITUDE"},
+            "longitude": { "type": "quantitative", "field": "LONGITUDE" },
+            "latitude": { "type": "quantitative", "field": "LATITUDE" },
             "shape": {
               "type": "nominal",
               "field": "HOME_STATE$$shape",
@@ -157,7 +157,7 @@
               },
               "value": 0
             },
-            "size": {"value": 100}
+            "size": { "value": 100 }
           }
         }
       ]
@@ -165,15 +165,15 @@
     {
       "width": 703,
       "height": 150,
-      "view": {"strokeOpacity": 1},
+      "view": { "strokeOpacity": 1 },
       "layer": [
         {
           "transform": [
-            {"filter": "datum.DATA_VARIABLE == 'AGE'"},
-            {"filter": {"selection": "out_of_state_filter"}},
-            {"filter": {"selection": "gender_select"}}
+            { "filter": "datum.DATA_VARIABLE == 'AGE'" },
+            { "filter": { "selection": "out_of_state_filter" } },
+            { "filter": { "selection": "gender_select" } }
           ],
-          "mark": {"type": "line"},
+          "mark": { "type": "line" },
           "selection": {
             "period": {
               "type": "interval",
@@ -218,18 +218,18 @@
                   "Prescription vs. Illicit Drugs"
                 ]
               },
-              "init": {"LABEL": "Gender"}
+              "init": { "LABEL": "Gender" }
             }
           },
           "encoding": {
-            "x": {"type": "temporal", "field": "PERIOD", "title": "Period"},
+            "x": { "type": "temporal", "field": "PERIOD", "title": "Period" },
             "y": {
               "aggregate": "count",
               "type": "quantitative",
               "field": "N_OPIOID_PRESCRIPTIONS",
               "title": "# Deaths by Quarter"
             },
-            "color": {"value": "#6EA7EF"}
+            "color": { "value": "#6EA7EF" }
           }
         }
       ]

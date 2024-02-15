@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "padding": {"top": 50},
+  "padding": { "top": 50 },
   "name": "Accidental drug overdose deaths in Marion County by place of injury 2010-2018",
   "background": "#ffffff",
   "config": {
@@ -34,9 +34,7 @@
       "lookup": "VALUE",
       "from": {
         "key": "VALUE",
-        "fields": [
-          "COLOR"
-        ],
+        "fields": ["COLOR"],
         "data": {
           "values": [
             {
@@ -139,9 +137,7 @@
                 "type": "point"
               },
               "bind": "legend",
-              "value": [
-                {"LABEL": "Age"}
-              ]
+              "value": [{ "LABEL": "Age" }]
             }
           ],
           "encoding": {
@@ -199,9 +195,7 @@
               "name": "sex_selection",
               "select": {
                 "type": "point",
-                "fields": [
-                  "SEX_LABEL"
-                ]
+                "fields": ["SEX_LABEL"]
               },
               "bind": "legend"
             }
@@ -215,10 +209,7 @@
                 "orient": "none",
                 "legendX": 10,
                 "legendY": 10,
-                "values": [
-                  "Male",
-                  "Female"
-                ],
+                "values": ["Male", "Female"],
                 "symbolSize": 0
               }
             }
@@ -236,9 +227,7 @@
               "name": "drug_type_selection",
               "select": {
                 "type": "point",
-                "fields": [
-                  "ILLICIT_V_PRESCRIPTION"
-                ]
+                "fields": ["ILLICIT_V_PRESCRIPTION"]
               },
               "bind": "legend"
             }
@@ -252,11 +241,7 @@
                 "orient": "none",
                 "legendX": 10,
                 "legendY": 10,
-                "values": [
-                  "Illicit",
-                  "Prescription",
-                  "Neither"
-                ],
+                "values": ["Illicit", "Prescription", "Neither"],
                 "symbolSize": 0
               }
             }
@@ -274,9 +259,7 @@
               "name": "1_year_selection",
               "select": {
                 "type": "point",
-                "fields": [
-                  "OPIOID_PRESCRIPTIONS_1YEAR"
-                ]
+                "fields": ["OPIOID_PRESCRIPTIONS_1YEAR"]
               },
               "bind": "legend"
             }
@@ -290,10 +273,7 @@
                 "orient": "none",
                 "legendX": 10,
                 "legendY": 10,
-                "values": [
-                  "True",
-                  "False"
-                ],
+                "values": ["True", "False"],
                 "symbolSize": 0
               }
             }
@@ -311,9 +291,7 @@
               "name": "opioid_rx_selection",
               "select": {
                 "type": "point",
-                "fields": [
-                  "ANY_PRESCRIPTIONS_LABEL"
-                ]
+                "fields": ["ANY_PRESCRIPTIONS_LABEL"]
               },
               "bind": "legend"
             }
@@ -327,10 +305,7 @@
                 "orient": "none",
                 "legendX": 10,
                 "legendY": 10,
-                "values": [
-                  "True",
-                  "False"
-                ],
+                "values": ["True", "False"],
                 "symbolSize": 0
               }
             }
@@ -402,9 +377,7 @@
                   "name": "data_variable_subselection",
                   "select": {
                     "type": "point",
-                    "fields": [
-                      "VALUE"
-                    ]
+                    "fields": ["VALUE"]
                   },
                   "bind": "legend"
                 },
@@ -412,9 +385,7 @@
                   "name": "home_state_selection",
                   "select": {
                     "type": "point",
-                    "fields": [
-                      "HOME_STATE_LABEL"
-                    ]
+                    "fields": ["HOME_STATE_LABEL"]
                   },
                   "bind": "legend"
                 }
@@ -432,15 +403,23 @@
                   "type": "nominal",
                   "field": "HOME_STATE_LABEL",
                   "title": "Shape (State of Residence)",
-                  "scale": {"range": {"field": "HOME_STATE$$shape"}},
-                  "legend": {"orient": "right", "symbolOffset": 10, "offset": -50}
+                  "scale": { "range": { "field": "HOME_STATE$$shape" } },
+                  "legend": {
+                    "orient": "right",
+                    "symbolOffset": 10,
+                    "offset": -50
+                  }
                 },
                 "color": {
                   "type": "nominal",
                   "field": "VALUE",
                   "title": "Color (Data Variable Value)",
-                  "scale": {"range": {"field": "COLOR"}},
-                  "legend": {"orient": "right", "symbolOffset": 10, "offset": -50}
+                  "scale": { "range": { "field": "COLOR" } },
+                  "legend": {
+                    "orient": "right",
+                    "symbolOffset": 10,
+                    "offset": -50
+                  }
                 },
                 "opacity": {
                   "condition": {
@@ -534,9 +513,7 @@
                       "fill": "#6ea7ef",
                       "fillOpacity": 0.15
                     },
-                    "encodings": [
-                      "x"
-                    ]
+                    "encodings": ["x"]
                   }
                 }
               ],
@@ -556,10 +533,7 @@
                         "test": "quarter(datum.value) === 1",
                         "value": []
                       },
-                      "value": [
-                        2,
-                        2
-                      ]
+                      "value": [2, 2]
                     },
                     "gridColor": {
                       "condition": {

@@ -88,9 +88,7 @@
           "as": "NUM_INCARCERATIONS_TOTAL"
         }
       ],
-      "groupby": [
-        "CASE_NUMBER"
-      ]
+      "groupby": ["CASE_NUMBER"]
     },
     {
       "calculate": "-datum.OD_DIFF",
@@ -136,10 +134,7 @@
             "INCARCERATIONS",
             "OVERDOSES"
           ],
-          "as": [
-            "ENCOUNTER_TYPE",
-            "COUNT"
-          ]
+          "as": ["ENCOUNTER_TYPE", "COUNT"]
         },
         {
           "lookup": "ENCOUNTER_TYPE",
@@ -169,9 +164,7 @@
                 }
               ]
             },
-            "fields": [
-              "Encounter Type"
-            ]
+            "fields": ["Encounter Type"]
           }
         }
       ],
@@ -200,30 +193,13 @@
             "orient": "top",
             "labelExpr": "datum.value / 12",
             "values": [
-              0,
-              12,
-              24,
-              36,
-              48,
-              60,
-              72,
-              84,
-              96,
-              108,
-              120,
-              132,
-              144,
-              156,
-              168,
+              0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144, 156, 168,
               180
             ]
           },
           "scale": {
             "domainMin": 0,
-            "range": [
-              "width",
-              0
-            ]
+            "range": ["width", 0]
           }
         },
         "y": {
@@ -348,9 +324,7 @@
               "name": "rank",
               "select": {
                 "type": "interval",
-                "encodings": [
-                  "y"
-                ],
+                "encodings": ["y"],
                 "mark": {
                   "fill": "#6ea7ef",
                   "fillOpacity": 0.15
@@ -383,10 +357,7 @@
                   "as": "TIME_BEFORE_DEATH"
                 }
               ],
-              "groupby": [
-                "RANK",
-                "FINAL_RANK"
-              ]
+              "groupby": ["RANK", "FINAL_RANK"]
             }
           ],
           "encoding": {
@@ -405,18 +376,11 @@
               "axis": {
                 "orient": "top",
                 "labelExpr": "datum.value / 12",
-                "values": [
-                  0,
-                  60,
-                  120
-                ]
+                "values": [0, 60, 120]
               },
               "scale": {
                 "domainMin": 0,
-                "range": [
-                  "width",
-                  0
-                ]
+                "range": ["width", 0]
               }
             },
             "color": {
@@ -431,9 +395,7 @@
               "name": "age",
               "select": {
                 "type": "interval",
-                "encodings": [
-                  "x"
-                ],
+                "encodings": ["x"],
                 "mark": {
                   "fill": "#6ea7ef",
                   "fillOpacity": 0.15
@@ -450,9 +412,7 @@
                   "as": "AGE"
                 }
               ],
-              "groupby": [
-                "CASE_NUMBER"
-              ]
+              "groupby": ["CASE_NUMBER"]
             }
           ],
           "encoding": {
@@ -482,9 +442,7 @@
               "name": "encounters",
               "select": {
                 "type": "interval",
-                "encodings": [
-                  "x"
-                ],
+                "encodings": ["x"],
                 "mark": {
                   "fill": "#6ea7ef",
                   "fillOpacity": 0.15
@@ -501,9 +459,7 @@
                   "as": "NUM_ENCOUNTERS_TOTAL"
                 }
               ],
-              "groupby": [
-                "CASE_NUMBER"
-              ]
+              "groupby": ["CASE_NUMBER"]
             }
           ],
           "encoding": {
@@ -519,17 +475,7 @@
               "title": "Number of Persons",
               "axis": {
                 "orient": "right",
-                "values": [
-                  0,
-                  10,
-                  100,
-                  500,
-                  1000,
-                  2000,
-                  5000,
-                  10000,
-                  20000
-                ]
+                "values": [0, 10, 100, 500, 1000, 2000, 5000, 10000, 20000]
               },
               "scale": {
                 "type": "symlog"
@@ -547,9 +493,7 @@
               "name": "incarcerations",
               "select": {
                 "type": "interval",
-                "encodings": [
-                  "x"
-                ],
+                "encodings": ["x"],
                 "mark": {
                   "fill": "#6ea7ef",
                   "fillOpacity": 0.15
@@ -566,9 +510,7 @@
                   "as": "NUM_INCARCERATIONS_TOTAL"
                 }
               ],
-              "groupby": [
-                "CASE_NUMBER"
-              ]
+              "groupby": ["CASE_NUMBER"]
             }
           ],
           "encoding": {
@@ -584,17 +526,7 @@
               "title": "Number of Persons",
               "axis": {
                 "orient": "right",
-                "values": [
-                  0,
-                  10,
-                  100,
-                  500,
-                  1000,
-                  2000,
-                  5000,
-                  10000,
-                  20000
-                ]
+                "values": [0, 10, 100, 500, 1000, 2000, 5000, 10000, 20000]
               },
               "scale": {
                 "type": "symlog"

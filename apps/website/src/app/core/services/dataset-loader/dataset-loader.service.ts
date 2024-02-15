@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 
 import { Dataset, DatasetVariable } from '../../models/dataset.model';
 
-
 /* eslint-disable @typescript-eslint/naming-convention */
 
 type RawData = Record<string, RawDataset>;
@@ -41,9 +40,8 @@ export interface ParseResults {
   variables: DatasetVariable[];
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DatasetLoaderService {
   constructor(private readonly http: HttpClient) {}
@@ -59,9 +57,11 @@ export class DatasetLoaderService {
 
     for (const rawDataset of Object.values(data)) {
       datasets.push(this.parseRawDataset(rawDataset));
-      variables.push(...Object.values(rawDataset.columns).map(
-        rawVariable => this.parseRawDatasetVariable(rawDataset, rawVariable)
-      ));
+      variables.push(
+        ...Object.values(rawDataset.columns).map((rawVariable) =>
+          this.parseRawDatasetVariable(rawDataset, rawVariable)
+        )
+      );
     }
 
     return { datasets, variables };
@@ -71,11 +71,14 @@ export class DatasetLoaderService {
     return {
       name: data.name,
       description: data.remarks,
-      variables: Object.keys(data.columns)
+      variables: Object.keys(data.columns),
     };
   }
 
-  private parseRawDatasetVariable(dataset: RawDataset, data: RawDatasetVariable): DatasetVariable {
+  private parseRawDatasetVariable(
+    dataset: RawDataset,
+    data: RawDatasetVariable
+  ): DatasetVariable {
     return {
       dataset: dataset.name,
       name: data.name,
@@ -89,9 +92,9 @@ export class DatasetLoaderService {
         summary: {
           distinct: data.dist_data.distinct,
           min: data.dist_data.min,
-          max: data.dist_data.max
-        }
-      }
+          max: data.dist_data.max,
+        },
+      },
     };
   }
 }

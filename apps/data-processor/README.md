@@ -6,13 +6,13 @@ See [CHANGELOG](../CHANGELOG.md)
 
 ## Base Requirements
 
-* bash
-* Python 3+
-* Java 1.8+
-* Node JS 10+
-* sqlite3
-* sqlcipher
-* GraphViz (dot)
+- bash
+- Python 3+
+- Java 1.8+
+- Node JS 10+
+- sqlite3
+- sqlcipher
+- GraphViz (dot)
 
 ## Singularity
 

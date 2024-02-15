@@ -2,9 +2,9 @@
 
 Data can be filtered based on the following:
 
-* Substance
-* Whether the individual had a previous overdose
-* Age group
+- Substance
+- Whether the individual had a previous overdose
+- Age group
 
 The age group selector and substance/overdose filters allow for multiple selections. Press **shift** for multiple selections. Double click a selection to clear selections for that filter.
 

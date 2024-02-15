@@ -8,7 +8,6 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../../shared/shared.module';
 import { PageMenuComponent } from './page-menu.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -17,24 +16,25 @@ import { PageMenuComponent } from './page-menu.component';
     MatDividerModule,
     MatIconModule,
 
-    SharedModule
+    SharedModule,
   ],
   declarations: [PageMenuComponent],
-  exports: [PageMenuComponent]
+  exports: [PageMenuComponent],
 })
 export class PageMenuModule {
-  constructor(
-    registry: MatIconRegistry,
-    sanitizer: DomSanitizer
-  ) {
+  constructor(registry: MatIconRegistry, sanitizer: DomSanitizer) {
     // Register icons needed by components
     registry.addSvgIconInNamespace(
-      'menu', 'data-storage',
+      'menu',
+      'data-storage',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/data-storage.svg')
     );
     registry.addSvgIconInNamespace(
-      'menu', 'data-distributions',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/data-distributions.svg')
+      'menu',
+      'data-distributions',
+      sanitizer.bypassSecurityTrustResourceUrl(
+        'assets/icons/data-distributions.svg'
+      )
     );
   }
 }

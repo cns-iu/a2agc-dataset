@@ -54,7 +54,8 @@
       width: 100%;
 
       &:hover {
-        ngx-vega ::ng-deep summary, .help {
+        ngx-vega ::ng-deep summary,
+        .help {
           opacity: 1;
           transition: opacity 0.2s ease;
         }
@@ -74,7 +75,8 @@
         background: white;
         color: #1b1e23;
 
-        &, .qmark {
+        &,
+        .qmark {
           width: 1.75rem;
           height: 1.75rem;
           line-height: 1.75rem;
@@ -130,11 +132,11 @@
 
   .smooth-show {
     opacity: 1 !important;
-    transition: opacity .75s;
+    transition: opacity 0.75s;
   }
 
   .smooth-hide {
     opacity: 0 !important;
-    transition: opacity .5s;
+    transition: opacity 0.5s;
   }
 }

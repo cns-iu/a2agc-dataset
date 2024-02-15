@@ -6,17 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '../../../shared/shared.module';
 import { PageHeaderComponent } from './page-header.component';
 
-
 @NgModule({
-  imports: [
-    CommonModule,
-
-    MatButtonModule,
-    MatIconModule,
-
-    SharedModule
-  ],
+  imports: [CommonModule, MatButtonModule, MatIconModule, SharedModule],
   declarations: [PageHeaderComponent],
-  exports: [PageHeaderComponent]
+  exports: [PageHeaderComponent],
 })
-export class PageHeaderModule { }
+export class PageHeaderModule {}

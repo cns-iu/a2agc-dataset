@@ -1,4 +1,3 @@
-
 # deaths
 
 [View in the Schema Browser](../schema/tables/deaths.html)

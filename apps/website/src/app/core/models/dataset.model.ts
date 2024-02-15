@@ -1,6 +1,5 @@
 import { Distribution } from './distribution.model';
 
-
 export interface Dataset {
   name: string;
   description: string;

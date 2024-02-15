@@ -1,6 +1,5 @@
 import { View } from 'vega';
 
-
 export interface DataHandler {
   finalize?(): void;
 }

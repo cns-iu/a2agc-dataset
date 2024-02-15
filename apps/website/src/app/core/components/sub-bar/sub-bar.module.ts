@@ -3,10 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { SubBarComponent } from './sub-bar.component';
 
-
 @NgModule({
   imports: [CommonModule],
   declarations: [SubBarComponent],
-  exports: [SubBarComponent]
+  exports: [SubBarComponent],
 })
-export class SubBarModule { }
+export class SubBarModule {}

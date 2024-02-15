@@ -1,4 +1,7 @@
-import { createEntityCollections, EntityCollections } from '@angular-ru/cdk/entity';
+import {
+  createEntityCollections,
+  EntityCollections,
+} from '@angular-ru/cdk/entity';
 import { Injectable } from '@angular/core';
 import { Computed, StateRepository } from '@angular-ru/ngxs/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@angular-ru/ngxs/repositories';
@@ -7,22 +10,24 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, pluck } from 'rxjs/operators';
 
 import { DATA_CONFIG } from '../../../../configs/config';
-import { Dataset, DatasetMetaEntry, DatasetVariable } from '../../models/dataset.model';
+import {
+  Dataset,
+  DatasetMetaEntry,
+  DatasetVariable,
+} from '../../models/dataset.model';
 import { DatasetsState } from './datasets.state';
 
-
-export interface DatasetVariablesStateModel extends EntityCollections<DatasetVariable, string> {
+export interface DatasetVariablesStateModel
+  extends EntityCollections<DatasetVariable, string> {
   subLabel: string;
   subLabelFlag: string;
 }
 
-
 export enum DatasetVariableGroup {
   all = 'all',
   sub = 'sub',
-  nonSub = 'non-sub'
+  nonSub = 'non-sub',
 }
-
 
 @StateRepository()
 @State<DatasetVariablesStateModel>({
@@ -30,11 +35,15 @@ export enum DatasetVariableGroup {
   defaults: {
     ...createEntityCollections(),
     subLabel: DATA_CONFIG.subLabel,
-    subLabelFlag: DATA_CONFIG.subLabelFlag
-  }
+    subLabelFlag: DATA_CONFIG.subLabelFlag,
+  },
 })
 @Injectable()
-export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<DatasetVariable, string, DatasetVariablesStateModel> {
+export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<
+  DatasetVariable,
+  string,
+  DatasetVariablesStateModel
+> {
   @Computed()
   get subLabel$(): Observable<string> {
     return this.state$.pipe(pluck('subLabel'), distinctUntilChanged());
@@ -50,7 +59,10 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
   }
 
   override selectId(variable: DatasetVariable): string;
-  override selectId(dataset: string | Dataset, variable: string | DatasetVariable): string;
+  override selectId(
+    dataset: string | Dataset,
+    variable: string | DatasetVariable
+  ): string;
   override selectId(
     dataset: string | Dataset | DatasetVariable,
     variable?: string | DatasetVariable
@@ -69,9 +81,14 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
     return this.entities$.pipe(pluck(key), distinctUntilChanged());
   }
 
-  getVariables(dataset?: string | Dataset, group?: DatasetVariableGroup): Observable<DatasetVariable[]> {
+  getVariables(
+    dataset?: string | Dataset,
+    group?: DatasetVariableGroup
+  ): Observable<DatasetVariable[]> {
     const selector = this.createVariableSelector(dataset, group);
-    return this.entitiesArray$.pipe(map(variables => variables.filter(selector)));
+    return this.entitiesArray$.pipe(
+      map((variables) => variables.filter(selector))
+    );
   }
 
   getSubVariables(dataset?: string | Dataset): Observable<DatasetVariable[]> {
@@ -80,7 +97,7 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
 
   getMetadata(key: string): Observable<DatasetMetaEntry[]> {
     return this.getVariable(key).pipe(
-      map(variable => {
+      map((variable) => {
         if (variable === undefined) {
           return [];
         }
@@ -88,11 +105,15 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
         const meta: DatasetMetaEntry[] = [
           { label: 'Type', value: variable.type },
           { label: 'Description', value: variable.description },
-          { label: 'Missing values', value: `${variable.percentMissing}%` }
+          { label: 'Missing values', value: `${variable.percentMissing}%` },
         ];
 
         if (variable.distribution.type === 'summary') {
-          const { distribution: { summary: { distinct, min, max } } } = variable;
+          const {
+            distribution: {
+              summary: { distinct, min, max },
+            },
+          } = variable;
           meta.push(
             { label: 'Distinct entries', value: '' + distinct },
             { label: 'Minimum value/length', value: '' + min },
@@ -117,28 +138,30 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
       const { datasetsState } = this;
       const selectDatasetId = datasetsState.selectId.bind(datasetsState);
       const id = selectDatasetId(dataset);
-      predicates.push(variable => selectDatasetId(variable.dataset) === id);
+      predicates.push((variable) => selectDatasetId(variable.dataset) === id);
     }
 
     // Add group check
-    const { snapshot: { subLabelFlag } } = this;
+    const {
+      snapshot: { subLabelFlag },
+    } = this;
     switch (group) {
       case DatasetVariableGroup.nonSub:
-        predicates.push(variable => variable.description !== subLabelFlag);
+        predicates.push((variable) => variable.description !== subLabelFlag);
         break;
 
       case DatasetVariableGroup.sub:
-        predicates.push(variable => variable.description === subLabelFlag);
+        predicates.push((variable) => variable.description === subLabelFlag);
         break;
 
       default:
         break;
     }
 
-    return predicates.length === 0 ?
-      () => true :
-      predicates.length === 1 ?
-        predicates[0] :
-        variable => predicates.every(pred => pred(variable));
+    return predicates.length === 0
+      ? () => true
+      : predicates.length === 1
+      ? predicates[0]
+      : (variable) => predicates.every((pred) => pred(variable));
   }
 }

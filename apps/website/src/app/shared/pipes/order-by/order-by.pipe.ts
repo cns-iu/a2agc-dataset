@@ -1,25 +1,31 @@
-import { Inject, LOCALE_ID, Optional, Pipe, PipeTransform } from '@angular/core';
-
+import {
+  Inject,
+  LOCALE_ID,
+  Optional,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 
 type KeysOfType<T, U> = {
-  [K in keyof T]: T[K] extends U ? K : never
+  [K in keyof T]: T[K] extends U ? K : never;
 }[keyof T];
 type PickByType<T, U> = Pick<T, KeysOfType<T, U>>;
 
 export type SortableKey<T> = keyof PickByType<T, number | string>;
 export type SortOrder = 'asc' | 'desc';
 
-
 @Pipe({
   name: 'orderBy',
-  pure: true
+  pure: true,
 })
 export class OrderByPipe<T> implements PipeTransform {
-  constructor(@Inject(LOCALE_ID) @Optional() private readonly locale: string) { }
+  constructor(@Inject(LOCALE_ID) @Optional() private readonly locale: string) {}
 
   transform(
-    items: T[], propertyKey: SortableKey<T>,
-    order?: SortOrder, nocase?: 'nocase'
+    items: T[],
+    propertyKey: SortableKey<T>,
+    order?: SortOrder,
+    nocase?: 'nocase'
   ): T[] {
     if (!items || items.length === 0 || propertyKey === undefined) {
       return items;
@@ -28,7 +34,7 @@ export class OrderByPipe<T> implements PipeTransform {
     const collator = new Intl.Collator(this.locale || undefined, {
       usage: 'sort',
       numeric: true,
-      sensitivity: nocase === 'nocase' ? 'accent' : 'variant'
+      sensitivity: nocase === 'nocase' ? 'accent' : 'variant',
     });
     const compare = (x: T, y: T) => {
       const v1 = x[propertyKey] as unknown as string;

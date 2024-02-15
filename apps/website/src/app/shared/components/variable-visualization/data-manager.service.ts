@@ -3,13 +3,9 @@ import { Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { DatasetVariable } from '../../../core/models/dataset.model';
 import { DistributionDataEntry } from '../../../core/models/distribution.model';
-import {
-  DistributionDataLoaderService,
-} from '../../../core/services/distribution-data-loader/distribution-data-loader.service';
-
+import { DistributionDataLoaderService } from '../../../core/services/distribution-data-loader/distribution-data-loader.service';
 
 export type TimeFilter = [number, number] | undefined;
-
 
 @Injectable()
 export class DataManagerService implements OnDestroy {
@@ -69,7 +65,9 @@ export class DataManagerService implements OnDestroy {
     this.updateFiltering();
   }
 
-  private createFilterPred(): ((entry: DistributionDataEntry) => boolean) | undefined {
+  private createFilterPred():
+    | ((entry: DistributionDataEntry) => boolean)
+    | undefined {
     if (!this.filter) {
       return undefined;
     }
@@ -84,7 +82,7 @@ export class DataManagerService implements OnDestroy {
         this.clearFilter();
       } else if (!this.filterSub) {
         let maybeSyncEmitted = false;
-        this.filterSub = this.filterSource.subscribe(filter => {
+        this.filterSub = this.filterSource.subscribe((filter) => {
           maybeSyncEmitted = true;
           this.filter = filter;
           this.emitData();

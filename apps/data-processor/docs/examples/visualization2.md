@@ -1,5 +1,6 @@
 # Opioid Death Datasets
----------------------------
+
+---
 
 Marion County by History of Opioid Prescription, Previous Overdose, Incarceration, Health Data (2010-2018)
 
@@ -10,7 +11,7 @@ Marion County by History of Opioid Prescription, Previous Overdose, Incarceratio
 
 ## Usage
 
-Click and drag a region in the Date of Death vs # Deaths graph in order to filter the data by time interval. Use the mouse wheel in order to increase or decrease the length of the interval. You may also slide the selected interval left or right along the date axis. 
+Click and drag a region in the Date of Death vs # Deaths graph in order to filter the data by time interval. Use the mouse wheel in order to increase or decrease the length of the interval. You may also slide the selected interval left or right along the date axis.
 
 ## Purpose and Details
 
@@ -19,7 +20,7 @@ The purpose of this visualization is to provide insight on the frequency of comm
 Four touchpoints are analyzed:
 
 1. Opioid Prescription (Rx): Whether or not an individual had received an opioid prescription. This includes any opioid or benzo medications that were provided to the individual.
-2. Overdose (OD): Whether or not an individual had a previous overdose requiring EMS intervention. 
+2. Overdose (OD): Whether or not an individual had a previous overdose requiring EMS intervention.
 3. Incarceration (Jail): Whether or not an individual had been in jail.
 4. Health Data (Health): Whether or not an individual had a recent encounter with healthcare services (excluding opioid prescriptions).
 

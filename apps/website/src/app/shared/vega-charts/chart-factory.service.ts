@@ -8,9 +8,8 @@ import { createBarSpec } from './bar-chart.vl';
 import { createPieSpec } from './pie-chart.vl';
 import { createTimeSpec } from './time-slider.vl';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChartFactoryService {
   readonly createBarChart = createBarSpec;
@@ -18,7 +17,13 @@ export class ChartFactoryService {
   readonly createTimeSlider = createTimeSpec;
 
   createChart(variable: DatasetVariable): VisualizationSpec | undefined {
-    const { type: vtype, distribution: { type, summary: { distinct } } } = variable;
+    const {
+      type: vtype,
+      distribution: {
+        type,
+        summary: { distinct },
+      },
+    } = variable;
     const knownType = Object.values<string>(DistributionType).includes(type);
 
     if (!knownType || type === DistributionType.summary) {
@@ -31,27 +36,30 @@ export class ChartFactoryService {
 
     switch (type) {
       case DistributionType.pie:
-        /* fallthrough */
+      /* fallthrough */
       case DistributionType.histogram:
-        /* fallthrough */
+      /* fallthrough */
       case DistributionType.verticalBar:
         if (distinct <= CHART_CONFIG[ChartType.verticalBar].maxDistinctValues) {
           return this.createBarChart(variable, [], {
             xLabel: variable.name,
-            yLabel: 'Count of Records'
+            yLabel: 'Count of Records',
           });
         }
-        /* fallthrough */
+      /* fallthrough */
 
       case DistributionType.horizontalBar:
-        if (distinct <= CHART_CONFIG[ChartType.horizontalBar].maxDistinctValues || vtype === 'DATE') {
+        if (
+          distinct <= CHART_CONFIG[ChartType.horizontalBar].maxDistinctValues ||
+          vtype === 'DATE'
+        ) {
           return this.createBarChart(variable, [], {
             flipAxes: true,
             xLabel: '# Total Deaths',
-            yLabel: variable.name
+            yLabel: variable.name,
           });
         }
-        /* fallthrough */
+      /* fallthrough */
 
       default:
         return undefined;

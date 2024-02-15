@@ -1,5 +1,11 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, SimpleChanges,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
 } from '@angular/core';
 import { Autosize, Options } from 'ngx-vega';
 import { Observable, Subscription } from 'rxjs';
@@ -7,24 +13,28 @@ import { throttleTime } from 'rxjs/operators';
 import { View } from 'vega';
 import { VisualizationSpec } from 'vega-embed';
 
-import { DatasetMetaEntry, DatasetVariable } from '../../../core/models/dataset.model';
-import { DistributionDataEntry, DistributionType } from '../../../core/models/distribution.model';
+import {
+  DatasetMetaEntry,
+  DatasetVariable,
+} from '../../../core/models/dataset.model';
+import {
+  DistributionDataEntry,
+  DistributionType,
+} from '../../../core/models/distribution.model';
 import { DatasetVariablesState } from '../../../core/state/data/dataset-variables.state';
 import { ChartFactoryService } from '../../vega-charts/chart-factory.service';
 import { DataManagerService, TimeFilter } from './data-manager.service';
 
 export { TimeFilter };
 
-
 const DEFAULT_FILTER_THROTTLE = 100;
-
 
 @Component({
   selector: 'agc-variable-visualization',
   templateUrl: './variable-visualization.component.html',
   styleUrls: ['./variable-visualization.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DataManagerService]
+  providers: [DataManagerService],
 })
 export class VariableVisualizationComponent implements OnChanges, OnDestroy {
   @Input() variable!: DatasetVariable;
@@ -55,7 +65,7 @@ export class VariableVisualizationComponent implements OnChanges, OnDestroy {
     private readonly dataManager: DataManagerService,
     private readonly variableState: DatasetVariablesState
   ) {
-    const dataSub = dataManager.data$.subscribe(data => {
+    const dataSub = dataManager.data$.subscribe((data) => {
       this.data = data;
       this.scheduleViewDataUpdate();
     });
@@ -96,7 +106,7 @@ export class VariableVisualizationComponent implements OnChanges, OnDestroy {
 
     const { variable, chartFactory, dataManager, variableState } = this;
     const vid = variableState.selectId(variable);
-    const spec = this.spec = chartFactory.createChart(variable);
+    const spec = (this.spec = chartFactory.createChart(variable));
     this.metadata = variableState.getMetadata(vid);
 
     if (spec) {
@@ -107,7 +117,11 @@ export class VariableVisualizationComponent implements OnChanges, OnDestroy {
   }
 
   private onFilterChange(): void {
-    const { filterSource, filterThrottle = DEFAULT_FILTER_THROTTLE, dataManager } = this;
+    const {
+      filterSource,
+      filterThrottle = DEFAULT_FILTER_THROTTLE,
+      dataManager,
+    } = this;
     const source$ = filterSource?.pipe?.(throttleTime(filterThrottle));
     dataManager.setFilterSource(source$);
   }
@@ -118,7 +132,7 @@ export class VariableVisualizationComponent implements OnChanges, OnDestroy {
     }
 
     const isCurrentTask = () => id === this.viewDataUpdateTaskId;
-    const id = this.viewDataUpdateTaskId = setTimeout(async () => {
+    const id = (this.viewDataUpdateTaskId = setTimeout(async () => {
       if (!isCurrentTask() || !this.view) {
         return;
       }
@@ -137,7 +151,7 @@ export class VariableVisualizationComponent implements OnChanges, OnDestroy {
         this.cdr.markForCheck();
         this.clearViewDataUpdate();
       }
-    });
+    }));
   }
 
   private clearViewDataUpdate(): void {
@@ -157,10 +171,10 @@ export class VariableVisualizationComponent implements OnChanges, OnDestroy {
     this.view?.getState({
       recurse: false,
       signals: () => false,
-      data: name => {
+      data: (name) => {
         guess = name;
         return false;
-      }
+      },
     });
 
     return guess;

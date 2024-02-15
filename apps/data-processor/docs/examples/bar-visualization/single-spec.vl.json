@@ -57,19 +57,19 @@
       "as": "census_count"
     },
     {
-        "aggregate": [
-          {
-            "op": "sum",
-            "field": "count",
-            "as": "count"
-          },
-          {
-            "op": "sum",
-            "field": "census_count",
-            "as": "census_count"
-          }
-        ],
-        "groupby": ["gender", "age_group"]
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "count",
+          "as": "count"
+        },
+        {
+          "op": "sum",
+          "field": "census_count",
+          "as": "census_count"
+        }
+      ],
+      "groupby": ["gender", "age_group"]
     },
     {
       "joinaggregate": [

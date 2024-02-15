@@ -7,7 +7,6 @@ import { VariableVisualizationModule } from './components/variable-visualization
 import { VisualizationPageModule } from './components/visualization-page/visualization-page.module';
 import { OrderByPipe } from './pipes/order-by/order-by.pipe';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -17,16 +16,14 @@ import { OrderByPipe } from './pipes/order-by/order-by.pipe';
     VariableVisualizationModule,
     VisualizationPageModule,
   ],
-  declarations: [
-    OrderByPipe
-  ],
+  declarations: [OrderByPipe],
   exports: [
     MarkdownModalModule,
     MenuIconModule,
     VariableVisualizationModule,
     VisualizationPageModule,
 
-    OrderByPipe
-  ]
+    OrderByPipe,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

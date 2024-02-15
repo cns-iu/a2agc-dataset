@@ -9,7 +9,7 @@
 
     .info {
       background-color: mat.get-color-from-palette($primary, 500);
-      color: mat.get-color-from-palette($primary, "500-contrast");
+      color: mat.get-color-from-palette($primary, '500-contrast');
     }
   }
 }

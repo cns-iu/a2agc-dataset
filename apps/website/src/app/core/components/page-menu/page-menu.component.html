@@ -3,8 +3,12 @@
 </div>
 
 <nav class="pages">
-  <a *ngFor="let page of pages | orderBy:'order'; trackBy: linkId" class="link" [routerLink]="['/visualization', page.path]"
-     routerLinkActive="active">
+  <a
+    *ngFor="let page of pages | orderBy : 'order'; trackBy: linkId"
+    class="link"
+    [routerLink]="['/visualization', page.path]"
+    routerLinkActive="active"
+  >
     <div class="title">{{ page.title }}</div>
     <div class="description">{{ page.description }}</div>
     <mat-divider></mat-divider>
@@ -12,7 +16,11 @@
 </nav>
 
 <div class="info">
-  <a class="link distributions" routerLink="/data-distributions" routerLinkActive="active">
+  <a
+    class="link distributions"
+    routerLink="/data-distributions"
+    routerLinkActive="active"
+  >
     <mat-icon svgIcon="menu:data-distributions"></mat-icon>
     <span class="title">Data Distributions</span>
   </a>
@@ -24,13 +32,21 @@
   </a>
   <mat-divider></mat-divider>
 
-  <a class="link schema" routerLink="/data-schema-browser" routerLinkActive="active">
+  <a
+    class="link schema"
+    routerLink="/data-schema-browser"
+    routerLinkActive="active"
+  >
     <mat-icon svgIcon="menu:data-storage"></mat-icon>
     <span class="title">Data Schema Browser</span>
   </a>
   <mat-divider></mat-divider>
 
-  <a class="link er-diagram" routerLink="/data-er-diagram" routerLinkActive="active">
+  <a
+    class="link er-diagram"
+    routerLink="/data-er-diagram"
+    routerLinkActive="active"
+  >
     <mat-icon>bar_chart_outline</mat-icon>
     <span class="title">Data ER Diagram</span>
   </a>

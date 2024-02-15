@@ -1,11 +1,12 @@
 # About
--------
+
+---
 
 ## What is the A2AGC Dataset?
 
 Indiana University's Addictions Crisis Grand Challenge (AGC) is making a significant investment in addressing the opioid epidemic in Indiana. The AGC has three primary goals: (1) reducing the incidence of substance use disorder, (2) decreasing the number of opioid overdose fatalities, and (3) reducing the number of babies born with Neonatal Abstinence Syndrome. The AGC has funded 16 projects in its first phase in 2017 and 15 more in its second phase in 2018.
 
-Currently, the AGC does not have a comprehensive, generalizable mechanism to evaluate outcomes of the initiative of individual projects. Our project, *Advanced Analytics for IU's Addictions Grand Challenge (A2AGC)*, will help address this gap by partnering with the Indiana Addictions Data Commons (IADC). We will (1) construct an individually-linked, rich dataset of individuals who experienced fatal and non-fatal opioid overdoses in Marion County; (2) conduct a case-control study to determine risk factors for death from opioid OD; (3) help identify opportunities for interventions to prevent OD deaths; and (4) disseminate the developed analytics and visualization approach to other AGC projects, and evaluate the A2AGC. The outcome of this project will be a foundational platform for research, policy development and practical interventions.
+Currently, the AGC does not have a comprehensive, generalizable mechanism to evaluate outcomes of the initiative of individual projects. Our project, _Advanced Analytics for IU's Addictions Grand Challenge (A2AGC)_, will help address this gap by partnering with the Indiana Addictions Data Commons (IADC). We will (1) construct an individually-linked, rich dataset of individuals who experienced fatal and non-fatal opioid overdoses in Marion County; (2) conduct a case-control study to determine risk factors for death from opioid OD; (3) help identify opportunities for interventions to prevent OD deaths; and (4) disseminate the developed analytics and visualization approach to other AGC projects, and evaluate the A2AGC. The outcome of this project will be a foundational platform for research, policy development and practical interventions.
 
 The Advanced Analytics for IU's Addictions Grand Challenge (A2AGC) database is generated using code available on GitHub at [https://github.com/cns-iu/a2agc-dataset](https://github.com/cns-iu/a2agc-dataset).
 
@@ -13,13 +14,13 @@ See the latest changes in the [CHANGELOG](CHANGELOG.md).
 
 ## Data Source Information
 
-| Dataset | Drug Overdose Deaths | Emergency Medical Services | Arrest Information | Healthcare Institutions |
-|--------------|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| Dataset          | Drug Overdose Deaths                                                                        | Emergency Medical Services                                                                        | Arrest Information                                                 | Healthcare Institutions                                                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 | **Type of Data** | Coroner's reports of accidental overdose deaths including toxicology and death certificates | Individual run data of EMS services, including location, chief complaint, and mechanism of injury | Jail booking and release date, including reason for jail admission | hospital admission, discharge, lab reports, diagnoses, medications dispensed, procedures, referrals, and encounters |
-| **Years** | 2010-2018 | 2011-2018 | 2014-2018 | 2005-Present |
-| **Source** | Marion County Coroner's Office (MCCO) | Indianapolis Emergency Medical Services (IEMS) | Marion County Sheriff's Office (MCSO) | Indiana Network for Patient Care (INPC) |
-| **Obtainment** | Manual collection at MCCO | Request from IEMS | Request from MCSO | Regenstrief Institute Data Core |
-| **Location** | Marion County, IN | Marion County, IN | Marion County, IN | Marion County, IN |
+| **Years**        | 2010-2018                                                                                   | 2011-2018                                                                                         | 2014-2018                                                          | 2005-Present                                                                                                        |
+| **Source**       | Marion County Coroner's Office (MCCO)                                                       | Indianapolis Emergency Medical Services (IEMS)                                                    | Marion County Sheriff's Office (MCSO)                              | Indiana Network for Patient Care (INPC)                                                                             |
+| **Obtainment**   | Manual collection at MCCO                                                                   | Request from IEMS                                                                                 | Request from MCSO                                                  | Regenstrief Institute Data Core                                                                                     |
+| **Location**     | Marion County, IN                                                                           | Marion County, IN                                                                                 | Marion County, IN                                                  | Marion County, IN                                                                                                   |
 
 ### Drug Overdose Deaths
 
@@ -29,7 +30,7 @@ In order to help us obtain this information, the MCCO first provides a list of c
 
 ### Emergency Medical Services
 
-Indianapolis Emergency Medical Services (IEMS) provides data on all first responder runs that IEMS were called to from 2011-2018. This data contains the demographic information (first and last name, gender, race, date of birth, and age) of the person who the run was called for, location and time of the run, and the reasons why EMS was called (chief complaints and mechanism of injury). This data was provided upon request directly by IEMS. 
+Indianapolis Emergency Medical Services (IEMS) provides data on all first responder runs that IEMS were called to from 2011-2018. This data contains the demographic information (first and last name, gender, race, date of birth, and age) of the person who the run was called for, location and time of the run, and the reasons why EMS was called (chief complaints and mechanism of injury). This data was provided upon request directly by IEMS.
 
 ### Arrest Information
 
@@ -49,7 +50,7 @@ Beyond the coroner's data with toxicology and death certification information, a
 
 ### Availability of the data for research
 
-Due to the unique nature of the data set, our research group is very interested in making the data set available to highly qualified and experienced research collaborators and partners.  If you are interested, please contact Dr. Titus Schleyer, DMD, PhD, at [schleyer@regenstrief.org](mailto:schleyer@regenstrief.org).
+Due to the unique nature of the data set, our research group is very interested in making the data set available to highly qualified and experienced research collaborators and partners. If you are interested, please contact Dr. Titus Schleyer, DMD, PhD, at [schleyer@regenstrief.org](mailto:schleyer@regenstrief.org).
 
 ## Credits
 

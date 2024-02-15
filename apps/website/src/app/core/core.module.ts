@@ -8,7 +8,6 @@ import { SubBarModule } from './components/sub-bar/sub-bar.module';
 import { ThemeModule } from './services/theme/theme.module';
 import { StateModule } from './state/state.module';
 
-
 @NgModule({
   imports: [
     // Services
@@ -20,7 +19,7 @@ import { StateModule } from './state/state.module';
     PageFooterModule,
     PageHeaderModule,
     PageMenuModule,
-    SubBarModule
+    SubBarModule,
   ],
   exports: [
     // Module forwarding
@@ -29,12 +28,14 @@ import { StateModule } from './state/state.module';
     PageHeaderModule,
     PageMenuModule,
     SubBarModule,
-  ]
+  ],
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() other: CoreModule | null) {
     if (other) {
-      throw new Error('CoreModule should only be imported once in the AppModule!');
+      throw new Error(
+        'CoreModule should only be imported once in the AppModule!'
+      );
     }
   }
 }

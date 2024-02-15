@@ -9,7 +9,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { DataDistributionsRoutingModule } from './data-distributions-routing.module';
 import { DataDistributionsComponent } from './data-distributions.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -25,6 +24,6 @@ import { DataDistributionsComponent } from './data-distributions.component';
     DataDistributionsRoutingModule,
   ],
   declarations: [DataDistributionsComponent],
-  exports: [DataDistributionsComponent]
+  exports: [DataDistributionsComponent],
 })
-export class DataDistributionsModule { }
+export class DataDistributionsModule {}

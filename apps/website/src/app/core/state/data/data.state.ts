@@ -8,17 +8,12 @@ import { DatasetLoaderService } from '../../services/dataset-loader/dataset-load
 import { DatasetVariablesState } from './dataset-variables.state';
 import { DatasetsState } from './datasets.state';
 
-
 export type DataStateModel = Record<string, never>;
-
 
 @StateRepository()
 @State<DataStateModel>({
   name: 'data',
-  children: [
-    DatasetsState,
-    DatasetVariablesState
-  ]
+  children: [DatasetsState, DatasetVariablesState],
 })
 @Injectable()
 export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
@@ -33,7 +28,7 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
   override ngxsOnInit(): void {
     super.ngxsOnInit();
 
-    this.datasetLoader.load(DATA_CONFIG.datasetsPath).subscribe(result => {
+    this.datasetLoader.load(DATA_CONFIG.datasetsPath).subscribe((result) => {
       this.datasetsState.addMany(result.datasets);
       this.variablesState.addMany(result.variables);
     });

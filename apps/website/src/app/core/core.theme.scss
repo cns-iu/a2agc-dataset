@@ -1,9 +1,8 @@
-@use "./components/banner/banner.theme";
-@use "./components/page-footer/page-footer.theme";
-@use "./components/page-header/page-header.theme";
-@use "./components/page-menu/page-menu.theme";
-@use "./components/sub-bar/sub-bar.theme";
-
+@use './components/banner/banner.theme';
+@use './components/page-footer/page-footer.theme';
+@use './components/page-header/page-header.theme';
+@use './components/page-menu/page-menu.theme';
+@use './components/sub-bar/sub-bar.theme';
 
 @mixin theme($theme-or-config) {
   @include banner.theme($theme-or-config);

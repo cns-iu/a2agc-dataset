@@ -3,7 +3,7 @@ export enum DistributionType {
   histogram = 'histogram',
   verticalBar = 'bar-chart',
   horizontalBar = 'horizontal-bar-chart',
-  summary = 'summary'
+  summary = 'summary',
 }
 
 export interface Distribution {

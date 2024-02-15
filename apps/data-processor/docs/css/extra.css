@@ -1,20 +1,20 @@
-.toctree-l2>a.nav-item {
+.toctree-l2 > a.nav-item {
   padding-left: 35px;
 }
 
-.toctree-l3>a.nav-item {
+.toctree-l3 > a.nav-item {
   padding-left: 45px;
 }
 
-.toctree-l4>a.nav-item {
+.toctree-l4 > a.nav-item {
   padding-left: 55px;
 }
 
-.toctree-l5>a.nav-item {
+.toctree-l5 > a.nav-item {
   padding-left: 65px;
 }
 
-.toctree-l6>a.nav-item {
+.toctree-l6 > a.nav-item {
   padding-left: 75px;
 }
 

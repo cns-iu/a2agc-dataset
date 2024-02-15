@@ -7,7 +7,6 @@ import { MarkdownModule } from 'ngx-markdown';
 
 import { MarkdownModalComponent } from './markdown-modal.component';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -16,9 +15,9 @@ import { MarkdownModalComponent } from './markdown-modal.component';
     MatDialogModule,
     MatIconModule,
 
-    MarkdownModule
+    MarkdownModule,
   ],
   declarations: [MarkdownModalComponent],
-  exports: [MarkdownModalComponent]
+  exports: [MarkdownModalComponent],
 })
-export class MarkdownModalModule { }
+export class MarkdownModalModule {}

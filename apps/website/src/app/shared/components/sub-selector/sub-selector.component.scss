@@ -32,7 +32,7 @@
       display: block;
       margin-top: -1rem;
       background-color: white;
-      padding: .5rem;
+      padding: 0.5rem;
       z-index: 3;
 
       &.hidden {
@@ -45,16 +45,16 @@
         .sub-options-header {
           width: 100%;
           display: flex;
-          padding: .5rem;
+          padding: 0.5rem;
 
           .sub-options-filters {
             width: 100%;
             display: flex;
-            padding: .75rem 0rem;
+            padding: 0.75rem 0rem;
             cursor: pointer;
 
             .letter-filter {
-              padding: .25rem;
+              padding: 0.25rem;
               color: black;
               border-bottom: 1px solid white;
 

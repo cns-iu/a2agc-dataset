@@ -1,5 +1,5 @@
-@use "./components/menu-icon/menu-icon.theme";
-@use "./components/visualization-page/visualization-page.theme";
+@use './components/menu-icon/menu-icon.theme';
+@use './components/visualization-page/visualization-page.theme';
 
 @mixin theme($theme-or-config) {
   @include menu-icon.theme($theme-or-config);

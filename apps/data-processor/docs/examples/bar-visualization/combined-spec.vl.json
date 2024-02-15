@@ -63,19 +63,19 @@
       "as": "census_count"
     },
     {
-        "aggregate": [
-          {
-            "op": "sum",
-            "field": "count",
-            "as": "count"
-          },
-          {
-            "op": "sum",
-            "field": "census_count",
-            "as": "census_count"
-          }
-        ],
-        "groupby": ["gender", "age_group"]
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "count",
+          "as": "count"
+        },
+        {
+          "op": "sum",
+          "field": "census_count",
+          "as": "census_count"
+        }
+      ],
+      "groupby": ["gender", "age_group"]
     },
     {
       "joinaggregate": [
@@ -175,21 +175,13 @@
               "selection": {
                 "year": {
                   "type": "multi",
-                  "fields": [
-                    "year"
-                  ],
+                  "fields": ["year"],
                   "bind": "legend",
-                  "init": [
-                    {"year": 2018},
-                    {"year": 2017},
-                    {"year": 2016}
-                  ]
+                  "init": [{ "year": 2018 }, { "year": 2017 }, { "year": 2016 }]
                 },
                 "gender": {
                   "type": "multi",
-                  "fields": [
-                    "gender"
-                  ],
+                  "fields": ["gender"],
                   "bind": "legend"
                 }
               },
@@ -209,7 +201,7 @@
                     "labels": true,
                     "titleFontSize": 14
                   },
-                  "scale": {"domain": [0,0.3]}
+                  "scale": { "domain": [0, 0.3] }
                 },
                 "y": {
                   "title": null,
@@ -233,10 +225,10 @@
                     "symbolOffset": 5,
                     "labelColor": "#212121"
                   },
-                  "scale": {"range": ["#DA5E8C", "#586CBB"]}
+                  "scale": { "range": ["#DA5E8C", "#586CBB"] }
                 },
                 "opacity": {
-                  "condition": {"selection": "gender", "value": 1},
+                  "condition": { "selection": "gender", "value": 1 },
                   "value": 0
                 },
                 "strokeWidth": {
@@ -251,7 +243,9 @@
                     "rowPadding": 10,
                     "symbolSize": 0,
                     "title": "",
-                    "values": [2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
+                    "values": [
+                      2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010
+                    ]
                   }
                 }
               }
@@ -328,7 +322,7 @@
                     "grid": false,
                     "labels": true
                   },
-                  "scale": {"domain": [0,0.3]}
+                  "scale": { "domain": [0, 0.3] }
                 },
                 "y": {
                   "title": null,
@@ -340,7 +334,7 @@
                   "field": "gender"
                 },
                 "opacity": {
-                  "condition": {"selection": "gender", "value": 1},
+                  "condition": { "selection": "gender", "value": 1 },
                   "value": 0
                 }
               }
@@ -360,7 +354,7 @@
                     "labelFlush": false,
                     "labels": true
                   },
-                  "scale": {"domain": [0,0.13]}
+                  "scale": { "domain": [0, 0.13] }
                 },
                 "y": {
                   "title": null,
@@ -466,11 +460,11 @@
           "as": "census_percentage"
         }
       ],
-      
+
       "facet": {
         "field": "year",
         "title": null,
-        "header": { 
+        "header": {
           "labelFontSize": 0
         },
         "sort": "descending"
@@ -531,8 +525,8 @@
             "width": 1,
             "height": 1,
             "mark": {
-              "type": "text", 
-              "style": "label", 
+              "type": "text",
+              "style": "label",
               "fontSize": 14
             },
             "encoding": {
@@ -558,21 +552,17 @@
                 "selection": {
                   "year": {
                     "type": "multi",
-                    "fields": [
-                      "year"
-                    ],
+                    "fields": ["year"],
                     "bind": "legend",
                     "init": [
-                      {"year": 2018},
-                      {"year": 2017},
-                      {"year": 2016}
+                      { "year": 2018 },
+                      { "year": 2017 },
+                      { "year": 2016 }
                     ]
                   },
                   "gender": {
                     "type": "multi",
-                    "fields": [
-                      "gender"
-                    ],
+                    "fields": ["gender"],
                     "bind": "legend"
                   }
                 },
@@ -611,10 +601,10 @@
                       "orient": "left",
                       "values": ["M", "F", "Total Population"]
                     },
-                    "scale": {"range": ["#DA5E8C", "#586CBB"]}
+                    "scale": { "range": ["#DA5E8C", "#586CBB"] }
                   },
                   "opacity": {
-                    "condition": {"selection": "gender", "value": 1},
+                    "condition": { "selection": "gender", "value": 1 },
                     "value": 0
                   },
                   "strokeWidth": {
@@ -627,7 +617,9 @@
                       "rowPadding": 10,
                       "symbolSize": 0,
                       "title": "",
-                      "values": [2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010]
+                      "values": [
+                        2018, 2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010
+                      ]
                     }
                   }
                 }
@@ -645,7 +637,7 @@
                       "grid": false,
                       "labels": true
                     },
-                    "scale": {"domain": [0,0.3]}
+                    "scale": { "domain": [0, 0.3] }
                   },
                   "y": {
                     "type": "ordinal",
@@ -715,7 +707,7 @@
                     "field": "gender"
                   },
                   "opacity": {
-                    "condition": {"selection": "gender", "value": 1},
+                    "condition": { "selection": "gender", "value": 1 },
                     "value": 0
                   }
                 }
@@ -735,7 +727,7 @@
                       "labelFlush": false,
                       "labels": true
                     },
-                    "scale": {"domain": [0,0.3]}
+                    "scale": { "domain": [0, 0.3] }
                   },
                   "y": {
                     "title": null,
