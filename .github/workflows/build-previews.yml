@@ -29,7 +29,7 @@ jobs:
       - run: npm run build -- --output-hashing=none --base-href=/
       - uses: netlify/actions/cli@master
         with:
-          args: deploy --dir=deploy --filter=a2agc
+          args: deploy --dir=dist/a2agc --filter=a2agc
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
