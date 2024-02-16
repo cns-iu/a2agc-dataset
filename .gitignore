@@ -3,3 +3,10 @@
 /raw-data
 container.sif
 website/debug.log
+.angular
+.nx
+dist
+node_modules
+coverage
+**/generated
+**/schema
