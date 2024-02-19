@@ -32,7 +32,7 @@ WITH
         WHEN cast(strftime('%m', DOD) as integer) BETWEEN 4 and 6 THEN '-04-01'
         WHEN cast(strftime('%m', DOD) as integer) BETWEEN 7 and 9 THEN '-07-01'
         ELSE '-10-01'
-      END AS "PERIOD"
+      END AS "DOD_PERIOD"
     FROM deaths AS D
       LEFT OUTER JOIN P ON D.CASE_NUMBER = P.CASE_NUMBER
       LEFT OUTER JOIN O ON D.CASE_NUMBER = O.CASE_NUMBER

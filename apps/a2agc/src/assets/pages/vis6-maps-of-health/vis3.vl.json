@@ -7,7 +7,7 @@
       "type": "csv",
       "parse": {
         "PERIOD": "date",
-        "DOD": "date",
+        "DOD_PERIOD": "date",
         "RANK": "number",
         "AGE": "number",
         "AGE_RANK": "number",
@@ -69,7 +69,7 @@
   },
   "transform": [
     {
-      "calculate": "round(12 * (datum.DOD - datum.PERIOD) / 3.154e+10)",
+      "calculate": "round(12 * (datum.DOD_PERIOD - datum.PERIOD) / 3.154e+10)",
       "as": "TIME_BEFORE_DEATH"
     },
     {

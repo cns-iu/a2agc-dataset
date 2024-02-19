@@ -8,7 +8,7 @@ WITH
         WHEN cast(strftime('%m', DOD) as integer) BETWEEN 4 and 6 THEN '-04-01'
         WHEN cast(strftime('%m', DOD) as integer) BETWEEN 7 and 9 THEN '-07-01'
         ELSE '-10-01'
-      END AS "DOD_PERIOD",
+      END AS "PERIOD",
       0 AS OPIOID_PRESCRIPTIONS, 0 AS OVERDOSES, 0 AS INCARCERATIONS, 1 AS HEALTH_ENCOUNTERS
     FROM deaths
   ),
@@ -123,6 +123,12 @@ WITH
       TOTAL_PRESCRIPTIONS,
       -(TOTAL_PRESCRIPTIONS * 1000000 + D.CASE_NUMBER) AS PRESCRIPTIONS_RANK,
       -(AGE * 1000000 + D.CASE_NUMBER) AS AGE_RANK,
+      strftime('%Y', DOD) || CASE
+        WHEN cast(strftime('%m', DOD) as integer) BETWEEN 1 AND 3 THEN '-01-01'
+        WHEN cast(strftime('%m', DOD) as integer) BETWEEN 4 and 6 THEN '-04-01'
+        WHEN cast(strftime('%m', DOD) as integer) BETWEEN 7 and 9 THEN '-07-01'
+        ELSE '-10-01'
+      END AS "DOD_PERIOD",
       AGE, SEX, RACE, OPIOID_PRESCRIPTIONS, OVERDOSES, INCARCERATIONS, HEALTH_ENCOUNTERS, ALL_TYPES,
       CASE OVERDOSES
         WHEN 0 THEN '9999-01-01'
@@ -144,11 +150,11 @@ WITH
       MIN(TIME_OF_OD) OVER(PARTITION BY CASE_NUMBER) AS TIME_FIRST_OD,
       MIN(TIME_OF_RX) OVER(PARTITION BY CASE_NUMBER) AS TIME_FIRST_RX,
       CASE
-        WHEN julianday(DOD) - julianday(MIN(TIME_OF_OD) OVER(PARTITION BY CASE_NUMBER)) >= 0 THEN -(julianday(DOD) - julianday(MIN(TIME_OF_OD) OVER(PARTITION BY CASE_NUMBER)))
+        WHEN julianday(DOD_PERIOD) - julianday(MIN(TIME_OF_OD) OVER(PARTITION BY CASE_NUMBER)) >= 0 THEN -(julianday(DOD_PERIOD) - julianday(MIN(TIME_OF_OD) OVER(PARTITION BY CASE_NUMBER)))
         ELSE 0
       END AS OD_DIFF,
       CASE
-        WHEN julianday(DOD) - julianday(MIN(TIME_OF_RX) OVER(PARTITION BY CASE_NUMBER)) >= 0 THEN -(julianday(DOD) - julianday(MIN(TIME_OF_RX) OVER(PARTITION BY CASE_NUMBER)))
+        WHEN julianday(DOD_PERIOD) - julianday(MIN(TIME_OF_RX) OVER(PARTITION BY CASE_NUMBER)) >= 0 THEN -(julianday(DOD_PERIOD) - julianday(MIN(TIME_OF_RX) OVER(PARTITION BY CASE_NUMBER)))
         ELSE 0
       END AS RX_DIFF
     FROM CN_POJH
