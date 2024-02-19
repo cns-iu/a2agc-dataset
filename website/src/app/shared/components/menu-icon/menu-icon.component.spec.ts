@@ -1,3 +1,0 @@
-describe('MenuIconComponent', () => {
-  // Add tests
-});

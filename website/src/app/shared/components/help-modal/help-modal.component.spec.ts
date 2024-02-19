@@ -1,3 +1,0 @@
-describe('HelpModalComponent', () => {
-  // Add tests
-});

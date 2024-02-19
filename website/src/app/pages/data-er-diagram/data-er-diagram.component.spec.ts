@@ -1,3 +1,0 @@
-describe('DataErDiagramComponent', () => {
-  // Add tests
-});

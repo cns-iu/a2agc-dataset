@@ -2,7 +2,7 @@
 source constants.sh
 set -ev
 
-cd ../website
+cd ..
 
 # Clear old data and copy latest
 rm -rf src/assets/generated

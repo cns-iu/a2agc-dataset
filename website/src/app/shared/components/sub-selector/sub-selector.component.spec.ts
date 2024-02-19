@@ -1,3 +1,0 @@
-describe('SubSelectorComponent', () => {
-  // Add tests
-});

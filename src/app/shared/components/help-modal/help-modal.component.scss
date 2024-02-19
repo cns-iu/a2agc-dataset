@@ -1,0 +1,69 @@
+::ng-deep mat-dialog-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+::ng-deep .mat-expansion-panel-header {
+  background-color: #FAFAFA;
+}
+
+.agc-about.wrapper {
+  .container {
+    .content {
+      padding: 2rem;
+      min-height: 43rem;
+
+      mat-dialog-content {
+        padding: 1rem 1.5rem 1rem 1.5rem;
+        margin: 0 -24px;
+        overflow: hidden;
+        font-family: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+        font-size: inherit;
+        color: inherit;
+
+        .help-title {
+          font-weight: bold;
+          font-size: 0.875rem;
+          line-height: 1.5rem;
+        }
+
+        .help-text {
+          font-size: 1rem;
+        }
+
+        .gif-container {
+          display: flex;
+          justify-content: space-around;
+          padding: 2rem;
+        }
+      }
+    }
+
+    .close {
+      .close-icon {
+        float: right;
+        margin-top: 1rem;
+        margin-right: 1rem;
+        cursor: pointer;
+      }
+    }
+
+    .title {
+      font-size: 2.25rem;
+      margin-bottom: 0.5rem;
+      text-align: left;
+      font-weight: lighter;
+      font-family: inherit;
+      letter-spacing: normal;
+      color: inherit;
+      padding: 0;
+      line-height: 2rem;
+
+      &::before {
+        height: inherit;
+      }
+    }
+  }
+}
