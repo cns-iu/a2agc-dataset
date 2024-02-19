@@ -93,11 +93,27 @@
       ]
     },
     {
-      "calculate": "-datum.OD_DIFF",
+      "calculate": "datum.OVERDOSES == 0",
+      "as": "NO_FIRST_OD"
+    },
+    {
+      "calculate": "datum.TOTAL_PRESCRIPTIONS == 0",
+      "as": "NO_FIRST_RX"
+    },
+    {
+      "calculate": "datum.NO_FIRST_OD ? 'N/A' : year(datetime(datum.TIME_FIRST_OD)) + ' Q' + quarter(datetime(datum.TIME_FIRST_OD))",
+      "as": "TIME_FIRST_OD_VALUE"
+    },
+    {
+      "calculate": "datum.NO_FIRST_RX ? 'N/A' : year(datetime(datum.TIME_FIRST_RX)) + ' Q' + quarter(datetime(datum.TIME_FIRST_RX))",
+      "as": "TIME_FIRST_RX_VALUE"
+    },
+    {
+      "calculate": "datum.NO_FIRST_OD ? 'N/A' : -datum.OD_DIFF",
       "as": "OD_DIFF_VALUE"
     },
     {
-      "calculate": "-datum.RX_DIFF",
+      "calculate": "datum.NO_FIRST_RX ? 'N/A' : -datum.RX_DIFF",
       "as": "RX_DIFF_VALUE"
     }
   ],
@@ -304,25 +320,23 @@
             "title": "Total # of Prescriptions"
           },
           {
-            "field": "TIME_FIRST_OD",
-            "type": "temporal",
-            "timeUnit": "yearquarter",
+            "field": "TIME_FIRST_OD_VALUE",
+            "type": "nominal",
             "title": "Time of 1st overdose"
           },
           {
-            "field": "TIME_FIRST_RX",
-            "type": "temporal",
-            "timeUnit": "yearquarter",
+            "field": "TIME_FIRST_RX_VALUE",
+            "type": "nominal",
             "title": "Time of 1st prescription"
           },
           {
             "field": "OD_DIFF_VALUE",
-            "type": "quantitative",
+            "type": "nominal",
             "title": "Days from 1st overdose to death"
           },
           {
             "field": "RX_DIFF_VALUE",
-            "type": "quantitative",
+            "type": "nominal",
             "title": "Days from 1st prescription to death"
           }
         ]
