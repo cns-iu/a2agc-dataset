@@ -1,3 +1,0 @@
-describe('PageMenuComponent', () => {
-  // Add tests
-});

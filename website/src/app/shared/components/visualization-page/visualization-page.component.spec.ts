@@ -1,3 +1,0 @@
-describe('VisualizationPageComponent', () => {
-  // Add tests
-});
