@@ -1,5 +1,5 @@
 {
-  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "a2agc",
   "projectType": "application",
   "generators": {
@@ -10,27 +10,27 @@
       "strict": true
     }
   },
-  "sourceRoot": "src",
+  "sourceRoot": "apps/a2agc/src",
   "prefix": "agc",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "options": {
         "outputPath": "dist/a2agc",
-        "index": "src/index.html",
-        "main": "src/main.ts",
-        "polyfills": "src/polyfills.ts",
-        "tsConfig": "tsconfig.app.json",
+        "index": "apps/a2agc/src/index.html",
+        "main": "apps/a2agc/src/main.ts",
+        "polyfills": "apps/a2agc/src/polyfills.ts",
+        "tsConfig": "apps/a2agc/tsconfig.app.json",
         "allowedCommonJsDependencies": [
           "css-element-queries"
         ],
         "assets": [
-          "src/favicon.ico",
-          "src/assets"
+          "apps/a2agc/src/favicon.ico",
+          "apps/a2agc/src/assets"
         ],
         "styles": [
-          "src/styles.scss",
-          "src/themes.scss",
+          "apps/a2agc/src/styles.scss",
+          "apps/a2agc/src/themes.scss",
           "node_modules/prismjs/themes/prism-okaidia.css",
           "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
         ],
@@ -51,8 +51,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.prod.ts"
+              "replace": "apps/a2agc/src/environments/environment.ts",
+              "with": "apps/a2agc/src/environments/environment.prod.ts"
             }
           ],
           "optimization": true,
@@ -104,17 +104,17 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "src/test.ts",
-        "polyfills": "src/polyfills.ts",
+        "main": "apps/a2agc/src/test.ts",
+        "polyfills": "apps/a2agc/src/polyfills.ts",
         "tsConfig": "tsconfig.spec.json",
         "karmaConfig": "karma.conf.js",
         "codeCoverage": true,
         "assets": [
-          "src/favicon.ico",
-          "src/assets"
+          "apps/a2agc/src/favicon.ico",
+          "apps/a2agc/src/assets"
         ],
         "styles": [
-          "src/styles.scss"
+          "apps/a2agc/src/styles.scss"
         ],
         "scripts": []
       }
@@ -123,8 +123,8 @@
       "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
-          "src/**/*.ts",
-          "src/**/*.html"
+          "apps/a2agc/src/**/*.ts",
+          "apps/a2agc/src/**/*.html"
         ]
       },
       "outputs": [
