@@ -26,6 +26,7 @@ jobs:
             ${{ runner.os }}-node-
       - name: npm ci for a2agc
         run: npm ci
+      - run: npm run compile-build-data
       - run: npm run build -- --output-hashing=none --base-href=/
       - uses: netlify/actions/cli@master
         with:
