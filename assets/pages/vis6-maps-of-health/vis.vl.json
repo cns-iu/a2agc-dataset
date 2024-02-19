@@ -81,6 +81,11 @@
           "op": "sum",
           "field": "ALL_TYPES",
           "as": "NUM_ENCOUNTERS_TOTAL"
+        },
+        {
+          "op": "sum",
+          "field": "INCARCERATIONS",
+          "as": "NUM_INCARCERATIONS_TOTAL"
         }
       ],
       "groupby": [
@@ -507,6 +512,71 @@
               "sort": "ascending",
               "bin": true,
               "title": "Total Number of Encounters"
+            },
+            "y": {
+              "aggregate": "count",
+              "title": "Number of Persons",
+              "axis": {
+                "orient": "right",
+                "values": [
+                  0,
+                  10,
+                  100,
+                  500,
+                  1000,
+                  2000,
+                  5000,
+                  10000,
+                  20000
+                ]
+              },
+              "scale": {
+                "type": "symlog"
+              }
+            },
+            "color": {
+              "value": "#6ea7ef"
+            }
+          }
+        },
+        {
+          "mark": "bar",
+          "params": [
+            {
+              "name": "incarcerations",
+              "select": {
+                "type": "interval",
+                "encodings": [
+                  "x"
+                ],
+                "mark": {
+                  "fill": "#6ea7ef",
+                  "fillOpacity": 0.15
+                }
+              }
+            }
+          ],
+          "transform": [
+            {
+              "aggregate": [
+                {
+                  "op": "sum",
+                  "field": "INCARCERATIONS",
+                  "as": "NUM_INCARCERATIONS_TOTAL"
+                }
+              ],
+              "groupby": [
+                "CASE_NUMBER"
+              ]
+            }
+          ],
+          "encoding": {
+            "x": {
+              "field": "NUM_INCARCERATIONS_TOTAL",
+              "type": "quantitative",
+              "sort": "ascending",
+              "bin": true,
+              "title": "Total Number of Incarcerations"
             },
             "y": {
               "aggregate": "count",
