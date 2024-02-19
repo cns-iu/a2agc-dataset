@@ -2,5 +2,5 @@
 source constants.sh
 set -ev
 
-http-server -c-1 --cors=* -p $DEV_PORT ../website/dist
+http-server -c-1 --cors=* -p $DEV_PORT ../dist
 

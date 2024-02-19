@@ -1,3 +1,0 @@
-describe('MarkdownModalComponent', () => {
-  // Add tests
-});

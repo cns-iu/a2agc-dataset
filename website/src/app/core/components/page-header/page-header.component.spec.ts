@@ -1,3 +1,0 @@
-describe('PageHeaderComponent', () => {
-  // Add tests
-});

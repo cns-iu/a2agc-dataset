@@ -1,0 +1,711 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "padding": {"top": 50},
+  "data": {
+    "url": "assets/generated/visualization4/data.csv"
+  },
+  "autosize": {
+    "contains": "padding"
+  },
+  "config": {
+    "mark": {
+      "tooltip": null
+    },
+    "view": {
+      "stroke": "transparent"
+    },
+    "style": {
+      "guide-label": {
+        "fontSize": 11
+      }
+    }
+  },
+  "background": "#ffffff",
+  "transform": [
+    {
+      "filter": {
+        "param": "substance_selection"
+      }
+    },
+    {
+      "joinaggregate": [
+        {
+          "as": "TOTAL_DEATHS",
+          "field": "CASE_NUMBER",
+          "op": "distinct"
+        }
+      ],
+      "groupby": [
+        "AGE_GROUP",
+        "YEAR"
+      ]
+    },
+    {
+      "calculate": "datum.OVERDOSE_DUMMY == 1 || datum.OVERDOSE_CC_MOI == 1",
+      "as": "HAS_OVERDOSE_DATA"
+    },
+    {
+      "calculate": "datum.HAS_OVERDOSE_DATA == true && datum.MAX_INCIDENT_DATE < datum.DATE_OF_DEATH ? 'Had Previous Overdose' : 'No Previous Overdose'",
+      "as": "HAD_PREVIOUS_OVERDOSE"
+    }
+  ],
+  "spacing": 120,
+  "hconcat": [
+    {
+      "spacing": 40,
+      "vconcat": [
+        {
+          "title": {
+            "text": "Data Variable",
+            "dx": 15
+          },
+          "data": {"values": [
+            {"idx": 0, "SUBSTANCE_NAME": "All Substances"},
+            {"idx": 1, "SUBSTANCE_NAME": "Heroin"},
+            {"idx": 2, "SUBSTANCE_NAME": "Cocaine"},
+            {"idx": 3, "SUBSTANCE_NAME": "Fentanyl"},
+            {"idx": 4, "SUBSTANCE_NAME": "Prescription Opioid"},
+            {"idx": 5, "SUBSTANCE_NAME": "Any Opioid"},
+            {"idx": 6, "SUBSTANCE_NAME": "Methamphetamine"},
+            {"idx": 7, "SUBSTANCE_NAME": "Benzodiazepine"}
+          ]},
+          "mark": {
+            "align": "left",
+            "type": "text"
+          },
+					"params": [
+            {
+              "name": "substance_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "SUBSTANCE_NAME"
+                ]
+              },
+              "value": [
+                {
+                  "SUBSTANCE_NAME": "All Substances"
+                },
+                {
+                  "SUBSTANCE_NAME": "Heroin"
+                },
+                {
+                  "SUBSTANCE_NAME": "Cocaine"
+                }
+              ]
+            }
+          ],
+          "encoding": {
+            "tooltip": {
+              "value": "Shift-Click to add more than one item"
+            },
+            "text": {
+              "type": "nominal",
+              "field": "SUBSTANCE_NAME"
+            },
+            "y": {
+              "field": "idx",
+              "axis": null
+            },
+            "opacity": {
+              "condition": {
+                "param": "substance_selection",
+                "value": 1
+              },
+              "value": 0.3
+            }
+          }
+        },
+        {
+          "title": {
+            "text": "Filter by"
+          },
+          "data": {"values": [
+            {"idx": 0, "HAD_PREVIOUS_OVERDOSE": "Had Previous Overdose"},
+            {"idx": 1, "HAD_PREVIOUS_OVERDOSE": "No Previous Overdose"}
+          ]},
+          "mark": {
+            "align": "left",
+            "type": "text"
+          },
+          "params": [
+            {
+              "name": "filter_selection",
+              "select": {
+                "type": "point",
+                "fields": [
+                  "HAD_PREVIOUS_OVERDOSE"
+                ]
+              }
+            }
+          ],
+          "encoding": {
+            "tooltip": {
+              "value": "Shift-Click to add more than one item"
+            },
+            "text": {
+              "type": "nominal",
+              "field": "HAD_PREVIOUS_OVERDOSE"
+            },
+            "y": {
+              "field": "idx",
+              "axis": null
+            },
+            "opacity": {
+              "condition": {
+                "param": "filter_selection",
+                "value": 1
+              },
+              "value": 0.3
+            }
+          }
+        },
+        {
+          "spacing": 0,
+          "vconcat": [
+            {
+              "spacing": 0,
+              "hconcat": [
+                {
+                  "height": 175,
+                  "title": {
+                    "orient": "top",
+                    "text": "# Deaths"
+                  },
+                  "data": {
+                    "sequence": {
+                      "start": 0,
+                      "stop": 65,
+                      "step": 10,
+                      "as": "deaths_binned"
+                    }
+                  },
+                  "transform": [
+                    {
+                      "calculate": "if(datum.deaths_binned < 60, datum.deaths_binned + '-' + (datum.deaths_binned + 9), '60>')",
+                      "as": "label"
+                    }
+                  ],
+                  "mark": "rect",
+                  "width": 50,
+                  "params": [
+                    {
+                      "name": "deaths_binned",
+                      "select": {
+                        "type": "point",
+                        "fields": [
+                          "deaths_binned"
+                        ]
+                      }
+                    },
+                    {
+                      "name": "label",
+                      "select": {
+                        "type": "point",
+                        "fields": [
+                          "label"
+                        ]
+                      }
+                    }
+                  ],
+                  "encoding": {
+                    "tooltip": {
+                      "value": "Shift-Click to add more than one item"
+                    },
+                    "x": {
+                      "type": "nominal",
+                      "field": "YEAR",
+                      "title": null,
+                      "axis": {
+                        "labels": false,
+                        "ticks": false,
+                        "domain": false,
+                        "titlePadding": 20
+                      }
+                    },
+                    "y": {
+                      "field": "deaths_binned",
+                      "type": "ordinal",
+                      "scale": {
+                        "reverse": true
+                      },
+                      "axis": {
+                        "orient": "right",
+                        "ticks": false,
+                        "domain": false,
+                        "labels": false,
+                        "title": null,
+                        "labelFontSize": 12
+                      }
+                    },
+                    "stroke": {
+                      "value": "white"
+                    },
+                    "strokeWidth": {
+                      "value": 2
+                    },
+                    "color": {
+                      "legend": null,
+                      "field": "deaths_binned",
+                      "scale": {
+                        "scheme": "yellowgreenblue"
+                      }
+                    }
+                  }
+                },
+                {
+                  "layer": [
+                    {
+                      "data": {
+                        "sequence": {
+                          "start": 0,
+                          "stop": 65,
+                          "step": 10,
+                          "as": "deaths_binned"
+                        }
+                      },
+                      "transform": [
+                        {
+                          "calculate": "if(datum.deaths_binned < 60, datum.deaths_binned + '-' + (datum.deaths_binned + 9), '60>')",
+                          "as": "label"
+                        }
+                      ],
+                      "height": 175,
+                      "mark": {
+                        "type": "text",
+                        "fontStyle": "bold"
+                      },
+                      "encoding": {
+                        "color": {
+                          "value": "white",
+                          "condition": {
+                            "param": "label",
+                            "value": "black"
+                          }
+                        },
+                        "text": {
+                          "type": "ordinal",
+                          "field": "label"
+                        },
+                        "y": {
+                          "type": "ordinal",
+                          "field": "deaths_binned",
+                          "axis": null,
+                          "scale": {
+                            "reverse": true
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "data": {
+                        "sequence": {
+                          "start": 0,
+                          "stop": 65,
+                          "step": 10,
+                          "as": "deaths_binned"
+                        }
+                      },
+                      "transform": [
+                        {
+                          "calculate": "if(datum.deaths_binned < 60, datum.deaths_binned + '-' + (datum.deaths_binned + 9), '60>')",
+                          "as": "label"
+                        }
+                      ],
+                      "height": 175,
+                      "mark": {
+                        "type": "text"
+                      },
+                      "encoding": {
+                        "text": {
+                          "type": "ordinal",
+                          "field": "label"
+                        },
+                        "y": {
+                          "type": "ordinal",
+                          "field": "deaths_binned",
+                          "axis": null,
+                          "scale": {
+                            "reverse": true
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "facet": {
+        "field": "SUBSTANCE_NAME",
+        "title": null,
+        "header": {
+          "labelFontSize": 18,
+          "labelAlign": "left"
+        }
+      },
+      "columns": 1,
+      "spec": {
+        "hconcat": [
+          {
+            "transform": [
+              {
+                "filter": {
+                  "selection": "filter_selection"
+                }
+              },
+              {
+                "joinaggregate": [
+                  {
+                    "as": "TOTAL_DEATHS",
+                    "field": "CASE_NUMBER",
+                    "op": "distinct"
+                  }
+                ],
+                "groupby": [
+                  "AGE_GROUP",
+                  "YEAR"
+                ]
+              },
+              {
+                "as": "deaths_max69",
+                "calculate": "min(69, datum.TOTAL_DEATHS)"
+              },
+              {
+                "calculate": "['#d4eeb4', '#a9ddb7', '#74c9bd', '#45b4c2', '#2997be', '#2173b1', '#234ea0'][datum.deaths_binned/10]",
+                "as": "color"
+              },
+              {
+                "bin": {
+                  "anchor": 0,
+                  "maxbins": 7,
+                  "step": 10,
+                  "extent": [
+                    0,
+                    69
+                  ]
+                },
+                "field": "deaths_max69",
+                "as": "deaths_binned"
+              },
+              {
+                "as": "group",
+                "calculate": "if(toString(10 * datum.AGE_GROUP) < 70, toString(10 * datum.AGE_GROUP) + \"-\" + toString(10 * datum.AGE_GROUP + 9), '70+')"
+              }
+            ],
+            "title": "All",
+            "width": 220,
+            "height": 160,
+            "mark": "rect",
+            "encoding": {
+              "color": {
+                "condition": {
+                  "selection": "deaths_binned",
+                  "field": "deaths_binned",
+                  "type": "nominal",
+                  "scale": {
+                    "range": {
+                      "field": "color"
+                    }
+                  },
+                  "legend": null
+                },
+                "value": "white"
+              },
+              "tooltip": [
+                {
+                  "field": "TOTAL_DEATHS",
+                  "title": "Deaths",
+                  "type": "ordinal"
+                },
+                {
+                  "field": "group",
+                  "title": "Age Group",
+                  "type": "ordinal"
+                },
+                {
+                  "field": "YEAR",
+                  "title": "Year",
+                  "type": "ordinal"
+                }
+              ],
+              "x": {
+                "field": "YEAR",
+                "title": "Year",
+                "type": "ordinal",
+                "axis": {
+                  "labelAngle": 0,
+                  "labelFontSize": 9
+                }
+              },
+              "y": {
+                "axis": {
+                  "labels": true
+                },
+                "field": "group",
+                "title": "Age Group",
+                "type": "ordinal",
+                "scale": {
+                  "reverse": true,
+                  "domain": [
+                    "0-9",
+                    "10-19",
+                    "20-29",
+                    "30-39",
+                    "40-49",
+                    "50-59",
+                    "60-69",
+                    "70+"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "transform": [
+              {
+                "filter": "datum.SEX == 'M'"
+              },
+              {
+                "filter": {
+                  "selection": "filter_selection"
+                }
+              },
+              {
+                "joinaggregate": [
+                  {
+                    "as": "TOTAL_DEATHS",
+                    "field": "CASE_NUMBER",
+                    "op": "distinct"
+                  }
+                ],
+                "groupby": [
+                  "AGE_GROUP",
+                  "YEAR"
+                ]
+              },
+              {
+                "as": "deaths_max69",
+                "calculate": "min(69, datum.TOTAL_DEATHS)"
+              },
+              {
+                "calculate": "['#d4eeb4', '#a9ddb7', '#74c9bd', '#45b4c2', '#2997be', '#2173b1', '#234ea0'][datum.deaths_binned/10]",
+                "as": "color"
+              },
+              {
+                "bin": {
+                  "anchor": 0,
+                  "maxbins": 7,
+                  "step": 10,
+                  "extent": [
+                    0,
+                    69
+                  ]
+                },
+                "field": "deaths_max69",
+                "as": "deaths_binned"
+              },
+              {
+                "as": "group",
+                "calculate": "if(toString(10 * datum.AGE_GROUP) < 70, toString(10 * datum.AGE_GROUP) + \"-\" + toString(10 * datum.AGE_GROUP + 9), '70+')"
+              }
+            ],
+            "title": "Male",
+            "width": 220,
+            "height": 160,
+            "mark": "rect",
+            "encoding": {
+              "color": {
+                "condition": {
+                  "selection": "deaths_binned",
+                  "field": "deaths_binned",
+                  "type": "nominal",
+                  "scale": {
+                    "range": {
+                      "field": "color"
+                    }
+                  },
+                  "legend": null
+                },
+                "value": "white"
+              },
+              "tooltip": [
+                {
+                  "field": "TOTAL_DEATHS",
+                  "title": "Deaths",
+                  "type": "ordinal"
+                },
+                {
+                  "field": "group",
+                  "title": "Age Group",
+                  "type": "ordinal"
+                },
+                {
+                  "field": "YEAR",
+                  "title": "YEAR",
+                  "type": "ordinal"
+                }
+              ],
+              "x": {
+                "field": "YEAR",
+                "title": "Year",
+                "type": "ordinal",
+                "axis": {
+                  "labelAngle": 0,
+                  "labelFontSize": 9
+                }
+              },
+              "y": {
+                "axis": {
+                  "labels": false
+                },
+                "field": "group",
+                "title": "",
+                "type": "ordinal",
+                "scale": {
+                  "reverse": true,
+                  "domain": [
+                    "0-9",
+                    "10-19",
+                    "20-29",
+                    "30-39",
+                    "40-49",
+                    "50-59",
+                    "60-69",
+                    "70+"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "transform": [
+              {
+                "filter": "datum.SEX == 'F'"
+              },
+              {
+                "filter": {
+                  "selection": "filter_selection"
+                }
+              },
+              {
+                "joinaggregate": [
+                  {
+                    "as": "TOTAL_DEATHS",
+                    "field": "CASE_NUMBER",
+                    "op": "distinct"
+                  }
+                ],
+                "groupby": [
+                  "AGE_GROUP",
+                  "YEAR"
+                ]
+              },
+              {
+                "as": "deaths_max69",
+                "calculate": "min(69, datum.TOTAL_DEATHS)"
+              },
+              {
+                "calculate": "['#d4eeb4', '#a9ddb7', '#74c9bd', '#45b4c2', '#2997be', '#2173b1', '#234ea0'][datum.deaths_binned/10]",
+                "as": "color"
+              },
+              {
+                "bin": {
+                  "anchor": 0,
+                  "maxbins": 7,
+                  "step": 10,
+                  "extent": [
+                    0,
+                    69
+                  ]
+                },
+                "field": "deaths_max69",
+                "as": "deaths_binned"
+              },
+              {
+                "as": "group",
+                "calculate": "if(toString(10 * datum.AGE_GROUP) < 70, toString(10 * datum.AGE_GROUP) + \"-\" + toString(10 * datum.AGE_GROUP + 9), '70+')"
+              }
+            ],
+            "title": "Female",
+            "width": 220,
+            "height": 160,
+            "mark": "rect",
+            "encoding": {
+              "color": {
+                "condition": {
+                  "selection": "deaths_binned",
+                  "field": "deaths_binned",
+                  "type": "nominal",
+                  "scale": {
+                    "range": {
+                      "field": "color"
+                    }
+                  },
+                  "legend": null
+                },
+                "value": "white"
+              },
+              "tooltip": [
+                {
+                  "field": "TOTAL_DEATHS",
+                  "title": "Deaths",
+                  "type": "ordinal"
+                },
+                {
+                  "field": "group",
+                  "title": "Age Group",
+                  "type": "ordinal"
+                },
+                {
+                  "field": "YEAR",
+                  "title": "YEAR",
+                  "type": "ordinal"
+                }
+              ],
+              "x": {
+                "field": "YEAR",
+                "title": "Year",
+                "type": "ordinal",
+                "axis": {
+                  "labelAngle": 0,
+                  "labelFontSize": 9
+                }
+              },
+              "y": {
+                "axis": {
+                  "labels": false
+                },
+                "field": "group",
+                "title": "",
+                "type": "ordinal",
+                "scale": {
+                  "reverse": true,
+                  "domain": [
+                    "0-9",
+                    "10-19",
+                    "20-29",
+                    "30-39",
+                    "40-49",
+                    "50-59",
+                    "60-69",
+                    "70+"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "resolve": {
+          "scale": {
+            "y": "shared"
+          }
+        }
+      }
+    }
+  ]
+}

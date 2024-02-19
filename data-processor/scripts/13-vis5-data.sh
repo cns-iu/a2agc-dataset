@@ -6,4 +6,4 @@ OUT_DIR=${OUT}/site-data/visualization5
 
 mkdir -p ${OUT_DIR}
 
-sqlite3 -header -csv ${DB} < ../website/src/assets/pages/vis5-opioid-trajectories/data.sql > ${OUT_DIR}/data.csv
+sqlite3 -header -csv ${DB} < ../src/assets/pages/vis5-opioid-trajectories/data.sql > ${OUT_DIR}/data.csv

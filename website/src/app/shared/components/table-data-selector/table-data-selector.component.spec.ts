@@ -1,3 +1,0 @@
-describe('TableDataSelectorComponent', () => {
-  // Add tests
-});
