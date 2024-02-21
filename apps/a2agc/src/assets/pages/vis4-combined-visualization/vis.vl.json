@@ -1,7 +1,7 @@
 {
 	"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
 	"padding": {"top": 50},
-  
+
 	"config": {
 		"mark": {
 			"tooltip": null
@@ -63,8 +63,8 @@
 							"as": "deaths_binned"
 						},
 						{
-							"as": "group",
-							"calculate": "if(toString(10 * datum.AGE_GROUP) < 70, toString(10 * datum.AGE_GROUP) + \"-\" + toString(10 * datum.AGE_GROUP + 9), '70>')"
+							"calculate": "if(toString(10 * datum.AGE_GROUP) < 70, toString(10 * datum.AGE_GROUP) + \"-\" + toString(10 * datum.AGE_GROUP + 9), '70>')",
+							"as": "group"
 						}
 					],
 					"title": {
@@ -447,7 +447,7 @@
                     ]
                   }
                 }
-              ],              
+              ],
 							"encoding": {
                 "tooltip": {
                   "value": "Shift-Click to add more than one item"
