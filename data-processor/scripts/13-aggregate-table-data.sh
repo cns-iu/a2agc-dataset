@@ -2,4 +2,5 @@
 source constants.sh
 set -ev
 
-python3 ./src/tables/data.py $DB $SCHEMA $COLUMN_DISTRIBUTION_OVERRIDES -o $AGGREGATE_DATA -d $OUT/site-data -s assets/generated
+python3 ./src/tables/data.py $DB $SCHEMA $COLUMN_DISTRIBUTION_OVERRIDES -o $AGGREGATE_DATA -d $OUT/site-data -s ../apps/a2agc/src/assets/generated
+starfi
