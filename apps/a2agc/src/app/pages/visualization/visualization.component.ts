@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Visualization } from 'src/app/core/state/visualizations/visualizations';
+import { Visualization } from '../../core/state/visualizations/visualizations';
 
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection

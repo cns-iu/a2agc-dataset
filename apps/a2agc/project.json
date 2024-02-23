@@ -106,7 +106,7 @@
       "options": {
         "main": "apps/a2agc/src/test.ts",
         "polyfills": "apps/a2agc/src/polyfills.ts",
-        "tsConfig": "tsconfig.spec.json",
+        "tsConfig": "apps/a2agc/tsconfig.spec.json",
         "karmaConfig": "karma.conf.js",
         "codeCoverage": true,
         "assets": [
