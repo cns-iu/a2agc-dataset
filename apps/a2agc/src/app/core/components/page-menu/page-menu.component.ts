@@ -14,6 +14,7 @@ export class PageMenuComponent {
 
   @Input() header = '';
   @Input() pages: PageLink[] = [];
+  @Input() showData = true;
 
   linkId(_index: number, link: PageLink): string {
     return link.path;

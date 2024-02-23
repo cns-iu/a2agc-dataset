@@ -7,6 +7,8 @@ import { PageLink } from './core/models/pages.model';
 import { RouterState } from './core/state/router/router.state';
 import { visualizations } from './core/state/visualizations/visualizations';
 import { MarkdownModalComponent, MarkdownModalData } from './shared/components/markdown-modal/markdown-modal.component';
+import { environment } from '../environments/environment';
+import { DatasetsState } from './core/state/data/datasets.state';
 
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
@@ -21,6 +23,8 @@ export class AppComponent implements AfterViewInit {
   @ViewChild(MatSidenavContainer)
   readonly sidenavContainer!: MatSidenavContainer;
 
+  showData = true;
+
   // TODO move these values to state
   readonly menuHeader = 'Marion County Opioid Addiction Report';
   readonly pages: PageLink[] = visualizations.map(v => ({
@@ -33,12 +37,18 @@ export class AppComponent implements AfterViewInit {
 
   constructor(
     router: RouterState,
+    datasetsState: DatasetsState,
     private readonly dialog: MatDialog,
     private readonly zone: NgZone
   ) {
     router.navigationStart$.subscribe(() => {
       this.menuOpen = false;
     });
+
+    datasetsState.entitiesArray$.subscribe((datasets) => {
+      this.showData = datasets.length > 0;
+    });
+
   }
 
   ngAfterViewInit(): void {

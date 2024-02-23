@@ -12,7 +12,7 @@
 </nav>
 
 <div class="info">
-  <a class="link distributions" routerLink="/data-distributions" routerLinkActive="active">
+  <a *ngIf="showData" class="link distributions" routerLink="/data-distributions" routerLinkActive="active">
     <mat-icon svgIcon="menu:data-distributions"></mat-icon>
     <span class="title">Data Distributions</span>
   </a>
