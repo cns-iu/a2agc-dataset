@@ -4,11 +4,10 @@ import { MatSidenavContainer } from '@angular/material/sidenav';
 
 import { buildInfo } from './build-info';
 import { PageLink } from './core/models/pages.model';
+import { DatasetsState } from './core/state/data/datasets.state';
 import { RouterState } from './core/state/router/router.state';
 import { visualizations } from './core/state/visualizations/visualizations';
 import { MarkdownModalComponent, MarkdownModalData } from './shared/components/markdown-modal/markdown-modal.component';
-import { environment } from '../environments/environment';
-import { DatasetsState } from './core/state/data/datasets.state';
 
 
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
