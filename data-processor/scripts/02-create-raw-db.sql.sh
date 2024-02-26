@@ -2,12 +2,6 @@
 source constants.sh
 set -ev
 
-if [ ! -d "${DATA_SOURCES}" ]
-then
-echo "Data not found"
-  exit
-fi
-
 rm -f $DB
 sqlite3 $DB .quit
 
