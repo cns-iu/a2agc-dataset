@@ -31,12 +31,6 @@
         "default",
         "^production"
       ]
-    },
-    "test-doc-coverage": {
-      "inputs": [
-        "production"
-      ],
-      "cache": true
     }
   },
   "affected": {

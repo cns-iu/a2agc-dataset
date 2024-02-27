@@ -147,7 +147,7 @@
       "defaultConfiguration": "development"
     },
     "test-doc-coverage": {
-      "command": "compodoc -p apps/a2agc/tsconfig.app.json -d tmp/doc-coverage -e json --coverageTest --coverageMinimumPerFile 100 --coverageTestShowOnlyFailed -t"
+      "command": "npx compodoc -p apps/a2agc/tsconfig.doc.json -e json --coverageTest --coverageMinimumPerFile 100 --coverageTestShowOnlyFailed -t"
     }
   }
 }
