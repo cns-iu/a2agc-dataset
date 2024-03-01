@@ -10,6 +10,9 @@ import { Dataset } from '../../models/dataset.model';
 export type DatasetsStateModel = EntityCollections<Dataset, string>;
 
 
+/**
+ * Dataset state
+ */
 @StateRepository()
 @State<DatasetsStateModel>({
   name: 'datasets',
@@ -17,6 +20,11 @@ export type DatasetsStateModel = EntityCollections<Dataset, string>;
 })
 @Injectable()
 export class DatasetsState extends NgxsDataEntityCollectionsRepository<Dataset, string> {
+  /**
+   * Gets dataset id
+   * @param dataset dataset name or object
+   * @returns dataset id
+   */
   selectId(dataset: string | Dataset): string {
     return typeof dataset === 'string' ? dataset : dataset.name;
   }

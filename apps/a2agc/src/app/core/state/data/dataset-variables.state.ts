@@ -11,8 +11,13 @@ import { Dataset, DatasetMetaEntry, DatasetVariable } from '../../models/dataset
 import { DatasetsState } from './datasets.state';
 
 
+/**
+ * Defines the shape of the state for managing dataset variables
+ */
 export interface DatasetVariablesStateModel extends EntityCollections<DatasetVariable, string> {
+  /** Variable sublabel */
   subLabel: string;
+  /** Sublabel flag */
   subLabelFlag: string;
 }
 
@@ -24,6 +29,9 @@ export enum DatasetVariableGroup {
 }
 
 
+/**
+ * Dataset variables state
+ */
 @StateRepository()
 @State<DatasetVariablesStateModel>({
   name: 'datasetVariables',
@@ -35,22 +43,53 @@ export enum DatasetVariableGroup {
 })
 @Injectable()
 export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<DatasetVariable, string, DatasetVariablesStateModel> {
+  /**
+   * Observable returning subLabel property from state
+   */
   @Computed()
   get subLabel$(): Observable<string> {
     return this.state$.pipe(pluck('subLabel'), distinctUntilChanged());
   }
 
+  /**
+   * Observable returning subLabelFlag property from state
+   */
   @Computed()
   get subLabelFlag$(): Observable<string> {
     return this.state$.pipe(pluck('subLabelFlag'), distinctUntilChanged());
   }
 
+  /**
+   * Creates an instance of dataset variables state.
+   * @param datasetsState datasets state
+   */
   constructor(private readonly datasetsState: DatasetsState) {
     super();
   }
 
+  /**
+   * Selects id for a dataset variable
+   * @param variable dataset variable
+   * @returns id
+   */
   selectId(variable: DatasetVariable): string;
-  selectId(dataset: string | Dataset, variable: string | DatasetVariable): string;
+  /**
+   * Selects id for a dataset variable
+   * @param dataset dataset, can be string or Dataset object
+   * @param variable
+   * @returns id
+   */
+  selectId(
+    dataset: string | Dataset,
+    variable: string | DatasetVariable
+  ): string;
+  /**
+   * Selects id for a dataset variable
+   * If first object is type of Dataset, assumes second argument is the variable
+   * @param dataset dataset, can be string, Dataset or DatasetVariable
+   * @param variable variable
+   * @returns id
+   */
   selectId(
     dataset: string | Dataset | DatasetVariable,
     variable?: string | DatasetVariable
@@ -65,19 +104,40 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
     return `${datasetId}:${variableId}`;
   }
 
+  /**
+   * Given a key (which is the variable ID), this method returns an observable of the corresponding DatasetVariable.
+   * @param key variable id
+   * @returns observable
+   */
   getVariable(key: string): Observable<DatasetVariable | undefined> {
     return this.entities$.pipe(pluck(key), distinctUntilChanged());
   }
 
+  /**
+   * Retrieves an observable array of DatasetVariable from dataset and group
+   * @param dataset dataset
+   * @param group dataset variable group
+   * @returns observable
+   */
   getVariables(dataset?: string | Dataset, group?: DatasetVariableGroup): Observable<DatasetVariable[]> {
     const selector = this.createVariableSelector(dataset, group);
     return this.entitiesArray$.pipe(map(variables => variables.filter(selector)));
   }
 
+  /**
+   * Returns an observable array of DatasetVariable for data belonging to the sub group
+   * @param dataset dataset
+   * @returns observable
+   */
   getSubVariables(dataset?: string | Dataset): Observable<DatasetVariable[]> {
     return this.getVariables(dataset, DatasetVariableGroup.sub);
   }
 
+  /**
+   * Returns an observable array of metadata entries based on a variable
+   * @param key variable id
+   * @returns observable
+   */
   getMetadata(key: string): Observable<DatasetMetaEntry[]> {
     return this.getVariable(key).pipe(
       map(variable => {
@@ -105,6 +165,12 @@ export class DatasetVariablesState extends NgxsDataEntityCollectionsRepository<D
     );
   }
 
+  /**
+   * Creates a selector function that filters dataset variable entities based on criteria
+   * @param dataset dataset
+   * @param group dataset variable group
+   * @returns function
+   */
   private createVariableSelector(
     dataset?: string | Dataset,
     group?: DatasetVariableGroup

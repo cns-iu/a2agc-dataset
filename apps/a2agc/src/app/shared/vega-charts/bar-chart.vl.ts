@@ -7,14 +7,22 @@ import { DistributionDataEntry } from '../../core/models/distribution.model';
 type LayerSpec = Extract<VisualizationSpec, { layer: unknown[] }>;
 type AxisEncoding = NonNullable<NonNullable<LayerSpec['encoding']>['x']>;
 
+/**
+ * Additional bar chart label and axis settings
+ */
 export interface BarChartExtraOptions {
+  /** X axis label */
   xLabel?: string;
+  /** Y axis label */
   yLabel?: string;
-
+  /** If axes are flipped */
   flipAxes?: boolean;
 }
 
 
+/**
+ * Creates horizontal bar chart vega spec
+ */
 export function createHorizBarSpec(
   variable: DatasetVariable,
   distributionData: DistributionDataEntry[] = [],
@@ -23,6 +31,9 @@ export function createHorizBarSpec(
   return createBarSpec(variable, distributionData, { ...options, flipAxes: true });
 }
 
+/**
+ * Creates bar chart spec
+ */
 export function createBarSpec(
   _variable: DatasetVariable,
   distributionData: DistributionDataEntry[] = [],
@@ -104,6 +115,9 @@ export function createBarSpec(
   };
 }
 
+/**
+ * Returns x axis encoding object
+ */
 function getXEncoding(label?: string, labelAngle?: number): AxisEncoding {
   return {
     field: 'label',
@@ -128,6 +142,9 @@ function getXEncoding(label?: string, labelAngle?: number): AxisEncoding {
   };
 }
 
+/**
+ * Returns y axis encoding object
+ */
 function getYEncoding(label?: string): AxisEncoding {
   return {
     field: 'total',

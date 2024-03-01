@@ -12,6 +12,9 @@ import { DatasetsState } from './datasets.state';
 export type DataStateModel = Record<string, never>;
 
 
+/**
+ * Data state, contains datasets state and dataset variables state
+ */
 @StateRepository()
 @State<DataStateModel>({
   name: 'data',
@@ -22,6 +25,12 @@ export type DataStateModel = Record<string, never>;
 })
 @Injectable()
 export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
+  /**
+   * Creates an instance of data state.
+   * @param datasetLoader dataset loader service
+   * @param datasetsState datasets state
+   * @param variablesState variables state
+   */
   constructor(
     private readonly datasetLoader: DatasetLoaderService,
     private readonly datasetsState: DatasetsState,
@@ -30,6 +39,9 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
     super();
   }
 
+  /**
+   * Loads datasets and variables on init
+   */
   ngxsOnInit(): void {
     super.ngxsOnInit();
 

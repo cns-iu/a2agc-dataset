@@ -17,6 +17,9 @@ import { ChartFactoryService } from '../../shared/vega-charts/chart-factory.serv
 import { SpecVisualizationEntry, VisualizationEntry, VisualizationsManagerService } from './services/visualizations-manager.service';
 
 
+/**
+ * Component for data distributions page
+ */
 @Component({
   selector: 'agc-data-distributions',
   templateUrl: './data-distributions.component.html',
@@ -28,24 +31,45 @@ export class DataDistributionsComponent {
   /** HTML class name */
   @HostBinding('class') readonly clsName = 'agc-data-distributions';
 
+  /** Autosize config for visualization */
   readonly autosize: Autosize = { width: true, height: false };
 
+  /** Datasets observable */
   readonly datasets$: Observable<Dataset[]>;
+  /** Variables observable */
   readonly variables$: Observable<DatasetVariable[]>;
+  /** Subselector label observable */
   readonly subLabel$: Observable<string>;
+  /** Subvariables observable */
   readonly subVariables$: Observable<DatasetVariable[]>;
 
+  /** Currently selected dataset */
   selectedDataset?: Dataset;
+  /** Currently selected variables */
   selectedVariables: DatasetVariable[] = [];
 
+  /** Visualization spec with filtered values */
   filterSpec?: VisualizationSpec;
+  /** Time filter source observable */
   filterSource$: Observable<TimeFilter>;
+  /** If filter is being applied */
   filterActive = false;
+  /** Filter source observables */
   private readonly filterSourceObservables$ = new ReplaySubject<ObservableInput<TimeFilter>>(1);
 
+  /** Variable observables */
   private readonly variableObservables$ = new ReplaySubject<ObservableInput<DatasetVariable[]>>(1);
+  /** Subvariable observables */
   private readonly subVariableObservables$ = new ReplaySubject<ObservableInput<DatasetVariable[]>>(1);
 
+  /**
+   * Creates an instance of data distributions component.
+   * @param datasetsState datasets state
+   * @param variablesState dataset variables state
+   * @param loader distribution data loader service
+   * @param chartFactory chart factory service
+   * @param cdr change detection
+   */
   constructor(
     datasetsState: DatasetsState,
     private readonly variablesState: DatasetVariablesState,
@@ -62,10 +86,17 @@ export class DataDistributionsComponent {
     this.filterSource$ = this.createFilterSource();
   }
 
+  /**
+   * Determines whether visualization entry has a spec property
+   */
   hasSpec(this: void, entry: VisualizationEntry): entry is SpecVisualizationEntry {
     return 'spec' in entry && entry.spec !== undefined;
   }
 
+  /**
+   * Updates selected dataset
+   * @param dataset selected dataset
+   */
   setSelectedDataset(dataset: Dataset): void {
     if (dataset !== this.selectedDataset) {
       this.selectedDataset = dataset;
@@ -81,6 +112,10 @@ export class DataDistributionsComponent {
     }
   }
 
+  /**
+   * Updates selected variables
+   * @param variable selected variable
+   */
   setSelectedVariable(variable: DatasetVariable): void {
     const { selectedDataset, selectedVariables } = this;
     const alreadySelected = selectedVariables.length === 1 && selectedVariables[0] === variable;
@@ -90,6 +125,9 @@ export class DataDistributionsComponent {
     }
   }
 
+  /**
+   * Selects all variables in the list
+   */
   setSelectAllVariables(): void {
     const { selectedDataset } = this;
     if (selectedDataset) {
@@ -102,6 +140,10 @@ export class DataDistributionsComponent {
     }
   }
 
+  /**
+   * Attaches view filtered by period
+   * @param view view
+   */
   attachFilterView(view: View): void {
     const events$ = fromEventPattern<[string, { period: TimeFilter }]>(
       handler => view.addSignalListener('period', handler),
@@ -112,6 +154,9 @@ export class DataDistributionsComponent {
     this.filterSourceObservables$.next(source$);
   }
 
+  /**
+   * Loads the time slider filter spec
+   */
   private loadFilterSpec(): void {
     const { variablesState, loader, chartFactory, cdr } = this;
     const vid = variablesState.selectId(...DATA_CONFIG.timeSliderSource);
@@ -128,6 +173,9 @@ export class DataDistributionsComponent {
     });
   }
 
+  /**
+   * Creates a filter source observable
+   */
   private createFilterSource(): Observable<TimeFilter> {
     const { filterSourceObservables$, cdr } = this;
     const sources$ = using(() => {

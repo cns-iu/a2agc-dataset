@@ -9,18 +9,29 @@ import {
 import { VisualizationOneView } from './../../../shared/components/visualization-page/shared/visualization1-data-handler';
 
 
+/**
+ * Visualization info
+ */
 export interface Visualization {
+  /** Visualization title */
   title: string;
+  /** Visualization description */
   description: string;
+  /** Path to Vega-lite spec */
   spec: string;
+  /** Visualization options */
   options: Options;
+  /** Path to readme content */
   content: string;
+  /** Path to SQL */
   sql: string;
+  /** Path to CSV */
   csv: string;
+  /** Visualization id */
   id: string;
 }
 
-
+/** Visualization metadata */
 export const visualizations: Visualization[] = [
   {
     id: 'vis1-geomap-of-opioid-deaths',

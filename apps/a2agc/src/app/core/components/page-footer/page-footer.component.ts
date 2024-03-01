@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 
 
+/**
+ * Page footer component
+ */
 @Component({
   selector: 'agc-page-footer',
   templateUrl: './page-footer.component.html',
@@ -8,10 +11,14 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, O
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageFooterComponent {
+  /** HTML class name */
   @HostBinding('class') readonly clsName = 'agc-page-footer';
 
+  /** Build date */
   @Input() buildDate = new Date();
 
+  /** Emits when contact button clicked */
   @Output() readonly contactClick = new EventEmitter<void>();
+  /** Emits when privacy policy button clicked */
   @Output() readonly privacyClick = new EventEmitter<void>();
 }

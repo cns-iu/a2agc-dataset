@@ -6,12 +6,18 @@ import { State } from '@ngxs/store';
 import { Visualization, visualizations } from './visualizations';
 
 
+/**
+ * Visualizations state service
+ */
 @StateRepository()
 @State({
   name: 'visualizations'
 })
 @Injectable()
 export class VisualizationsState extends NgxsDataEntityCollectionsRepository<Visualization, string>{
+  /**
+   * Sets all visualization entities
+   */
   ngxsOnInit(): void {
     this.setAll(visualizations);
   }

@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 
 
+/**
+ * Page header component
+ */
 @Component({
   selector: 'agc-page-header',
   templateUrl: './page-header.component.html',
@@ -8,12 +11,17 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, O
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageHeaderComponent {
+  /** HTML class name */
   @HostBinding('class') readonly clsName = 'agc-page-header';
-  @HostBinding('class.mat-elevation-z3') readonly elevation = true;
 
+  /** True if the menu is open */
   @Input() menuOpen = false;
+  /** Emits menuOpen value */
   @Output() readonly menuOpenChange = new EventEmitter<boolean>();
 
+  /**
+   * Opens/closes the menu and emits the menu state
+   */
   toggleMenuOpen(): void {
     this.menuOpen = !this.menuOpen;
     this.menuOpenChange.emit(this.menuOpen);

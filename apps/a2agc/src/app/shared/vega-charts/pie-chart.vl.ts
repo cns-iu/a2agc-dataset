@@ -4,6 +4,9 @@ import { DatasetVariable } from '../../core/models/dataset.model';
 import { DistributionDataEntry } from '../../core/models/distribution.model';
 
 
+/**
+ * Creates pie chart vega spec
+ */
 export function createPieSpec(
   _variable: DatasetVariable,
   distributionData: DistributionDataEntry[] = []

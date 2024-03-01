@@ -1,7 +1,11 @@
 import { View } from 'vega';
 
 
+/**
+ * Data handler interface with finalize function
+ */
 export interface DataHandler {
+  /** Finalizes */
   finalize?(): void;
 }
 

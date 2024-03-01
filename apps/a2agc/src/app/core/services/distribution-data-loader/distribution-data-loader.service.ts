@@ -12,18 +12,35 @@ export type TransformHandlerFn = (value: string) => unknown;
 export type TransformHandlers = Record<string | number, TransformHandlerFn | undefined>;
 
 
+/**
+ * Converts date strings to Date objects
+ * @param value date string
+ * @returns Date object
+ */
 function castDate(value: string): Date | undefined {
   const date = new Date(value);
   return Number.isNaN(+date) ? undefined : date;
 }
 
 
+/**
+ * Service for fetching distribution data from a specified URL
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class DistributionDataLoaderService {
+  /**
+   * Creates an instance of distribution data loader service.
+   * @param http Angular http client
+   */
   constructor(private readonly http: HttpClient) { }
 
+  /**
+   * Retrieves data based on the provided DatasetVariable
+   * @param variable dataset variable
+   * @returns observable with data
+   */
   load(variable: DatasetVariable): Observable<DistributionDataEntry[]> {
     const { distribution: { url } } = variable;
     const handlers = this.getTransformHandlers(variable);
@@ -44,12 +61,22 @@ export class DistributionDataLoaderService {
     );
   }
 
+  /**
+   * Ensures that values are dynamically typed based on the presence of a value transformation.
+   * @param variable dataset variable
+   * @returns dynamic typing config
+   */
   protected getDynamicTypingConfig(variable: DatasetVariable): ParseConfig['dynamicTyping'] {
     return {
       value: this.getValueTransform(variable) === undefined
     };
   }
 
+  /**
+   * Transforms variables to desired format
+   * @param variable dataset variable
+   * @returns transformed handlers
+   */
   protected getTransformHandlers(variable: DatasetVariable): TransformHandlers {
     return {
       period: castDate,
@@ -58,6 +85,13 @@ export class DistributionDataLoaderService {
     };
   }
 
+  /**
+   * Aggregates the distribution data based on the DatasetVariable type
+   * If variable type is 'DATE' it groups data by year, otherwise it returns the original result
+   * @param variable dataset variable
+   * @param result data
+   * @returns final aggregated result
+   */
   protected aggregateResult(
     variable: DatasetVariable,
     result: DistributionDataEntry[]
@@ -71,6 +105,11 @@ export class DistributionDataLoaderService {
     }
   }
 
+  /**
+   * Determines the transformation function for the value field based on the variable type.
+   * @param variable dataset variable
+   * @returns value transform function
+   */
   private getValueTransform(variable: DatasetVariable): TransformHandlerFn | undefined {
     switch (variable.type) {
       case 'BOOLEAN':
@@ -84,6 +123,11 @@ export class DistributionDataLoaderService {
     }
   }
 
+  /**
+   * Groups data by year for the DATE type.
+   * @param data data with Date type
+   * @returns aggregated data
+   */
   private aggregateByYear(
     data: DistributionDataEntry<Date | undefined>[]
   ): DistributionDataEntry<Date | string>[] {

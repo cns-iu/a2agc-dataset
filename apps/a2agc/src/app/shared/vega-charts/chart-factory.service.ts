@@ -9,14 +9,23 @@ import { createPieSpec } from './pie-chart.vl';
 import { createTimeSpec } from './time-slider.vl';
 
 
+/**
+ * Service for creating charts
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class ChartFactoryService {
+  /** Function to create bar chart */
   readonly createBarChart = createBarSpec;
+  /** Function to create pie chart */
   readonly createPieChart = createPieSpec;
+  /** Function to create time slider chart */
   readonly createTimeSlider = createTimeSpec;
 
+  /**
+   * Creates vega spec from a dataset variable
+   */
   createChart(variable: DatasetVariable): VisualizationSpec | undefined {
     const { type: vtype, distribution: { type, summary: { distinct } } } = variable;
     const knownType = Object.values<string>(DistributionType).includes(type);

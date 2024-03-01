@@ -3,6 +3,9 @@ import { VisualizationSpec } from 'vega-embed';
 import { DistributionDataEntry } from '../../core/models/distribution.model';
 
 
+/**
+ * Creates time slider vega spec
+ */
 export function createTimeSpec(distributionData: DistributionDataEntry[] = []): VisualizationSpec {
   return {
     $schema: 'https://vega.github.io/schema/vega-lite/v5.json',

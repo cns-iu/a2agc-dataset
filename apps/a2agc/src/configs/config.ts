@@ -1,3 +1,6 @@
+/**
+ * Dataset config settings
+ */
 export const DATA_CONFIG = {
   datasetsPath: 'assets/generated/aggregate-table-data.json',
   subLabel: 'Drug',
@@ -6,16 +9,26 @@ export const DATA_CONFIG = {
 };
 
 
+/**
+ * Chart type names
+ */
 export enum ChartType {
   pie = 'pie-chart',
   verticalBar = 'vertical-bar-chart',
   horizontalBar = 'horizontal-bar-chart'
 }
 
+/**
+ * Chart configuration interface
+ */
 export interface ChartConfig {
+  /** Maximum distinct values allowed in chart */
   maxDistinctValues: number;
 }
 
+/**
+ * Chart config settings
+ */
 export const CHART_CONFIG: Record<ChartType, ChartConfig> = {
   [ChartType.pie]: {
     maxDistinctValues: 4

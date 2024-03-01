@@ -13,7 +13,7 @@ import { PageState } from './page/page.state';
 import { RouterState } from './router/router.state';
 import { VisualizationsState } from './visualizations/visualizations.state';
 
-
+/** List of root states for the app  */
 const ROOT_STATES: Type<unknown>[] = [
   RouterState,
   PageState,

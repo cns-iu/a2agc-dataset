@@ -3,23 +3,28 @@ import { Spec } from 'vega';
 
 /**
  * Geographical zoom configuration.
- *
- * center - Center longitude/latitude pair.
- * zoomLevels - Min/max pair of zoom levels.
- * initialZoom - Initial zoom level.
  */
 export interface GeoZoomOptions {
+  /** Center longitude/latitude pair. */
   center: [number, number];
+  /** Min/max pair of zoom levels. */
   zoomLevels: [number, number];
+  /** Initial zoom level. */
   initialZoom?: number;
 }
 
+/**
+ * Zoom config for Indiana map
+ */
 export const INDIANA_ZOOM_CONFIG: GeoZoomOptions = {
   center: [86.44305475, 39.76622477],
   zoomLevels: [3200, 250000],
   initialZoom: 6400,
 };
 
+/**
+ * Zoom config for USA map
+ */
 export const USA_ZOOM_CONFIG: GeoZoomOptions = {
   center: [96, 39],
   zoomLevels: [10, 250000],
@@ -125,6 +130,11 @@ export function addGeoZoom(spec: Spec, opts: GeoZoomOptions): void {
   delete projection.size;
 }
 
+/**
+ * Function that patches a vega spec based on zoom config
+ * @param opts geographical zoom configuration
+ * @returns vega spec
+ */
 export function createGeoZoomPatch(opts: GeoZoomOptions): (spec: Spec) => Spec {
   return (spec) => {
     addGeoZoom(spec, opts);

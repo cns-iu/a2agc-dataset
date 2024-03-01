@@ -10,6 +10,9 @@ export type SortableKey<T> = keyof PickByType<T, number | string>;
 export type SortOrder = 'asc' | 'desc';
 
 
+/**
+ * Orders items by pipe
+ */
 @Pipe({
   name: 'orderBy',
   pure: true
