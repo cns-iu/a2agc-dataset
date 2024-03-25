@@ -4,6 +4,7 @@ source constants.sh
 
 echo Run started on $(date)...
 echo
+
 for f in scripts/??-*.sh
 do
   echo Running $f...

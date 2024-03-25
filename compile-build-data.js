@@ -22,5 +22,5 @@ process.exec('git log -1 --pretty="%ct" --date=local', {cwd: __dirname}, functio
   buildDate: new Date(${buildInfo.buildDate})
 };
 `;
-  fs.writeFileSync('src/app/build-info.ts', output);
+  fs.writeFileSync('apps/a2agc/src/app/build-info.ts', output);
 });

@@ -2,12 +2,12 @@
 source constants.sh
 set -ev
 
-cd ..
+cd ../
 
 # Clear old data and copy latest
-rm -rf src/assets/generated
-mkdir -p src/assets/generated
-cp -r $OUT/site-data/* src/assets/generated
-cp ../CHANGELOG.md src/assets/generated
+rm -rf apps/a2agc/src/assets/generated
+mkdir -p apps/a2agc/src/assets/generated
+cp -r $OUT/site-data/* apps/a2agc/src/assets/generated
+cp CHANGELOG.md apps/a2agc/src/assets/generated
 
-http-server -c-1 --cors=* -p $DEV_PORT src
+http-server -c-1 --cors=* -p $DEV_PORT apps/a2agc/src

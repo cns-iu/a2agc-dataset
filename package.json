@@ -5,11 +5,12 @@
     "ng": "ng",
     "start": "nx serve",
     "compile-build-data": "node compile-build-data.js",
-    "build": "nx build",
+    "build": "nx build a2agc",
     "test": "nx test",
     "test:wsl": "nx test --browsers=ChromeHeadlessWSL",
     "lint": "nx lint",
-    "e2e": "nx e2e"
+    "e2e": "nx e2e",
+    "compodoc": "npx compodoc -p apps/a2agc/tsconfig.doc.json"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +52,7 @@
     "@angular-eslint/template-parser": "^17.2.1",
     "@angular/cli": "^17.1.2",
     "@angular/compiler-cli": "^17.1.2",
+    "@compodoc/compodoc": "^1.1.23",
     "@nx/angular": "18.0.4",
     "@nx/workspace": "18.0.4",
     "@schematics/angular": "^17.1.2",
@@ -76,4 +78,3 @@
     "typescript": "^5.3.3"
   }
 }
-
