@@ -1,0 +1,619 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "padding": {"top": 50},
+  "config": {
+    "view": {"stroke": "transparent"},
+    "style": {
+      "label": {
+        "align": "left",
+        "baseline": "middle",
+        "dx": 105,
+        "dy": -25,
+        "fontSize": 15
+      }
+    },
+    "axis": {"labelColor": "#757575"}
+  },
+  "center": true,
+  "autosize": {
+    "contains": "padding"
+  },
+  "background": "#ffffff",
+  "data": {
+    "url": "assets/generated/vis2-data/death-counts.csv",
+    "format": {
+      "type": "csv",
+      "parse": {"year": "number", "age_group": "number", "count": "number"}
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum.gender == 'M' ? 'Male' : 'Female'",
+      "as": "gender"
+    },
+    {
+      "impute": "count",
+      "key": "age_group",
+      "keyvals": {"stop": 7},
+      "groupby": ["year", "gender"]
+    },
+
+    {
+      "lookup": "key",
+      "from": {
+        "key": "key",
+        "fields": ["count"],
+        "data": {"url": "assets/generated/vis2-data/census-counts.csv"}
+      },
+      "as": ["census_count"],
+      "default": "0"
+    },
+    {"calculate": "toNumber(datum.census_count)", "as": "census_count"},
+    {
+      "aggregate": [
+        {"op": "sum", "field": "count", "as": "count"},
+        {"op": "sum", "field": "census_count", "as": "census_count"}
+      ],
+      "groupby": ["gender", "age_group"]
+    },
+    {"joinaggregate": [{"op": "sum", "field": "count", "as": "total_count"}]},
+    {
+      "joinaggregate": [
+        {"op": "sum", "field": "census_count", "as": "total_census_count"}
+      ],
+      "groupby": ["gender"]
+    },
+    {"calculate": "datum.count / datum.total_count", "as": "percentage"},
+    {
+      "calculate": "datum.census_count / datum.total_census_count",
+      "as": "census_percentage"
+    }
+  ],
+  "vconcat": [
+    {
+      "title": {
+        "text": "2010-2018",
+        "anchor": "middle",
+        "dx": 25,
+        "dy": -10,
+        "fontSize": 14
+      },
+      "bounds": "flush",
+      "spacing": 0,
+      "hconcat": [
+        {
+          "height": 250,
+          "width": 50,
+
+          "transform": [
+            {
+							"calculate": "if(toString(10 * datum.age_group) < 70, toString(10 * datum.age_group) + \"-\" + toString(10 * datum.age_group + 9), '70>')",
+							"as": "label"
+						}
+          ],
+          "mark": {"type": "text", "color": "#757575"},
+          "encoding": {
+            "text": {"type": "ordinal", "field": "label"},
+            "y": {
+              "title": "Age",
+              "type": "ordinal",
+              "field": "age_group",
+              "axis": {
+                "domain": false,
+                "ticks": false,
+                "labels": false,
+                "titleFontSize": 14
+              },
+              "scale": {"reverse": true}
+            }
+          }
+        },
+        {
+          "height": 250,
+          "width": 240,
+          "transform": [{"filter": {"field": "gender", "equal": "Male"}}],
+          "layer": [
+            {
+              "params": [
+                {
+                  "name": "year",
+                  "select": {
+                    "type": "point",
+                    "fields": [
+                      "year"
+                    ]
+                  },
+                  "bind": "legend",
+                  "value": [
+                    {"year": 2018},
+                    {"year": 2017},
+                    {"year": 2016}
+                  ]
+                },
+                {
+                  "name": "gender",
+                  "select": {
+                    "type": "point",
+                    "fields": [
+                      "gender"
+                    ]
+                  },
+                  "bind": "legend"
+                }
+              ],
+              "mark": "bar",
+              "encoding": {
+                "x": {
+                  "type": "quantitative",
+                  "field": "percentage",
+                  "sort": "descending",
+                  "axis": {
+                    "title": "Percent",
+                    "titleX": 240,
+                    "titleY": 30,
+                    "format": "1%",
+                    "grid": false,
+                    "labelFlush": false,
+                    "labels": true,
+                    "titleFontSize": 14
+                  },
+                  "scale": {"domain": [0, 0.35]}
+                },
+                "y": {
+                  "title": null,
+                  "type": "nominal",
+                  "field": "age_group",
+                  "axis": {"labels": false}
+                },
+                "color": {
+                  "field": "gender",
+                  "title": "Filter by",
+                  "legend": {
+                    "symbolStrokeColor": "black",
+                    "clipHeight": 12,
+                    "rowPadding": 10,
+                    "orient": "left",
+                    "values": ["Male", "Female", "Total Population"],
+                    "titlePadding": 10,
+                    "titleColor": "#757575",
+                    "symbolOffset": 5,
+                    "labelColor": "#212121"
+                  },
+                  "scale": {"range": ["#DA5E8C", "#586CBB"]}
+                },
+                "opacity": {
+                  "condition": {"param": "gender", "value": 1},
+                  "value": 0
+                },
+                "strokeWidth": {
+                  "field": "year",
+                  "legend": {
+                    "labelColor": "#212121",
+                    "clipHeight": 5,
+                    "labelBaseline": "top",
+                    "labelOffset": -10,
+                    "orient": "left",
+                    "padding": 5,
+                    "rowPadding": 10,
+                    "symbolSize": 0,
+                    "title": "",
+                    "values": [
+                      2018,
+                      2017,
+                      2016,
+                      2015,
+                      2014,
+                      2013,
+                      2012,
+                      2011,
+                      2010
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "mark": "bar",
+              "encoding": {
+                "x": {
+                  "title": "",
+                  "type": "quantitative",
+                  "field": "census_percentage",
+                  "sort": "descending",
+                  "axis": {"format": "1%", "grid": false, "labels": true}
+                },
+                "y": {"type": "ordinal", "field": "age_group"},
+                "stroke": {"value": "black"},
+                "strokeWidth": {"value": 1},
+                "fillOpacity": {"value": 0}
+              }
+            }
+          ],
+          "encoding": {
+            "tooltip": [
+              {"format": ".1%", "type": "quantitative", "field": "percentage"},
+              {
+                "format": ".1%",
+                "type": "quantitative",
+                "field": "census_percentage"
+              }
+            ]
+          }
+        },
+        {
+          "height": 250,
+          "width": 240,
+          "transform": [{"filter": {"field": "gender", "equal": "Female"}}],
+          "layer": [
+            {
+              "mark": "bar",
+              "encoding": {
+                "x": {
+                  "title": null,
+                  "type": "quantitative",
+                  "field": "percentage",
+                  "sort": "ascending",
+                  "axis": {"format": "1%", "grid": false, "labels": true},
+                  "scale": {"domain": [0, 0.35]}
+                },
+                "y": {
+                  "title": null,
+                  "type": "ordinal",
+                  "field": "age_group",
+                  "axis": null
+                },
+                "color": {"field": "gender"},
+                "opacity": {
+                  "condition": {"param": "gender", "value": 1},
+                  "value": 0
+                }
+              }
+            },
+            {
+              "mark": "bar",
+              "encoding": {
+                "x": {
+                  "title": null,
+                  "type": "quantitative",
+                  "field": "census_percentage",
+                  "sort": "ascending",
+                  "axis": {
+                    "format": "1%",
+                    "grid": true,
+                    "labelFlush": false,
+                    "labels": true
+                  },
+                  "scale": {"domain": [0, 0.13]}
+                },
+                "y": {
+                  "title": null,
+                  "type": "ordinal",
+                  "field": "age_group",
+                  "axis": null
+                },
+                "stroke": {"value": "black"},
+                "strokeWidth": {"value": 1},
+                "fillOpacity": {"value": 0}
+              }
+            }
+          ],
+          "encoding": {
+            "tooltip": [
+              {"format": ".1%", "type": "quantitative", "field": "percentage"},
+              {
+                "format": ".1%",
+                "type": "quantitative",
+                "field": "census_percentage"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "assets/generated/vis2-data/death-counts.csv",
+        "format": {"type": "csv", "parse": {}}
+      },
+      "transform": [
+        {
+          "calculate": "datum.gender == 'M' ? 'Male' : 'Female'",
+          "as": "gender"
+        },
+        {
+          "impute": "count",
+          "key": "age_group",
+          "keyvals": {"stop": 7},
+          "groupby": ["year", "gender"]
+        },
+        {
+          "lookup": "key",
+          "from": {
+            "key": "key",
+            "fields": ["count"],
+            "data": {"url": "assets/generated/vis2-data/census-counts.csv"}
+          },
+          "as": ["census_count"],
+          "default": "0"
+        },
+        {"calculate": "toNumber(datum.census_count)", "as": "census_count"},
+        {
+          "joinaggregate": [
+            {"op": "sum", "field": "count", "as": "total_count"}
+          ],
+          "groupby": ["year"]
+        },
+        {
+          "joinaggregate": [
+            {"op": "sum", "field": "census_count", "as": "total_census_count"}
+          ],
+          "groupby": ["year", "gender"]
+        },
+        {"calculate": "datum.count / datum.total_count", "as": "percentage"},
+        {
+          "calculate": "datum.census_count / (datum.total_census_count || 1)",
+          "as": "census_percentage"
+        }
+      ],
+      "facet": {
+        "field": "year",
+        "title": null,
+        "header": {"labelFontSize": 0},
+        "sort": "descending"
+      },
+      "columns": 3,
+      "spec": {
+        "bounds": "flush",
+        "spacing": 0,
+        "transform": [{"filter": {"param": "year"}}],
+        "hconcat": [
+          {
+            "height": 150,
+            "transform": [
+              {
+                "calculate": "if(toString(10 * datum.age_group) < 70, toString(10 * datum.age_group) + \"-\" + toString(10 * datum.age_group + 9), '70>')",
+                "as": "label"
+              }
+            ],
+            "width": 50,
+            "mark": {"type": "text", "color": "#757575"},
+            "encoding": {
+              "text": {"type": "ordinal", "field": "label"},
+              "y": {
+                "title": "Age",
+                "type": "ordinal",
+                "field": "age_group",
+                "axis": {
+                  "domain": false,
+                  "ticks": false,
+                  "labels": false,
+                  "titleFontSize": 14
+                },
+                "scale": {"reverse": true}
+              }
+            }
+          },
+          {
+            "width": 1,
+            "height": 1,
+            "mark": {
+              "dx": 85,
+              "type": "text",
+              "style": "label",
+              "fontSize": 14
+            },
+            "encoding": {
+              "text": {
+                "field": "year"
+              }
+            }
+          },
+          {
+            "height": 150,
+            "width": 100,
+            "transform": [
+              {
+                "filter": {
+                  "field": "gender",
+                  "equal": "Male"
+                }
+              }
+            ],
+
+            "layer": [
+              {
+                "selection": {
+                  "year": {
+                    "type": "multi",
+                    "fields": ["year"],
+                    "bind": "legend",
+                    "init": [{"year": 2018}, {"year": 2017}, {"year": 2016}]
+                  },
+                  "gender": {
+                    "type": "multi",
+                    "fields": ["gender"],
+                    "bind": "legend"
+                  }
+                },
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "type": "quantitative",
+                    "field": "percentage",
+                    "sort": "descending",
+                    "axis": {
+                      "title": "Percent",
+                      "titleX": 100,
+                      "titleY": 30,
+                      "format": "1%",
+                      "grid": false,
+                      "labelFlush": false,
+                      "labels": true,
+                      "titleFontSize": 14
+                    }
+                  },
+                  "y": {
+                    "title": null,
+                    "type": "nominal",
+                    "field": "age_group",
+                    "axis": {"labels": false}
+                  },
+                  "color": {
+                    "field": "gender",
+                    "title": "Filter by",
+                    "legend": {
+                      "symbolStrokeColor": "black",
+                      "clipHeight": 12,
+                      "rowPadding": 10,
+                      "orient": "left",
+                      "values": ["Male", "Female", "Total Population"]
+                    },
+                    "scale": {"range": ["#DA5E8C", "#586CBB"]}
+                  },
+                  "opacity": {
+                    "condition": {"selection": "gender", "value": 1},
+                    "value": 0
+                  },
+                  "strokeWidth": {
+                    "field": "year",
+                    "legend": {
+                      "clipHeight": 5,
+                      "labelBaseline": "top",
+                      "labelOffset": -10,
+                      "orient": "left",
+                      "rowPadding": 10,
+                      "symbolSize": 0,
+                      "title": "",
+                      "values": [
+                        2018,
+                        2017,
+                        2016,
+                        2015,
+                        2014,
+                        2013,
+                        2012,
+                        2011,
+                        2010
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "title": "",
+                    "type": "quantitative",
+                    "field": "census_percentage",
+                    "sort": "descending",
+                    "axis": {"format": "1%", "grid": false, "labels": true},
+                    "scale": {"domain": [0, 0.35]}
+                  },
+                  "y": {"type": "ordinal", "field": "age_group"},
+                  "stroke": {"value": "black"},
+                  "strokeWidth": {"value": 1},
+                  "fillOpacity": {"value": 0}
+                }
+              }
+            ],
+            "encoding": {
+              "tooltip": [
+                {
+                  "format": ".1%",
+                  "type": "quantitative",
+                  "field": "percentage"
+                },
+                {
+                  "format": ".1%",
+                  "type": "quantitative",
+                  "field": "census_percentage"
+                }
+              ]
+            }
+          },
+          {
+            "height": 150,
+            "width": 100,
+            "transform": [
+              {
+                "filter": {
+                  "field": "gender",
+                  "equal": "Female"
+                }
+              }
+            ],
+
+            "layer": [
+              {
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "title": null,
+                    "type": "quantitative",
+                    "field": "percentage",
+                    "sort": "ascending",
+                    "axis": {"format": "1%", "grid": false, "labels": true}
+                  },
+                  "y": {
+                    "title": null,
+                    "type": "ordinal",
+                    "field": "age_group",
+                    "axis": null
+                  },
+                  "color": {"field": "gender"},
+                  "opacity": {
+                    "condition": {"selection": "gender", "value": 1},
+                    "value": 0
+                  }
+                }
+              },
+              {
+                "mark": "bar",
+                "encoding": {
+                  "x": {
+                    "title": null,
+                    "type": "quantitative",
+                    "field": "census_percentage",
+                    "sort": "ascending",
+                    "axis": {
+                      "type": "quantitative",
+                      "format": "1%",
+                      "grid": true,
+                      "labelFlush": false,
+                      "labels": true
+                    },
+                    "scale": {"domain": [0, 0.35]}
+                  },
+                  "y": {
+                    "title": null,
+                    "type": "ordinal",
+                    "field": "age_group",
+                    "axis": null
+                  },
+                  "stroke": {"value": "black"},
+                  "strokeWidth": {"value": 1},
+                  "fillOpacity": {"value": 0}
+                }
+              }
+            ],
+            "encoding": {
+              "tooltip": [
+                {
+                  "format": ".1%",
+                  "type": "quantitative",
+                  "field": "percentage"
+                },
+                {
+                  "format": ".1%",
+                  "type": "quantitative",
+                  "field": "census_percentage"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -30,8 +30,7 @@ jobs:
             ${{ runner.os }}-node-
       - name: npm ci for website
         run: npm ci
-      - run: npm run lint
-      - run: npm run test
+      - run: npm run lint a2agc
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:

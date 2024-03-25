@@ -1,0 +1,153 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "a2agc",
+  "projectType": "application",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    },
+    "@schematics/angular:application": {
+      "strict": true
+    }
+  },
+  "sourceRoot": "apps/a2agc/src",
+  "prefix": "agc",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "options": {
+        "outputPath": "dist/a2agc",
+        "index": "apps/a2agc/src/index.html",
+        "main": "apps/a2agc/src/main.ts",
+        "polyfills": "apps/a2agc/src/polyfills.ts",
+        "tsConfig": "apps/a2agc/tsconfig.app.json",
+        "allowedCommonJsDependencies": [
+          "css-element-queries"
+        ],
+        "assets": [
+          "apps/a2agc/src/favicon.ico",
+          "apps/a2agc/src/assets"
+        ],
+        "styles": [
+          "apps/a2agc/src/styles.scss",
+          "apps/a2agc/src/themes.scss",
+          "node_modules/prismjs/themes/prism-okaidia.css",
+          "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
+        ],
+        "scripts": [
+          "node_modules/prismjs/prism.js",
+          "node_modules/prismjs/components/prism-sql.min.js",
+          "node_modules/prismjs/components/prism-json.min.js",
+          "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
+        ],
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/a2agc/src/environments/environment.ts",
+              "with": "apps/a2agc/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "buildOptimizer": true,
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ]
+        },
+        "development": {}
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{options.outputPath}"
+      ]
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {},
+      "configurations": {
+        "production": {
+          "buildTarget": "a2agc:build:production"
+        },
+        "development": {
+          "buildTarget": "a2agc:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "a2agc:build"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "apps/a2agc/src/test.ts",
+        "polyfills": "apps/a2agc/src/polyfills.ts",
+        "tsConfig": "apps/a2agc/tsconfig.spec.json",
+        "karmaConfig": "karma.conf.js",
+        "codeCoverage": true,
+        "assets": [
+          "apps/a2agc/src/favicon.ico",
+          "apps/a2agc/src/assets"
+        ],
+        "styles": [
+          "apps/a2agc/src/styles.scss"
+        ],
+        "scripts": []
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/a2agc/src/**/*.ts",
+          "apps/a2agc/src/**/*.html"
+        ]
+      },
+      "outputs": [
+        "{options.outputFile}"
+      ]
+    },
+    "e2e": {
+      "executor": "@angular-devkit/build-angular:protractor",
+      "options": {
+        "protractorConfig": "e2e/protractor.conf.js"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "a2agc:serve:production"
+        },
+        "development": {
+          "devServerTarget": "a2agc:serve:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test-doc-coverage": {
+      "command": "npx compodoc -p apps/a2agc/tsconfig.doc.json -e json --coverageTest --coverageMinimumPerFile 100 --coverageTestShowOnlyFailed -t"
+    }
+  }
+}

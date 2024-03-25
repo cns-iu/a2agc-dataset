@@ -22,7 +22,7 @@ EDB="$OUT/a2agc.db.e"
 
 DATA_SOURCES="$ORIG/box-health/[Box Health] Final Datasets"
 
-SCHEMA_DIR="$THIS/../src/assets/schema"
+SCHEMA_DIR="$THIS/../apps/a2agc/src/assets/schema"
 SCHEMA_NAME=A2AGC
 SCHEMA="$SCHEMA_DIR/$SCHEMA_NAME.public.xml"
 
