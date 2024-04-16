@@ -8,7 +8,7 @@ import { Dataset, DatasetVariable } from '../../models/dataset.model';
 
 /* eslint-disable @typescript-eslint/naming-convention */
 
-type RawData = Record<string, RawDataset>;
+export type RawData = Record<string, RawDataset>;
 
 /**
  * Raw dataset info

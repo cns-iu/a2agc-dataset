@@ -4,9 +4,11 @@ import { NgxsImmutableDataRepository } from '@angular-ru/ngxs/repositories';
 import { State } from '@ngxs/store';
 
 import { DATA_CONFIG } from '../../../../configs/config';
-import { DatasetLoaderService } from '../../services/dataset-loader/dataset-loader.service';
+import { DatasetLoaderService, RawData } from '../../services/dataset-loader/dataset-loader.service';
 import { DatasetVariablesState } from './dataset-variables.state';
 import { DatasetsState } from './datasets.state';
+import { Observable, catchError, map, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 export type DataStateModel = Record<string, never>;
@@ -34,7 +36,8 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
   constructor(
     private readonly datasetLoader: DatasetLoaderService,
     private readonly datasetsState: DatasetsState,
-    private readonly variablesState: DatasetVariablesState
+    private readonly variablesState: DatasetVariablesState,
+    private readonly http: HttpClient
   ) {
     super();
   }
@@ -49,5 +52,18 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
       this.datasetsState.addMany(result.datasets);
       this.variablesState.addMany(result.variables);
     });
+  }
+
+
+  isPrivate(): Observable<boolean> {
+    const response = this.http.get<RawData>('adfhfushfdgfje', { responseType: 'json' });
+    return response.pipe(
+      catchError((this.handleError)),
+      map(result => Object.keys(result).length > 0)
+    );
+  }
+
+  private handleError(): Observable<boolean> {
+    return of(false);
   }
 }
