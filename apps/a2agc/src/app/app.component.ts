@@ -49,7 +49,7 @@ export class AppComponent implements AfterViewInit {
   /**
    * Creates an instance of app component.
    * @param router Router state
-   * @param datasetsState Datasets state
+   * @param dataState Data state
    * @param dialog Mat dialog service
    * @param zone NgZone
    */

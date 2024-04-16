@@ -32,6 +32,7 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
    * @param datasetLoader dataset loader service
    * @param datasetsState datasets state
    * @param variablesState variables state
+   * @param variablesState http service
    */
   constructor(
     private readonly datasetLoader: DatasetLoaderService,
@@ -55,14 +56,22 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
   }
 
 
+  /**
+   * Determines whether app is inprivate mode
+   * @returns true if the data config datasets path is valid, otherwise returns false
+   */
   isPrivate(): Observable<boolean> {
-    const response = this.http.get<RawData>('adfhfushfdgfje', { responseType: 'json' });
+    const response = this.http.get<RawData>(DATA_CONFIG.datasetsPath, { responseType: 'json' });
     return response.pipe(
       catchError((this.handleError)),
       map(result => Object.keys(result).length > 0)
     );
   }
 
+  /**
+   * Handles error when no response
+   * @returns observable with false
+   */
   private handleError(): Observable<boolean> {
     return of(false);
   }
