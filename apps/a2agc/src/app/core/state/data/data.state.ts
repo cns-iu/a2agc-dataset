@@ -4,9 +4,11 @@ import { NgxsImmutableDataRepository } from '@angular-ru/ngxs/repositories';
 import { State } from '@ngxs/store';
 
 import { DATA_CONFIG } from '../../../../configs/config';
-import { DatasetLoaderService } from '../../services/dataset-loader/dataset-loader.service';
+import { DatasetLoaderService, RawData } from '../../services/dataset-loader/dataset-loader.service';
 import { DatasetVariablesState } from './dataset-variables.state';
 import { DatasetsState } from './datasets.state';
+import { Observable, catchError, map, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 export type DataStateModel = Record<string, never>;
@@ -30,11 +32,13 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
    * @param datasetLoader dataset loader service
    * @param datasetsState datasets state
    * @param variablesState variables state
+   * @param variablesState http service
    */
   constructor(
     private readonly datasetLoader: DatasetLoaderService,
     private readonly datasetsState: DatasetsState,
-    private readonly variablesState: DatasetVariablesState
+    private readonly variablesState: DatasetVariablesState,
+    private readonly http: HttpClient
   ) {
     super();
   }
@@ -49,5 +53,26 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
       this.datasetsState.addMany(result.datasets);
       this.variablesState.addMany(result.variables);
     });
+  }
+
+
+  /**
+   * Determines whether app is inprivate mode
+   * @returns true if the data config datasets path is valid, otherwise returns false
+   */
+  isPrivate(): Observable<boolean> {
+    const response = this.http.get<RawData>(DATA_CONFIG.datasetsPath, { responseType: 'json' });
+    return response.pipe(
+      catchError((this.handleError)),
+      map(result => Object.keys(result).length > 0)
+    );
+  }
+
+  /**
+   * Handles error when no response
+   * @returns observable with false
+   */
+  private handleError(): Observable<boolean> {
+    return of(false);
   }
 }

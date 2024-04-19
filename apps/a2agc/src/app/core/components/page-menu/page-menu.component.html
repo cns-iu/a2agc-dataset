@@ -24,13 +24,13 @@
   </a>
   <mat-divider></mat-divider>
 
-  <a class="link schema" routerLink="/data-schema-browser" routerLinkActive="active">
+  <a *ngIf="showData" class="link schema" routerLink="/data-schema-browser" routerLinkActive="active">
     <mat-icon svgIcon="menu:data-storage"></mat-icon>
     <span class="title">Data Schema Browser</span>
   </a>
   <mat-divider></mat-divider>
 
-  <a class="link er-diagram" routerLink="/data-er-diagram" routerLinkActive="active">
+  <a *ngIf="showData" class="link er-diagram" routerLink="/data-er-diagram" routerLinkActive="active">
     <mat-icon>bar_chart_outline</mat-icon>
     <span class="title">Data ER Diagram</span>
   </a>
