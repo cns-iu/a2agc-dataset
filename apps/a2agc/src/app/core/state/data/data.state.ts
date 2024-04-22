@@ -56,7 +56,7 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
    * @returns true if the data config datasets path is valid, otherwise returns false
    */
   isPrivate(): Observable<boolean> {
-    const response = this.http.get<RawData>(DATA_CONFIG.datasetsPath);
+    const response = this.http.get<RawData>(DATA_CONFIG.datasetsPath, { responseType: 'json' });
     return response.pipe(
       map((result) => this.isNotEmpty(result)),
       catchError(this.handleError)
@@ -77,6 +77,6 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
    * @returns true if not empty
    */
   private isNotEmpty(input: RawData): boolean {
-    return Object.keys(input).length != 0;
+    return Object.keys(input).length !== 0;
   }
 }
