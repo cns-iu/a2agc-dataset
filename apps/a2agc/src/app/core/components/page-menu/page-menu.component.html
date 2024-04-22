@@ -16,19 +16,19 @@
     <mat-icon svgIcon="menu:data-distributions"></mat-icon>
     <span class="title">Data Distributions</span>
   </a>
-  <mat-divider></mat-divider>
+  <mat-divider *ngIf="showData" ></mat-divider>
 
   <a class="link about" routerLink="/about" routerLinkActive="active">
     <mat-icon>info_outlined</mat-icon>
     <span class="title">About</span>
   </a>
-  <mat-divider></mat-divider>
+  <mat-divider *ngIf="showData" ></mat-divider>
 
   <a *ngIf="showData" class="link schema" routerLink="/data-schema-browser" routerLinkActive="active">
     <mat-icon svgIcon="menu:data-storage"></mat-icon>
     <span class="title">Data Schema Browser</span>
   </a>
-  <mat-divider></mat-divider>
+  <mat-divider *ngIf="showData" ></mat-divider>
 
   <a *ngIf="showData" class="link er-diagram" routerLink="/data-er-diagram" routerLinkActive="active">
     <mat-icon>bar_chart_outline</mat-icon>
