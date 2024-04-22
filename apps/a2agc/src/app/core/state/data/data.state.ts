@@ -58,7 +58,7 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
   isPrivate(): Observable<boolean> {
     const response = this.http.get<string>(DATA_CONFIG.datasetsPath);
     return response.pipe(
-      map((result) => this.isValidJson(result)),
+      map((result) => !!result),
       catchError(this.handleError)
     );
   }
@@ -69,19 +69,5 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
    */
   private handleError(): Observable<boolean> {
     return of(false);
-  }
-
-  /**
-   * Checks if string is valid json
-   * @param input string
-   * @returns true if valid json
-   */
-  private isValidJson(input: string): boolean {
-    try {
-      JSON.parse(input);
-      return true;
-    } catch {
-      return false;
-    }
   }
 }
