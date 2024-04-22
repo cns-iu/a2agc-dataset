@@ -3,6 +3,18 @@
 
 Changelog for A2AGC
 
+## 0.9.0 - 2024-05-01
+
+### Added in 0.9.0
+
+- Updated dependencies dependencies to Angular 12
+- Added NX for Angular
+- Fixes/improvements to visualizations
+    - Fixed error that would show in the console when the geomap (Visualizaton 1) was loaded
+    - Removed references to DOD (Date of Death) from data, now rounded to DOD_PERIOD (Year + Quarter)
+    - Fixed issue in the Maps of Health tooltips when the year would display a placeholder value if not applicable
+- Added detection of private/public mode and enable Data Distributions, Data Schema Browser, and Data ER Diagram accordingly
+
 ## 0.5.0 - 2021-08-16
 
 ### Added in 0.5.0
@@ -33,7 +45,7 @@ Changelog for A2AGC
 - Fixed spelling errors
 - Revised geomap, now called "Accidental drug overdose deaths in Marion County by place of injury 2010-2018"
 - Revised demographic comparisons, now called "Age group and gender of accidental drug overdose deaths and population in Marion County 2010-2018"
-- Revised heamaps, now called "Accidental drug overdose death in Marion County by substance, sex and age group 2010-2018"
+- Revised heatmaps, now called "Accidental drug overdose death in Marion County by substance, sex and age group 2010-2018"
 - Added an interactive version of above, called "Accidental drug overdose death in Marion County by substance, sex and age group 2010-2018 (interactive)"
 - Revised death trajectories to add a visualization of the trajectories instead of a table
 
