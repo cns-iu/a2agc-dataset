@@ -52,8 +52,8 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
 
   /**
    * Determines whether app is in private mode
-   * Searches for aggregate-table-data.json in assets/generated
-   * @returns true if the data config datasets path is valid, otherwise returns false
+   * Searches for aggregate-table-data.json in assets/generated and checks if it's empty
+   * @returns true if the file contains data, false if empty
    */
   isPrivate(): Observable<boolean> {
     const response = this.http.get<RawData>(DATA_CONFIG.datasetsPath, { responseType: 'json' });
