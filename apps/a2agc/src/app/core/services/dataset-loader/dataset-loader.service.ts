@@ -100,6 +100,10 @@ export class DatasetLoaderService {
    * @returns parsed results
    */
   private parseRawData(data: RawData): ParseResults {
+    if (!data) {
+      return { datasets: [], variables: [] };
+    }
+
     const datasets: Dataset[] = [];
     const variables: DatasetVariable[] = [];
 
