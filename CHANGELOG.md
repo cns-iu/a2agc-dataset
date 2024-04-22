@@ -7,7 +7,7 @@ Changelog for A2AGC
 
 ### Added in 0.9.0
 
-- Updated dependencies dependencies to Angular 12
+- Updated dependencies to Angular 17
 - Added NX for Angular
 - Fixes/improvements to visualizations
     - Fixed error that would show in the console when the geomap (Visualizaton 1) was loaded
