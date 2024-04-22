@@ -6,7 +6,7 @@ import { State } from '@ngxs/store';
 import { catchError, map, Observable, of } from 'rxjs';
 
 import { DATA_CONFIG } from '../../../../configs/config';
-import { DatasetLoaderService } from '../../services/dataset-loader/dataset-loader.service';
+import { DatasetLoaderService, RawData } from '../../services/dataset-loader/dataset-loader.service';
 import { DatasetVariablesState } from './dataset-variables.state';
 import { DatasetsState } from './datasets.state';
 
@@ -56,9 +56,9 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
    * @returns true if the data config datasets path is valid, otherwise returns false
    */
   isPrivate(): Observable<boolean> {
-    const response = this.http.get<string>(DATA_CONFIG.datasetsPath);
+    const response = this.http.get<RawData>(DATA_CONFIG.datasetsPath);
     return response.pipe(
-      map((result) => result.toString() === '{}'),
+      map((result) => this.isNotEmpty(result)),
       catchError(this.handleError)
     );
   }
@@ -69,5 +69,14 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
    */
   private handleError(): Observable<boolean> {
     return of(false);
+  }
+
+  /**
+   * Checks if object is not empty
+   * @param input object
+   * @returns true if not empty
+   */
+  private isNotEmpty(input: RawData): boolean {
+    return Object.keys(input).length != 0;
   }
 }
