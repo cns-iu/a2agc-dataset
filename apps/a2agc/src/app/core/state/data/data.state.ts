@@ -58,7 +58,7 @@ export class DataState extends NgxsImmutableDataRepository<DataStateModel> {
   isPrivate(): Observable<boolean> {
     const response = this.http.get<string>(DATA_CONFIG.datasetsPath);
     return response.pipe(
-      map((result) => !!result),
+      map((result) => result.toString() === '{}'),
       catchError(this.handleError)
     );
   }
