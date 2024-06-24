@@ -56,7 +56,8 @@
             }
           ],
           "optimization": true,
-          "outputHashing": "all",
+          "baseHref": "/a2agc-dataset/",
+          "outputHashing": "none",
           "sourceMap": false,
           "namedChunks": false,
           "extractLicenses": true,
