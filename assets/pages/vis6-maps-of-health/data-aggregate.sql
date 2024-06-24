@@ -22,11 +22,17 @@ WITH
     GROUP BY CASE_NUMBER
   ),
   CN_POJH AS (
-    SELECT D.CASE_NUMBER, DOD, AGE, SEX, RACE,
+    SELECT D.CASE_NUMBER, AGE, SEX, RACE,
       coalesce(OPIOID_PRESCRIPTIONS, 0) AS OPIOID_PRESCRIPTIONS,
       coalesce(OVERDOSES, 0) AS OVERDOSES,
       coalesce(INCARCERATIONS, 0) AS INCARCERATIONS,
-      coalesce(HEALTH_ENCOUNTERS, 0) AS HEALTH_ENCOUNTERS
+      coalesce(HEALTH_ENCOUNTERS, 0) AS HEALTH_ENCOUNTERS,
+      strftime('%Y', DOD) || CASE
+        WHEN cast(strftime('%m', DOD) as integer) BETWEEN 1 AND 3 THEN '-01-01'
+        WHEN cast(strftime('%m', DOD) as integer) BETWEEN 4 and 6 THEN '-04-01'
+        WHEN cast(strftime('%m', DOD) as integer) BETWEEN 7 and 9 THEN '-07-01'
+        ELSE '-10-01'
+      END AS "DOD_PERIOD"
     FROM deaths AS D
       LEFT OUTER JOIN P ON D.CASE_NUMBER = P.CASE_NUMBER
       LEFT OUTER JOIN O ON D.CASE_NUMBER = O.CASE_NUMBER

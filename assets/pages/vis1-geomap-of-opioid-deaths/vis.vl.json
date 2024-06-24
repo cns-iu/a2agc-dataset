@@ -528,6 +528,7 @@
               "params": [
                 {
                   "name": "period",
+                  "value": {"x": [0, 0]},
                   "select": {
                     "type": "interval",
                     "mark": {

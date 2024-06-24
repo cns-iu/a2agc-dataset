@@ -5,10 +5,11 @@
 -- etc.
 
 SELECT
-  printf('%d-%s-%d', YEAR, SEX, (7 - min(CAST((AGE / 10) AS INT), 7))) as key,
+  printf('%d-%s-%d', YEAR, SEX, min(CAST((AGE / 10) AS INT), 7)) as key,
   YEAR as year,
   SEX as gender,
-  (7 - min(CAST((AGE / 10) AS INT), 7)) AS age_group,
+  AGE,
+  min(CAST((AGE / 10) AS INT), 7) AS age_group,
   count(*) AS count
 FROM deaths
 GROUP BY year, gender, age_group
