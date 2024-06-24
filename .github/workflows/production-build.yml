@@ -32,6 +32,7 @@ jobs:
         run: npm ci
       - run: npm run compile-build-data
       - run: npm run build -- --configuration=production
+      - run: cp dist/a2agc/index.html dist/a2agc/404.html
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
