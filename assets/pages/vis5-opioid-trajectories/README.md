@@ -17,7 +17,7 @@ Analyzed touchpoints:
 
 Following rules were used to determined each of the following attributes:
 
-1. Prescription VS No Prescription: True if any one of the flags OPIOD_FLAG or BENZO_FLAG was set in `medications` table for the particular CASE_NUMBER, False otherwise.
+1. Prescription VS No Prescription: True if any one of the flags OPIOID_FLAG or BENZO_FLAG was set in `medications` table for the particular CASE_NUMBER, False otherwise.
 2. Overdose VS No Overdose: True if OVERDOSE_CC_MOI or NALOXONE_DUMMY was set in `ems_incidents` table for the particular CASE_NUMBER, False otherwise.
 3. Justice Involvement VS No Involvement: If the particular CASE_NUMBER is present in `incarcerations` table then True, False otherwise.
 4. Health Data VS No Health Data: True if CASE_NUMBER is present in `encounters` table, False otherwise.
