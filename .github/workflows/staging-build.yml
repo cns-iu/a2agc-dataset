@@ -31,7 +31,7 @@ jobs:
       - name: npm ci for a2agc
         run: npm ci
       - run: npm run compile-build-data
-      - run: npm run build -- --output-hashing=none --base-href=/
+      - run: npm run build -- --configuration=staging
 
       - uses: peaceiris/actions-gh-pages@v3
         with:
