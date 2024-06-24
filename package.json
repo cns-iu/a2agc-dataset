@@ -52,7 +52,7 @@
     "@angular-eslint/template-parser": "^17.2.1",
     "@angular/cli": "^17.1.2",
     "@angular/compiler-cli": "^17.1.2",
-    "@compodoc/compodoc": "^1.1.23",
+    "@compodoc/compodoc": "^1.1.25",
     "@nx/angular": "18.0.4",
     "@nx/workspace": "18.0.4",
     "@schematics/angular": "^17.1.2",
